@@ -21,7 +21,7 @@ const sidebarLinks = [
 
 
 // Main Component
-export function Sidebar() {
+export function Sidebar({setPage}) {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState("Client");
     const [avatar, setAvatar] = useState(undefined);
@@ -47,6 +47,7 @@ export function Sidebar() {
             onClick={(event) => {
                 event.preventDefault();
                 setActive(item.label);
+                setPage(item.label);
                 // TODO: Change Page of the dashboard
             }}
         >

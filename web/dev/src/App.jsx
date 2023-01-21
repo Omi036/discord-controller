@@ -7,6 +7,7 @@ export const App = () => {
     // Colortheme changer
     // Maybe we will do something with this, but not for now.
     const [colorScheme, setColorScheme] = useState("dark");
+    
     const toggleColorScheme = (value) => setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
 
@@ -20,7 +21,7 @@ export const App = () => {
 					primaryColor: 'discord',
 				}}
             >
-                <Settings />
+                {/* <Settings /> */}
                 <Content />
 			</MantineProvider>
         </ColorSchemeProvider>

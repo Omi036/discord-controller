@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Modal, TextInput, Button } from "@mantine/core";
+import { Modal, TextInput, Button, Box } from "@mantine/core";
 import { WSocket } from "./WebSocket";
 
 // Main component
@@ -35,7 +35,7 @@ export const Settings = () => {
     };
 
     return (
-        <>
+        <Box sx={{position:"relative",zIndex:100}}>
             <Modal
                 opened={opened}
                 onClose={() => setOpened(false)}
@@ -62,6 +62,6 @@ export const Settings = () => {
                     Set Up Bot
                 </Button>
             </Modal>
-        </>
+        </Box>
     );
 };

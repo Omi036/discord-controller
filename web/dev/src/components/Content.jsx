@@ -1,11 +1,16 @@
+import { useState } from "react"
 import { Sidebar } from "./Sidebar"
+import { Pages } from "./Pages"
+import { Box } from "@mantine/core"
 
-// TODO: Include Pages system
+
 export const Content = () => {
+    const [page, setPage] = useState("Client")
+
     return (
-        <>
-            <Sidebar />
-            {/* <Pages /> */}
-        </>
+        <Box sx={{display:"flex", zIndex:0, position:"relative"}}>
+            <Sidebar setPage={setPage} />
+            <Pages page={page}/>
+        </Box>
     )
 }

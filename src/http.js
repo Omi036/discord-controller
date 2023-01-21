@@ -27,6 +27,8 @@ const StartHTTPServer = () => {
     server.listen(HTTPConfig.port, HTTPConfig.host, () => {
         console.log(`HTTP Server is running on http://${HTTPConfig.host}:${HTTPConfig.port}`);
     });
+    
+    return server
 }
 
 exports.HTTPConfig = HTTPConfig

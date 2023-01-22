@@ -17,6 +17,9 @@ const StartWSServer = () => {
 
     // Link every future conecction with messages
     server.on('connection', (connection) => {
+
+        Commands.islogged(server, connection)
+
         connection.on('message', (data) => {
             // will try to exec the function from the library
             try {

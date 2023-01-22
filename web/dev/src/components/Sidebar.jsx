@@ -3,9 +3,9 @@
 // https://ui.mantine.dev/component/navbar-simple
 
 import { useState, useEffect } from "react";
-import { Navbar, Group, Code, Avatar, Text, Box } from "@mantine/core";
-import { IconRobot, IconHash, IconMessage, IconCode, IconServer, IconUser, IconDots} from "@tabler/icons";
-import { useStyles } from "./Sidebar.style";
+import { Navbar, Group, Code, Avatar, Text, Box, UnstyledButton, Tooltip, Modal, Button } from "@mantine/core";
+import { IconRobot, IconHash, IconMessage, IconCode, IconServer, IconUser, IconDots, IconLogout } from "@tabler/icons";
+import { useStyles } from "./styles/Sidebar.style";
 import { WSocket } from "./WebSocket";
 
 // We define a placeholder for the sidebar categories
@@ -25,6 +25,7 @@ export function Sidebar({setPage}) {
     const { classes, cx } = useStyles();
     const [active, setActive] = useState("Client");
     const [avatar, setAvatar] = useState(undefined);
+    const [openedModal, setOpenedModal] = useState(false);
     const [username, setUsername] = useState("Dummy#0000");
 
     useEffect(() => {
@@ -56,7 +57,27 @@ export function Sidebar({setPage}) {
         </a>
     ));
 
+
+    // Will logout the discord bot and refresh the page
+    const handleLogout = () => {
+        WSocket.send(JSON.stringify({
+            header:"logout",
+            content:{}
+        }))
+        window.location.reload()
+    }
+
+
     return (
+        <>
+        <Modal
+            opened={openedModal}
+            onClose={() => setOpenedModal(false)}
+            title="Are you sure you want to log out?"
+            size="sm"
+        >
+            <Button fullWidth style={{ backgroundColor:"#ED4245"}} onClick={handleLogout}>Yes, I'm sure</Button>
+        </Modal>
         <Navbar height={"100vh"} width={{ sm: 300 }} p="md">
             <Navbar.Section grow>
                 <Group className={classes.header} position="apart">
@@ -70,8 +91,17 @@ export function Sidebar({setPage}) {
                 <Box sx={{display:"flex",  alignItems:"center"}}>
                     <Avatar src={avatar}/>
                     <Text sx={{marginLeft:10}}>{username}</Text>
+                    <Tooltip label="Logout" position="top" withArrow >
+                      <UnstyledButton
+                        style={{marginLeft:"auto"}}
+                        onClick={() => setOpenedModal(true)}
+                      >
+                        <IconLogout color={"#ED4245"} stroke={1.5} />
+                      </UnstyledButton>
+                    </Tooltip>
                 </Box>
             </Navbar.Section>
         </Navbar>
+        </>
     );
 }

@@ -163,6 +163,7 @@ export const Settings = () => {
                     color="indigo" 
                     value={layout} 
                     onChange={handleChangeLayout}
+                    disabled={disabled}
                     data={[
                         {label:"None", value:"none"},
                         {label:"Default", value:"default"},

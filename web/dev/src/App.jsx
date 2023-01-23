@@ -21,7 +21,7 @@ export const App = () => {
 					primaryColor: 'discord',
 				}}
             >
-                <Settings />
+                {/* <Settings /> */}
                 <Content />
 			</MantineProvider>
         </ColorSchemeProvider>

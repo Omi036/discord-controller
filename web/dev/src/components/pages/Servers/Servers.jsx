@@ -1,7 +1,7 @@
 import { Box, Paper, Text, ScrollArea, useMantineTheme, TextInput, Avatar, SimpleGrid } from "@mantine/core"
-import { useStyles } from "../styles/Pages.style"
+import { useStyles } from "../../../styles/Pages.style"
 import { IconServer, IconInfoCircle } from "@tabler/icons"
-import { TextDisplay } from "../TextDisplay"
+import { TextDisplay } from "../../misc/TextDisplay"
 import { useState } from "react"
 
 

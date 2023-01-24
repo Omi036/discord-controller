@@ -1,6 +1,6 @@
 import { Tabs } from "@mantine/core"
-import { ClientPage } from "./pages/Client"
-import { ServerPage } from "./pages/Servers"
+import { ClientPage } from "./Client/Page"
+import { ServerPage } from "./Servers/Servers"
 
 export const Pages = ({ page }) => {
 

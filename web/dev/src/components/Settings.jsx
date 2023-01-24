@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Modal, TextInput, Button, Box, Text, SimpleGrid, Checkbox, SegmentedControl, LoadingOverlay } from "@mantine/core";
-import { WSocket } from "./WebSocket";
-import { customLoader } from "./styles/Settings.style";
+import { WSocket } from "./misc/WebSocket";
+import { customLoader } from "../styles/Settings.style";
 
 // Main component
 // This is the component that asks you for the token and the Intents at the start
@@ -151,23 +151,11 @@ export const Settings = () => {
                 size="lg"
             >
                 <LoadingOverlay visible={disabled} overlayBlur={2} loader={customLoader} />
-                <TextInput
-                    label="Bot Token"
-                    placeholder="Ntg3K2lm..."
-                    required
-                    ref={tokenInput}
-                    error={error}
-                    disabled={disabled}
+                <TextInput label="Bot Token" placeholder="Ntg3K2lm..." required ref={tokenInput} error={error} disabled={disabled}
                 />
                 <Box style={{marginTop:10, marginBottom:10}}>
                     <Text style={{marginBottom:5}}>Intents</Text>
-                    <SegmentedControl
-                    fullWidth 
-                    radius={"sm"} 
-                    color="indigo" 
-                    value={layout} 
-                    onChange={handleChangeLayout}
-                    disabled={disabled}
+                    <SegmentedControl fullWidth  radius={"sm"}  color="indigo"  value={layout}  onChange={handleChangeLayout} disabled={disabled}
                     data={[
                         {label:"None", value:"none"},
                         {label:"Default", value:"default"},
@@ -198,17 +186,12 @@ export const Settings = () => {
                     </SimpleGrid>
                 </Box>
                 
-                <Button
+                <Button fullWidth onClick={handleClick} disabled={disabled}
                     style={{
                         backgroundColor: disabled ? "#3946D3" : "#5865F2",
                         marginTop: 10,
                     }}
-                    fullWidth
-                    onClick={handleClick}
-                    disabled={disabled}
-                >
-                    Set Up Bot
-                </Button>
+                >Set Up Bot</Button>
             </Modal>
         </Box>
         </>

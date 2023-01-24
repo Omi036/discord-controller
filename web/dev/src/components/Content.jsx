@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Sidebar } from "./Sidebar"
-import { Pages } from "./Pages"
+import { Pages } from "./pages/Pages"
 import { Box } from "@mantine/core"
 
 

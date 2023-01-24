@@ -5,8 +5,8 @@
 import { useState, useEffect } from "react";
 import { Navbar, Group, Code, Avatar, Text, Box, UnstyledButton, Tooltip, Modal, Button } from "@mantine/core";
 import { IconRobot, IconHash, IconMessage, IconCode, IconServer, IconUser, IconDots, IconLogout } from "@tabler/icons";
-import { useStyles } from "./styles/Sidebar.style";
-import { WSocket } from "./WebSocket";
+import { useStyles } from "../styles/Sidebar.style";
+import { WSocket } from "./misc/WebSocket";
 
 // We define a placeholder for the sidebar categories
 const sidebarLinks = [
@@ -49,7 +49,6 @@ export function Sidebar({setPage}) {
                 event.preventDefault();
                 setActive(item.label);
                 setPage(item.label);
-                // TODO: Change Page of the dashboard
             }}
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />

@@ -1,5 +1,5 @@
 import { TextInput, Modal, Image} from '@mantine/core'
-import { useStyles } from "./styles/Pages.style"
+import { useStyles } from "../../styles/Pages.style"
 import { IconEye } from '@tabler/icons'
 import { useState } from 'react'
 

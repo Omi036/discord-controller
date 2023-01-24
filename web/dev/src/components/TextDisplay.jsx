@@ -1,6 +1,6 @@
 import { Box, Text } from "@mantine/core";
 
-export const TextDisplay = ({ label, value }) => {
+export const TextDisplay = ({ label, value}) => {
     return (
         <Box
             sx={(theme) => ({

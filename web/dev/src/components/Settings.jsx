@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { Modal, TextInput, Button, Box, Text, SimpleGrid, Checkbox, SegmentedControl } from "@mantine/core";
+import { Modal, TextInput, Button, Box, Text, SimpleGrid, Checkbox, SegmentedControl, LoadingOverlay } from "@mantine/core";
 import { WSocket } from "./WebSocket";
+import { customLoader } from "./styles/Settings.style";
 
 // Main component
 // This is the component that asks you for the token and the Intents at the start
@@ -136,7 +137,9 @@ export const Settings = () => {
     }
 
     return (
+        <>
         <Box sx={{position:"relative",zIndex:100}}>
+            
             <Modal
                 opened={opened}
                 onClose={() => setOpened(false)}
@@ -147,6 +150,7 @@ export const Settings = () => {
                 closeOnClickOutside={false}
                 size="lg"
             >
+                <LoadingOverlay visible={disabled} overlayBlur={2} loader={customLoader} />
                 <TextInput
                     label="Bot Token"
                     placeholder="Ntg3K2lm..."
@@ -207,5 +211,6 @@ export const Settings = () => {
                 </Button>
             </Modal>
         </Box>
+        </>
     );
 };

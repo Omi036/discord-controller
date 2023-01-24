@@ -65,6 +65,12 @@ export const useStyles = createStyles((theme) => {
             marginTop: 5,
         },
 
+        button_input: {
+            margin: "0 auto",
+            marginBottom: 5,
+            marginTop: 20,
+        },
+
         sv_profile: {
             width: "100%",
             overflow: "hidden",

@@ -26,8 +26,6 @@ const StartWSServer = () => {
                 // This may be a little complex to explain here, go to the bottom of the script
                 try { data = JSON.parse(data.toString())}
                 catch(e){ data = JSON.parse(data) }
-                // data = JSON.parse(data);
-                console.log(data)
                 Commands[data.header](server, connection, data.content)
             } catch (error) {
                 console.error(error)

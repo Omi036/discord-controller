@@ -17,9 +17,15 @@ const LogoutUser = (server, connection, data) => {
     Discord.logout()
 }
 
+// Changes the status of the bot
+const ChangeStatus = (server, connection, data) => {
+    Discord.setStatus(data)
+}
+
 // This object contains all the websockets commands
 exports.Commands = {
     "auth":AuthorizeUser,
     "islogged":IsLoggedIn,
-    "logout":LogoutUser
+    "logout":LogoutUser,
+    "change_status":ChangeStatus,
 }

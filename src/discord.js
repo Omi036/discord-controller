@@ -1,11 +1,14 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits } = require("discord.js");
+const { Client, Events, GatewayIntentBits, PermissionFlagsBits } = require("discord.js");
 const DiscordConfig = { socketServer: undefined };
 
+exports.sendClientPageData = () => {}
+exports.setStatus = () => {}
 exports.logout = () => {}
 exports.isOnline = () => { return false }
 exports.DiscordConfig = DiscordConfig;
 exports.login = ({token, intents}) => {
+
 
     // We clean the intents list
     var new_intents = [];
@@ -41,6 +44,54 @@ exports.login = ({token, intents}) => {
                 })
             );
         });
+
+        
+        exports.setStatus = (status) => {
+            client.user.setStatus(status);
+            exports.sendClientPageData()
+        }
+
+        exports.sendClientPageData = () => {
+            client.application.fetch().then((app) => {
+                DiscordConfig.socketServer.clients.forEach((sclient) => {
+                    sclient.send(
+                        JSON.stringify({
+                            header: "fill_client_info",
+                            content: {
+                                client: {
+                                    guilds: client.guilds.cache.size,
+                                    channels: client.channels.cache.size,
+                                    token: client.token,
+                                    initializedAt: client.readyAt
+                                },
+                                user: {
+                                    verified: client.user.flags.has(65536),
+                                    status: client.user.presence.status,
+                                    tag: client.user.tag,
+                                    id: client.user.id,
+                                    avatarURL: client.user.avatarURL(),
+                                    createdAt: client.user.createdAt
+                                },
+                                app: {
+                                    public: app.botPublic,
+                                    codeGrant: app.botRequireCodeGrant,
+                                    name: app.name,
+                                    description: app.description,
+                                    owner: app.owner ? app.owner.tag : app.owner.name,
+                                    id: app.id,
+                                    tags: app.tags,
+                                    iconURL: app.iconURL(),
+                                    commands: app.commands.cache.size,
+                                    createdAt: app.createdAt
+                                }
+                            }
+                        })
+                    )
+                })
+    
+            })
+        }
+        exports.sendClientPageData()
     });
 
 
@@ -85,6 +136,8 @@ exports.login = ({token, intents}) => {
                     })
                 );
             });
+
+            exports.sendClientPageData()
         }
     }
 

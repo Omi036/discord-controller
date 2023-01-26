@@ -11,7 +11,7 @@ export const Settings = () => {
     const [layout, setLayout] = useState("default");
     const [disabled, setDisabled] = useState(false);
     const tokenInput = useRef();
-    const [intents, setIntents] = useState({
+    const defaults_intents = {
         "Guilds":true,
         "GuildMembers": true,
         "GuildBans": true,
@@ -31,7 +31,8 @@ export const Settings = () => {
         "MessageContent": true,
         "AutoModerationConfiguration": true,
         "AutoModerationExecution": true
-    });
+    }
+    const [intents, setIntents] = useState(defaults_intents);
     
 
     // We add the responses for every server message
@@ -101,35 +102,18 @@ export const Settings = () => {
 
         switch (value) {
             case "none":
+                // We set every key to false
                 Object.keys(newIntents).forEach(key => { newIntents[key] = false })
                 break;
         
             case "all":
+                // We set every key to true
                 Object.keys(newIntents).forEach(key => { newIntents[key] = true })
                 break;
 
             case "default":
-                newIntents = {
-                    "Guilds":true,
-                    "GuildMembers": true,
-                    "GuildBans": true,
-                    "GuildIntegrations": true,
-                    "GuildEmojisAndStickers": true,
-                    "GuildWebhooks": true ,
-                    "GuildInvites": true,
-                    "GuildVoiceStates": false,
-                    "GuildPresences": false,
-                    "GuildMessages": true,
-                    "GuildMessageReactions": false,
-                    "GuildMessageTyping": false,
-                    "GuildScheduledEvents": false,
-                    "DirectMessages": true,
-                    "DirectMessageReactions": false,
-                    "DirectMessageTyping": false,
-                    "MessageContent": true,
-                    "AutoModerationConfiguration": true,
-                    "AutoModerationExecution": true
-                }
+                // We set it to the default intents
+                newIntents = defaults_intents
                 break;
 
         }   

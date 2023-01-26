@@ -22,10 +22,15 @@ const ChangeStatus = (server, connection, data) => {
     Discord.setStatus(data)
 }
 
+const GenerateInvite = (server, connection, data) => {
+    Discord.genInvite(data)
+}
+
 // This object contains all the websockets commands
 exports.Commands = {
     "auth":AuthorizeUser,
     "islogged":IsLoggedIn,
     "logout":LogoutUser,
     "change_status":ChangeStatus,
+    "gen_invite":GenerateInvite,
 }

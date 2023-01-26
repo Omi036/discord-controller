@@ -1,5 +1,5 @@
 import { Box } from "@mantine/core";
-import { useRef, useEffect,  useState } from "react";
+import { useEffect,  useState } from "react";
 import { useStyles } from "../../../styles/Pages.style";
 import { WSocket } from "../../misc/WebSocket";
 import { ClientSection } from "./ClientSection";
@@ -8,44 +8,37 @@ import { AppSection } from "./AppSection";
 import { InviteModal } from "./InviteModal";
 
 export const ClientPage = () => {
-    const [serverCount, setServerCount] = useState(0);
-    const [channelsCount, setChannelsCount] = useState(0);
-    const [userAvatar, setUserAvatar] = useState("");
-    const [appAvatar, setAppAvatar] = useState("");
-    const [botPublic, setBotPublic] = useState(false);
-    const [codeGrant, setCodeGrant] = useState(false);
-    const [userVerified, setUserVerified] = useState(false);
-    const [status, setStatus] = useState("online");
-    const [modalOpened, setModalOpened] = useState(false);
-
     const { classes } = useStyles();
-
-    // TODO: Convert this to use-state as an object.
-    const refs = {
+    const [modalOpened, setModalOpened] = useState(false);
+    const [settings, setSettings] = useState({
         client: {
-            token: useRef(),
-            initializedAt: useRef(),
+            serverCount:0,
+            channelCount:0,
+            token:"",
+            initializedAt:""
         },
         user: {
-            status: useRef(),
-            tag: useRef(),
-            id: useRef(),
-            avatarURL: useRef(),
-            createdAt: useRef(),
+            verified: false,
+            status:"",
+            tag:"",
+            id:"",
+            avatarURL:"",
+            createdAt:""
         },
         app: {
-            botPublic: useRef(),
-            botCodeGrant: useRef(),
-            name: useRef(),
-            description: useRef(),
-            owner: useRef(),
-            id: useRef(),
-            tags: useRef(),
-            iconURL: useRef(),
-            commandsCounter: useRef(),
-            createdAt: useRef(),
-        },
-    };
+            botPublic: false,
+            botCodeGrant: false,
+            name:"",
+            description:"",
+            owner:"",
+            id:"",
+            tags:"",
+            iconURL:"",
+            commandsCounter:0,
+            createdAt:""
+        }
+    })
+
 
     useEffect(() => {
         WSocket.addEventListener("message", (message) => {
@@ -53,30 +46,42 @@ export const ClientPage = () => {
 
             switch (message.header) {
                 case "fill_client_info":
+                    const new_settings = { ...settings}
+
                     const clientSettings = message.content.client;
                     const userSettings = message.content.user;
                     const appSettings = message.content.app;
 
-                    setServerCount(clientSettings.guilds);
-                    setChannelsCount(clientSettings.channels);
-                    setUserAvatar(userSettings.avatarURL);
-                    setAppAvatar(appSettings.iconURL);
-                    setBotPublic(appSettings.public);
-                    setCodeGrant(appSettings.codeGrant);
-                    setUserVerified(userSettings.verified);
-                    setStatus(userSettings.status);
-                    refs.client.token.current.value = clientSettings.token;
-                    refs.client.initializedAt.current.value = clientSettings.initializedAt;
-                    refs.user.tag.current.value = userSettings.tag;
-                    refs.user.id.current.value = userSettings.id;
-                    refs.user.createdAt.current.value = userSettings.createdAt;
-                    refs.app.name.current.value = appSettings.name;
-                    refs.app.description.current.value = appSettings.description;
-                    refs.app.owner.current.value = appSettings.owner ?? "Team";
-                    refs.app.id.current.value = appSettings.id;
-                    refs.app.tags.current.value = appSettings.tags;
-                    refs.app.commandsCounter.current.value = appSettings.commands;
-                    refs.app.createdAt.current.value = appSettings.createdAt;
+                    new_settings.client = {
+                        serverCount: clientSettings.guilds,
+                        channelCount: clientSettings.channels,
+                        token: clientSettings.token,
+                        initializedAt: clientSettings.initializedAt
+                    };
+        
+                    new_settings.user = {
+                        verified: userSettings.verified,
+                        status: userSettings.status,
+                        tag: userSettings.tag,
+                        id: userSettings.id,
+                        avatarURL: userSettings.avatarURL,
+                        createdAt: userSettings.createdAt
+                    };
+        
+                    new_settings.app = {
+                        botPublic: appSettings.public,
+                        botCodeGrant: appSettings.codeGrant,
+                        name: appSettings.name,
+                        description: appSettings.description,
+                        owner: appSettings.owner,
+                        id: appSettings.id,
+                        tags: appSettings.tags,
+                        iconURL: appSettings.iconURL,
+                        commandsCounter: appSettings.commands,
+                        createdAt: appSettings.createdAt
+                    };
+
+                    setSettings(new_settings)
                     break;
             }
         });
@@ -86,9 +91,9 @@ export const ClientPage = () => {
         <>
             <InviteModal opened={modalOpened} setOpened={setModalOpened}/>
             <Box className={classes.parent}>
-                <ClientSection refs={refs} serverCount={serverCount} channelCount={channelsCount} setModalOpened={setModalOpened}/>
-                <UserSection refs={refs} userAvatar={userAvatar} userVerified={userVerified} status={status} setStatus={setStatus}/>
-                <AppSection refs={refs} appAvatar={appAvatar} botPublic={botPublic} codeGrant={codeGrant} />
+                <ClientSection settings={settings} setSettings={setSettings} setModalOpened={setModalOpened}/>
+                <UserSection settings={settings} setSettings={setSettings}/>
+                <AppSection settings={settings} setSettings={setSettings}/>
             </Box>
         </>
     );

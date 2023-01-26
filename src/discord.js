@@ -1,7 +1,8 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits } = require("discord.js");
+const { Client, Events, GatewayIntentBits, PermissionFlagsBits } = require("discord.js");
 const DiscordConfig = { socketServer: undefined };
 
+exports.genInvite = () => {}
 exports.sendClientPageData = () => {}
 exports.setStatus = () => {}
 exports.logout = () => {}
@@ -44,6 +45,21 @@ exports.login = ({token, intents}) => {
                 })
             );
         });
+
+        exports.genInvite = (data) => {
+            console.log(data)
+            const permissions = []
+            data.forEach(perm => permissions.push(PermissionFlagsBits[perm]))
+            console.log(permissions)
+            const invite = client.generateInvite({scopes:["bot"],permissions:permissions})
+            DiscordConfig.socketServer.clients.forEach((sclient) => {
+                sclient.send(JSON.stringify({
+                    header:"reply_invite",
+                    content: invite
+                })
+                )
+            })
+        }
 
         
         exports.setStatus = (status) => {

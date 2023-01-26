@@ -1,11 +1,10 @@
 import { Paper, Box, Text, ScrollArea, useMantineTheme, TextInput, Checkbox, SegmentedControl}  from "@mantine/core"
 import { IconUser } from "@tabler/icons"
 import { useStyles } from "../../../styles/Pages.style"
-import { useState } from "react"
 import { ImageDisplay } from "../../misc/ImageDisplay"
 import { WSocket } from "../../misc/WebSocket"
 
-export const UserSection = ({refs, userVerified, userAvatar, status, setStatus}) => {
+export const UserSection = ({settings, setSettings}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
 
@@ -17,7 +16,9 @@ export const UserSection = ({refs, userVerified, userAvatar, status, setStatus})
             })
         );
         console.log(status);
-        setStatus(status);
+        const new_settings = {...settings}
+        new_settings.user.status = status
+        setSettings(new_settings);
     };
 
     return(
@@ -28,9 +29,9 @@ export const UserSection = ({refs, userVerified, userAvatar, status, setStatus})
             </Box>
             <Box>
                 <ScrollArea type="auto" className={classes.scroll}>
-                    <Checkbox readOnly label="Bot is Verified" color="indigo" style={{ marginBottom: 10, fontSize: 16 }} checked={userVerified}/>
+                    <Checkbox readOnly label="Bot is Verified" color="indigo" style={{ marginBottom: 10, fontSize: 16 }} checked={settings.user.userVerified ?? false}/>
                     <Text size={14}>Status</Text>
-                    <SegmentedControl fullWidth color="indigo" value={status} onChange={handleStatusChange}
+                    <SegmentedControl fullWidth color="indigo" value={settings.user.status} onChange={handleStatusChange}
                         data={[
                             { label: "Online", value: "online" },
                             { label: "Idle", value: "idle" },
@@ -38,10 +39,10 @@ export const UserSection = ({refs, userVerified, userAvatar, status, setStatus})
                             { label: "Invisible", value: "invisible" },
                         ]}
                     />
-                    <TextInput label="Tag" readOnly className={classes.text_input} ref={refs.user.tag}/>
-                    <TextInput label="Id" readOnly className={classes.text_input} ref={refs.user.id}/>
-                    <ImageDisplay label="Avatar URL" value={userAvatar}/>
-                    <TextInput label="Created At" readOnly className={classes.text_input} ref={refs.user.createdAt}/>
+                    <TextInput label="Tag" readOnly className={classes.text_input} value={settings.user.tag}/>
+                    <TextInput label="Id" readOnly className={classes.text_input} value={settings.user.id}/>
+                    <ImageDisplay label="Avatar URL" value={settings.user.avatarURL}/>
+                    <TextInput label="Created At" readOnly className={classes.text_input} value={settings.user.createdAt}/>
                 </ScrollArea>
             </Box>
         </Paper>

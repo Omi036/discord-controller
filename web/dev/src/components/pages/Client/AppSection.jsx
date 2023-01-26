@@ -2,9 +2,8 @@ import { Paper, Box, Text, ScrollArea, useMantineTheme, TextInput, Checkbox, Seg
 import { IconApps } from "@tabler/icons"
 import { useStyles } from "../../../styles/Pages.style"
 import { ImageDisplay } from "../../misc/ImageDisplay"
-import { WSocket } from "../../misc/WebSocket"
 
-export const AppSection = ({refs, botPublic, codeGrant, appAvatar}) => {
+export const AppSection = ({settings}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
 
@@ -16,16 +15,16 @@ export const AppSection = ({refs, botPublic, codeGrant, appAvatar}) => {
             </Box>
             <Box>
                 <ScrollArea type="auto" className={classes.scroll}>
-                    <Checkbox label="Bot is Public" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={botPublic}/>
-                    <Checkbox label="Bot require Code Grant to invite" readOnly color="indigo" style={{     marginBottom: 10,     marginTop: 10,     fontSize: 16, }} checked={codeGrant}/>
-                    <TextInput label="Name" readOnly className={classes.text_input} ref={refs.app.name}/>
-                    <TextInput label="Description" readOnly className={classes.text_input} ref={refs.app.description}/>
-                    <TextInput label="Owner" readOnly className={classes.text_input} ref={refs.app.owner}/>
-                    <TextInput label="Id" readOnly className={classes.text_input} ref={refs.app.id}/>
-                    <TextInput label="Tags" readOnly className={classes.text_input} ref={refs.app.tags}/>
-                    <ImageDisplay label="Icon URL" value={appAvatar} />
-                    <TextInput label="Slash Commands" readOnly className={classes.text_input} ref={refs.app.commandsCounter}/>
-                    <TextInput label="Created At" readOnly className={classes.text_input} ref={refs.app.createdAt}/>
+                    <Checkbox label="Bot is Public" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={settings.app.botPublic ?? false}/>
+                    <Checkbox label="Bot require Code Grant to invite" readOnly color="indigo" style={{     marginBottom: 10,     marginTop: 10,     fontSize: 16, }} checked={settings.app.codeGrant ?? false}/>
+                    <TextInput label="Name" readOnly className={classes.text_input} value={settings.app.name} />
+                    <TextInput label="Description" readOnly className={classes.text_input} value={settings.app.description} />
+                    <TextInput label="Owner" readOnly className={classes.text_input} value={settings.app.owner} />
+                    <TextInput label="Id" readOnly className={classes.text_input} value={settings.app.id} />
+                    <TextInput label="Tags" readOnly className={classes.text_input} value={settings.app.tags}/>
+                    <ImageDisplay label="Icon URL" value={settings.app.iconURL} />
+                    <TextInput label="Slash Commands" readOnly className={classes.text_input} value={settings.app.commandsCounter}/>
+                    <TextInput label="Created At" readOnly className={classes.text_input} value={settings.app.createdAt}/>
                 </ScrollArea>
             </Box>
         </Paper>

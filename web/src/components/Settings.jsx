@@ -133,6 +133,7 @@ export const Settings = () => {
                 closeButtonLabel={false}
                 closeOnClickOutside={false}
                 size="lg"
+                overlayBlur={3}
             >
                 <LoadingOverlay visible={disabled} overlayBlur={2} loader={customLoader} />
                 <TextInput label="Bot Token" placeholder="Ntg3K2lm..." required ref={tokenInput} error={error} disabled={disabled}

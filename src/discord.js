@@ -2,6 +2,7 @@
 const { Client, Events, GatewayIntentBits, PermissionFlagsBits } = require("discord.js");
 const DiscordConfig = { socketServer: undefined };
 
+exports.sendServerData = () => {}
 exports.sendServers = () => {}
 exports.genInvite = () => {}
 exports.sendClientPageData = () => {}
@@ -40,7 +41,7 @@ exports.login = ({token, intents}) => {
                 JSON.stringify({
                     header: "basic_profile",
                     content: {
-                        avatar: c.user.avatarURL(),
+                        avatar: `https://cdn.discordapp.com/avatars/${c.user.id}/${c.user.avatar}.png?size=300`,
                         username: c.user.tag
                     }
                 })
@@ -102,7 +103,7 @@ exports.login = ({token, intents}) => {
                                     status: client.user.presence.status,
                                     tag: client.user.tag,
                                     id: client.user.id,
-                                    avatarURL: client.user.avatarURL(),
+                                    avatarURL:`https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.png?size=600`,
                                     createdAt: client.user.createdAt
                                 },
                                 app: {
@@ -113,7 +114,7 @@ exports.login = ({token, intents}) => {
                                     owner: app.owner ? app.owner.tag : app.owner.name,
                                     id: app.id,
                                     tags: app.tags,
-                                    iconURL: app.iconURL(),
+                                    iconURL: `https://cdn.discordapp.com/app-icons/${app.id}/${app.icon}.png?size=600`,
                                     commands: app.commands.cache.size,
                                     createdAt: app.createdAt
                                 }
@@ -123,6 +124,56 @@ exports.login = ({token, intents}) => {
                 })
     
             })
+        }
+
+        exports.sendServerData = (id) => {
+            client.guilds.cache.find(sv => sv.id === id).fetch().then(sv => {
+                
+            })
+            const users = sv.memberCount
+            const channels = sv.channels.cache.size
+            const roles = sv.roles.cache.size
+            const bans = sv.bans.cache.size
+            const commands = sv.commands.cache.size
+            const invites = sv.invites.cache.size
+            const emojis = sv.emojis.cache.size
+            const stickers = sv.stickers.cache.size
+            var owner;
+            sv.fetchOwner().then(member => owner = member.user.tag).finally(() => {
+                DiscordConfig.socketServer.clients.forEach((sclient) => {
+                    sclient.send(
+                        JSON.stringify({
+                            header: "server_data",
+                            content:{
+                                users: users,
+                                channels: channels,
+                                roles: roles,
+                                bans: bans,
+                                commands: commands,
+                                invites: invites,
+                                emojis: emojis,
+                                stickers: stickers,
+                                isVerified: sv.verified,
+                                isPartenered: sv.partnered,
+                                name: sv.name,
+                                description: sv.description ? sv.description : "None",
+                                id: sv.id,
+                                owner: owner,
+                                iconUrl: `https://cdn.discordapp.com/icons/${sv.id}/${sv.icon}.png?size=600`,
+                                language: sv.preferredLocale,
+                                createdAt: sv.createdAt,
+                                joinedAt: sv.joinedAt,
+                                verificationLevel: sv.verificationLevel,
+                                boostTier: sv.premiumTier,
+                                explicitFilter: sv.explicitContentFilter,
+                                nsfwLevel: sv.nsfwLevel,
+                            }
+                        })
+                    )
+                    })
+            })
+            
+
         }
         exports.sendClientPageData()
     });

@@ -4,8 +4,8 @@
   "description": "A Discord Bot remote controller using Websockets and React",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "setup": "npm i && npm --prefix .\\web\\dev\\ run setup"
+    "start": "concurrently --kill-others -p \" \" \"node index.js\" \"npm run dev --prefix .\\web\\\"",
+    "setup": "npm i && npm run setup --prefix .\\web\\"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/Omi036/discord-controller#readme",
   "dependencies": {
+    "concurrently": "^7.6.0",
     "discord.js": "^14.7.1",
+    "open": "^8.4.0",
     "websocket": "^1.0.34",
     "ws": "^8.12.0"
   }

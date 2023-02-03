@@ -31,7 +31,8 @@
     "dayjs": "^1.11.7",
     "embla-carousel-react": "^7.0.6",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "web": "file:"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

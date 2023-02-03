@@ -1,7 +1,7 @@
 import { Box,  Text, useMantineTheme, Avatar } from "@mantine/core"
 import { useStyles } from "../../../styles/Pages.style"
 import { useState, useEffect } from "react"
-import { WSocket, AddSocketListener } from "../../misc/WebSocket"
+import { WSocket, AddSocketListener, SendMessage } from "../../misc/WebSocket"
 import { ListSection } from "./ListSection"
 import { InfoSection } from "./InfoSection"
 
@@ -34,11 +34,16 @@ export const ServerPage = ({page}) => {
     useEffect(() => {
         if(page !== "Servers") return
 
-        WSocket.send(JSON.stringify({
-            header: "get_servers",
-            content:{}
-        }))
+        SendMessage("get_servers",{})
     }, [page])
+
+    
+    // This executes when the server is changed
+    useEffect(() => {
+        if(!actualSv) return
+
+        SendMessage("get_server_data", {id:actualSv})
+    },[actualSv])
 
     const servers = []
     serverList.forEach(server => {

@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from "react";
 import { Navbar, Group, Code, Avatar, Text, Box, UnstyledButton, Tooltip, Modal, Button } from "@mantine/core";
-import { IconRobot, IconHash, IconMessage, IconCode, IconServer, IconUser, IconDots, IconLogout } from "@tabler/icons";
+import { IconRobot, IconMessage, IconCode, IconServer, IconUser, IconDots, IconLogout } from "@tabler/icons";
 import { useStyles } from "../styles/Sidebar.style";
 import { WSocket } from "./misc/WebSocket";
 
@@ -12,7 +12,6 @@ import { WSocket } from "./misc/WebSocket";
 const sidebarLinks = [
     {label: "Client", icon: IconRobot},
     {label: "Servers", icon: IconServer },
-    {label: "Channels", icon: IconHash },
     {label: "Messages", icon: IconMessage },
     {label: "Users", icon: IconUser },
     {label: "Commands", icon: IconCode },

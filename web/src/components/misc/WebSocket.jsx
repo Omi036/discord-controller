@@ -10,6 +10,11 @@ export const AddSocketListener = (header, callback) => {
     })
 }
 
+export const SendMessage = (header, content) => {
+    const message = JSON.stringify({header:header, content:content})
+    WSocket.send(message)
+}
+
 // Some handlings
 WSocket.addEventListener("open", () => console.log("WebSocket connected"))
 WSocket.addEventListener("error", (e) => console.error(e) )

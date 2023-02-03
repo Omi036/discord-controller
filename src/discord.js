@@ -2,6 +2,7 @@
 const { Client, Events, GatewayIntentBits, PermissionFlagsBits } = require("discord.js");
 const DiscordConfig = { socketServer: undefined };
 
+exports.sendServers = () => {}
 exports.genInvite = () => {}
 exports.sendClientPageData = () => {}
 exports.setStatus = () => {}
@@ -59,6 +60,22 @@ exports.login = ({token, intents}) => {
                 })
                 )
             })
+        }
+
+        exports.sendServers = () => {
+            const guilds = []
+            client.guilds.cache.forEach(sv => {
+                guilds.push({name:sv.name, id:sv.id, avatar:sv.iconURL()})
+            })
+            DiscordConfig.socketServer.clients.forEach((sclient) => {
+                sclient.send(
+                    JSON.stringify({
+                        header:"servers_info",
+                        content: guilds
+                    })
+                    )
+                }
+            )
         }
 
         

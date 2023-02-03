@@ -26,6 +26,11 @@ const GenerateInvite = (server, connection, data) => {
     Discord.genInvite(data)
 }
 
+
+const SendServers = (server, connection, data) => {
+    Discord.sendServers()
+}
+
 // This object contains all the websockets commands
 exports.Commands = {
     "auth":AuthorizeUser,
@@ -33,4 +38,5 @@ exports.Commands = {
     "logout":LogoutUser,
     "change_status":ChangeStatus,
     "gen_invite":GenerateInvite,
+    "get_servers":SendServers,
 }

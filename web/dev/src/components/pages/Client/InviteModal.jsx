@@ -86,8 +86,6 @@ export const InviteModal = ({ opened, setOpened }) => {
         WSocket.addEventListener("message", (message) => {
             message = JSON.parse(message.data);
 
-            console.log(message.content)
-
             if(message.header !== "reply_invite") return
             setInvite(message.content)
         })

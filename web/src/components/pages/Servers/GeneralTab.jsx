@@ -13,8 +13,6 @@ export const GeneralTab = () => {
         channels: 0,
         roles: 0,
         bans: 0,
-        commands: 0,
-        invites: 0,
         emojis: 0,
         stickers: 0,
         isVerified: false,
@@ -48,10 +46,6 @@ export const GeneralTab = () => {
             <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
                 <TextDisplay label="Roles" value={data.roles} />
                 <TextDisplay label="Bans" value={data.bans} />
-            </Box>
-            <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
-                <TextDisplay label="Commands" value={data.commands} />
-                <TextDisplay label="Invites" value={data.invites} />
             </Box>
             <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
                 <TextDisplay label="Emojis" value={data.emojis} />

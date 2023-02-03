@@ -87,8 +87,11 @@ exports.login = ({token, intents}) => {
 
         exports.sendClientPageData = () => {
             client.application.fetch().then((app) => {
-                DiscordConfig.socketServer.clients.forEach((sclient) => {
-                    sclient.send(
+                DiscordConfig.socketServer.clients.forEach(async (sclient) => {
+
+                    const commands = await app.commands.fetch()
+
+                    await sclient.send(
                         JSON.stringify({
                             header: "fill_client_info",
                             content: {
@@ -115,7 +118,7 @@ exports.login = ({token, intents}) => {
                                     id: app.id,
                                     tags: app.tags,
                                     iconURL: `https://cdn.discordapp.com/app-icons/${app.id}/${app.icon}.png?size=600`,
-                                    commands: app.commands.cache.size,
+                                    commands: commands.size,
                                     createdAt: app.createdAt
                                 }
                             }
@@ -126,20 +129,17 @@ exports.login = ({token, intents}) => {
             })
         }
 
-        exports.sendServerData = (id) => {
-            client.guilds.cache.find(sv => sv.id === id).fetch().then(sv => {
-                
-            })
+        exports.sendServerData = async (id) => {
+            const sv = client.guilds.cache.find(server => server.id === id)
             const users = sv.memberCount
             const channels = sv.channels.cache.size
             const roles = sv.roles.cache.size
-            const bans = sv.bans.cache.size
-            const commands = sv.commands.cache.size
-            const invites = sv.invites.cache.size
+            const bans = await sv.bans.fetch() // This line downs a lot of performance
             const emojis = sv.emojis.cache.size
             const stickers = sv.stickers.cache.size
             var owner;
-            sv.fetchOwner().then(member => owner = member.user.tag).finally(() => {
+
+            await sv.fetchOwner().then(member => owner = member.user.tag).finally(() => {
                 DiscordConfig.socketServer.clients.forEach((sclient) => {
                     sclient.send(
                         JSON.stringify({
@@ -148,9 +148,7 @@ exports.login = ({token, intents}) => {
                                 users: users,
                                 channels: channels,
                                 roles: roles,
-                                bans: bans,
-                                commands: commands,
-                                invites: invites,
+                                bans: bans.size,
                                 emojis: emojis,
                                 stickers: stickers,
                                 isVerified: sv.verified,
@@ -170,7 +168,7 @@ exports.login = ({token, intents}) => {
                             }
                         })
                     )
-                    })
+                })
             })
             
 

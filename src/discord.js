@@ -43,35 +43,29 @@ exports.login = ({token, intents}) => {
             );
         });
 
-        exports.genInvite = (data) => {
+        exports.genInvite = (connection, data) => {
             console.log(data)
             const permissions = []
             data.forEach(perm => permissions.push(PermissionFlagsBits[perm]))
             console.log(permissions)
             const invite = client.generateInvite({scopes:["bot"],permissions:permissions})
-            DiscordConfig.socketServer.clients.forEach((sclient) => {
-                sclient.send(JSON.stringify({
-                    header:"reply_invite",
-                    content: invite
-                })
-                )
-            })
+            connection.send(JSON.stringify({
+                header:"reply_invite",
+                content: invite
+            }))
         }
 
-        exports.sendServers = () => {
+        exports.sendServers = (connection) => {
             const guilds = []
+
             client.guilds.cache.forEach(sv => {
                 guilds.push({name:sv.name, id:sv.id, avatar:sv.iconURL()})
             })
-            DiscordConfig.socketServer.clients.forEach((sclient) => {
-                sclient.send(
-                    JSON.stringify({
-                        header:"servers_info",
-                        content: guilds
-                    })
-                    )
-                }
-            )
+
+            connection.send(JSON.stringify({
+                header:"servers_info",
+                content: guilds
+            }))
         }
 
         
@@ -125,7 +119,7 @@ exports.login = ({token, intents}) => {
         }
 
         //! Trust me, you can't make an idea about how hard was it to realize how does the channels position work.
-        exports.sendChannels = (id) => {
+        exports.sendChannels = (connection, id) => {
             const sv = client.guilds.cache.find(server => server.id === id)
 
 
@@ -157,18 +151,58 @@ exports.login = ({token, intents}) => {
                 })
 
                 // Finally, we send them to the dashboard
-                DiscordConfig.socketServer.clients.forEach((sclient) => {
-                    sclient.send(
-                        JSON.stringify({
-                            header:"channels",
-                            content: channels
-                        })
-                    )
-                })
+                connection.send(JSON.stringify({
+                    header:"channels",
+                    content: channels
+                }))
             })
         }
 
-        exports.sendServerData = async (id) => {
+        exports.sendChannelData = async (connection, svId, id) => {
+            const sv = client.guilds.cache.find(server => server.id === svId)
+            const channel = sv.channels.cache.find(channel => channel.id === id)
+
+            var messages;
+            var members;
+
+            try { 
+                messages = await channel.messages.fetch()
+                messages = messages.size
+                if(messages === 50) messages = "+50"
+            } catch (e) {}
+
+            try { members = channel.members.size
+            } catch (e) {}
+
+            connection.send(JSON.stringify({
+                header:"channel_data",
+                content:{
+                    id:id,
+                    name:channel.name,
+                    type:ChannelType[channel.type],
+                    url: channel.url,
+                    viewable: channel.viewable,
+                    manageable: channel.manageable,
+                    createdAt: channel.createdAt,
+                    deletable: channel.deletable,
+                    messages: messages,
+                    nsfw: channel.nsfw,
+                    rateLimit: channel.rateLimitPerUser,
+                    topic: channel.topic || "None",
+                    bitrate: channel.bitrate,
+                    isFull: channel.full,
+                    joinable: channel.joinable,
+                    rtcRegion: channel.rtcRegion || "Automatic",
+                    speakable: channel.speakable,
+                    userLimit: channel.userLimit,
+                    members: members,
+                    avaiableTags: channel.availableTags,
+                    defaultDuration: channel.defaultAutoArchiveDuration
+                }
+            }))
+        }
+
+        exports.sendServerData = async (connection, id) => {
             const sv = client.guilds.cache.find(server => server.id === id)
             const users = sv.memberCount
             const channels = sv.channels.cache.size
@@ -179,35 +213,31 @@ exports.login = ({token, intents}) => {
             var owner;
 
             await sv.fetchOwner().then(member => owner = member.user.tag).finally(() => {
-                DiscordConfig.socketServer.clients.forEach((sclient) => {
-                    sclient.send(
-                        JSON.stringify({
-                            header: "server_data",
-                            content:{
-                                users: users,
-                                channels: channels,
-                                roles: roles,
-                                bans: bans.size,
-                                emojis: emojis,
-                                stickers: stickers,
-                                isVerified: sv.verified,
-                                isPartenered: sv.partnered,
-                                name: sv.name,
-                                description: sv.description ? sv.description : "None",
-                                id: sv.id,
-                                owner: owner,
-                                iconUrl: `https://cdn.discordapp.com/icons/${sv.id}/${sv.icon}.png?size=600`,
-                                language: sv.preferredLocale,
-                                createdAt: sv.createdAt,
-                                joinedAt: sv.joinedAt,
-                                verificationLevel: sv.verificationLevel,
-                                boostTier: sv.premiumTier,
-                                explicitFilter: sv.explicitContentFilter,
-                                nsfwLevel: sv.nsfwLevel,
-                            }
-                        })
-                    )
-                })
+                connection.send(JSON.stringify({
+                    header: "server_data",
+                    content:{
+                        users: users,
+                        channels: channels,
+                        roles: roles -1,
+                        bans: bans.size,
+                        emojis: emojis,
+                        stickers: stickers,
+                        isVerified: sv.verified,
+                        isPartenered: sv.partnered,
+                        name: sv.name,
+                        description: sv.description ? sv.description : "None",
+                        id: sv.id,
+                        owner: owner,
+                        iconUrl: `https://cdn.discordapp.com/icons/${sv.id}/${sv.icon}.png?size=600`,
+                        language: sv.preferredLocale,
+                        createdAt: sv.createdAt,
+                        joinedAt: sv.joinedAt,
+                        verificationLevel: sv.verificationLevel,
+                        boostTier: sv.premiumTier,
+                        explicitFilter: sv.explicitContentFilter,
+                        nsfwLevel: sv.nsfwLevel,
+                    }
+                }))
             })
             
 

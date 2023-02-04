@@ -24,22 +24,27 @@ const ChangeStatus = (server, connection, data) => {
 
 // This generates an invites with custom invites
 const GenerateInvite = (server, connection, data) => {
-    Discord.genInvite(data)
+    Discord.genInvite(connection, data)
 }
 
 // Sends a list of all the avaiable servers
 const SendServers = (server, connection, data) => {
-    Discord.sendServers()
+    Discord.sendServers(connection)
 }
 
 // Sends data from a server
 const SendServerData = (server, connection, data) => {
-    Discord.sendServerData(data.id)
+    Discord.sendServerData(connection, data.id)
 }
 
 // This sends a list of all the channels avaiable
 const SendChannels = (server, connection,data) => {
-    Discord.sendChannels(data.id)
+    Discord.sendChannels(connection, data.id)
+}
+
+// Sends data from a specific channel
+const SendChannelData = (server, connection, data) => {
+    Discord.sendChannelData(connection, data.svId, data.id)
 }
 
 
@@ -53,4 +58,5 @@ exports.Commands = {
     "get_servers":SendServers,
     "get_server_data":SendServerData,
     "get_channels":SendChannels,
+    "get_channel_data":SendChannelData,
 }

@@ -83,7 +83,6 @@ export const useStyles = createStyles((theme) => {
             borderRadius: 5,
             marginBottom: 15,
             backgroundColor: "transparent",
-            transition:"all 200ms ease-in-out",
             cursor:"pointer",
 
             "&:hover":{

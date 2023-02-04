@@ -3,6 +3,7 @@ import { useStyles } from "../../../styles/Pages.style"
 import { useEffect, useState } from "react"
 import { IconClearAll, IconHash, IconVolume, IconSpeakerphone, IconMessages } from "@tabler/icons"
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
+import { ChannelInfo } from "./ChannelInfo"
 
 const Channel = ({name, id, type, setChannelSetted}) => {
     const icons = {
@@ -60,15 +61,17 @@ export const ChannelsTab = ({server, tab}) => {
         SendMessage("get_channels", {id:server})
     }, [tab])
 
+    useEffect(() => {
+        if(!server) return
+        setChannelSetted(false)
+
+    }, [server])
+
+
     return (
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
             {channelSetted ? 
-            <SimpleGrid cols={2} spacing={40} verticalSpacing={5}>
-                <TextInput label="Initializated At" readOnly className={classes.text_input}/>
-                <TextInput label="Initializated At" readOnly className={classes.text_input}/>
-                <TextInput label="Initializated At" readOnly className={classes.text_input}/>
-                <TextInput label="Initializated At" readOnly className={classes.text_input}/>
-            </SimpleGrid> : 
+            <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server}/> : 
             <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
                 {channels}
             </SimpleGrid>

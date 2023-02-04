@@ -37,6 +37,10 @@ const SendServerData = (server, connection, data) => {
     Discord.sendServerData(data.id)
 }
 
+// This sends a list of all the channels avaiable
+const SendChannels = (server, connection,data) => {
+    Discord.sendChannels(data.id)
+}
 
 
 // This object contains all the websockets commands
@@ -48,4 +52,5 @@ exports.Commands = {
     "gen_invite":GenerateInvite,
     "get_servers":SendServers,
     "get_server_data":SendServerData,
+    "get_channels":SendChannels,
 }

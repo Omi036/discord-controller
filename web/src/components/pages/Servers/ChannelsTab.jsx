@@ -1,20 +1,16 @@
 import { ScrollArea, SimpleGrid, TextInput, Box, Text } from "@mantine/core"
 import { useStyles } from "../../../styles/Pages.style"
-import { useState } from "react"
-import { IconClearAll, IconHash } from "@tabler/icons"
+import { useEffect, useState } from "react"
+import { IconClearAll, IconHash, IconVolume, IconSpeakerphone, IconMessages } from "@tabler/icons"
+import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
 
 const Channel = ({name, id, type, setChannelSetted}) => {
-
-    var icon;
-    switch (type) {
-        case "category":
-            name = name.toUpperCase();
-            icon = <IconClearAll size={18}/>
-            break;
-        
-        case "text":
-            icon = <IconHash size={18} />
-            break;
+    const icons = {
+        "GuildCategory": <IconClearAll size={18}/>,
+        "GuildText": <IconHash size={18} />,
+        "GuildVoice": <IconVolume size={18} />,
+        "GuildNews": <IconSpeakerphone size={18} />,
+        "GuildForum": <IconMessages size={18} />,
     }
 
     return(
@@ -24,7 +20,7 @@ const Channel = ({name, id, type, setChannelSetted}) => {
         display:"flex",
         flexDirection: "row",
         alignItems:"center",
-        marginLeft: type==="category" ? 0 : 20,
+        marginLeft: type==="GuildCategory" ? 0 : 20,
         border:`1px solid ${theme.colors.dark[4]}`,
         backgroundColor: theme.colors.dark[6],
         borderRadius: 5,
@@ -34,30 +30,38 @@ const Channel = ({name, id, type, setChannelSetted}) => {
             backgroundColor: theme.colors.dark[5],
         }
     })} onClick={()=>{setChannelSetted(id)}}>
-        {icon}
+        {icons[type]}
         <Text sx={(theme)=>({marginLeft:10, color:theme.colors.dark[2]})}>{name}</Text>
         <Text sx={(theme)=>({marginLeft:"auto", color:theme.colors.dark[3]})}>{id}</Text>
     </Box>)
 }
 
-export const ChannelsTab = () => {
+export const ChannelsTab = ({server, tab}) => {
     const {classes} = useStyles()
     const [channelSetted, setChannelSetted] = useState(false)
+    const [channels, setChannels] = useState()
+    
+    useEffect(() => {
+        AddSocketListener("channels", channels => {
+            var new_channels = [];
 
-    const channels = []
-    const channelsList = [
-        {name:"TEXTO", id:"1064594706937434122", type:"category"},
-        {name:"credenciales", id:"1064594706937434124", type:"text"},
-        {name:"invites", id:"1065697538247762000", type:"text"},
-        {name:"ids", id:"1066511977763057675", type:"text"}
-    ]
+            channels.forEach(channel => {
+                new_channels.push(<Channel {...channel} setChannelSetted={setChannelSetted} key={channel.id} />)
+            })
 
-    channelsList.forEach(channel => {
-        channels.push(<Channel {...channel} setChannelSetted={setChannelSetted} key={channel.id} />)
+            setChannels(new_channels)
+        })
     })
 
+    // When the Channels tabbutton is pressed, we will load all the channels.
+    useEffect(() => {
+        if(tab !== "channels") return
+
+        SendMessage("get_channels", {id:server})
+    }, [tab])
+
     return (
-        <ScrollArea type="auto" className={classes.scroll}>
+        <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
             {channelSetted ? 
             <SimpleGrid cols={2} spacing={40} verticalSpacing={5}>
                 <TextInput label="Initializated At" readOnly className={classes.text_input}/>

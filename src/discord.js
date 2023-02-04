@@ -1,14 +1,9 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits, PermissionFlagsBits } = require("discord.js");
+const { Client, Events, GatewayIntentBits, PermissionFlagsBits, ChannelType } = require("discord.js");
 const DiscordConfig = { socketServer: undefined };
 
-exports.sendServerData = () => {}
-exports.sendServers = () => {}
-exports.genInvite = () => {}
-exports.sendClientPageData = () => {}
-exports.setStatus = () => {}
-exports.logout = () => {}
-exports.isOnline = () => { return false }
+
+exports.isOnline = () => false
 exports.DiscordConfig = DiscordConfig;
 exports.login = ({token, intents}) => {
 
@@ -107,7 +102,7 @@ exports.login = ({token, intents}) => {
                                     tag: client.user.tag,
                                     id: client.user.id,
                                     avatarURL:`https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.png?size=600`,
-                                    createdAt: client.user.createdAt
+                                    createdAt: client.user.createdAt,
                                 },
                                 app: {
                                     public: app.botPublic,
@@ -126,6 +121,50 @@ exports.login = ({token, intents}) => {
                     )
                 })
     
+            })
+        }
+
+        //! Trust me, you can't make an idea about how hard was it to realize how does the channels position work.
+        exports.sendChannels = (id) => {
+            const sv = client.guilds.cache.find(server => server.id === id)
+
+
+            sv.channels.fetch().then(items => {
+                // Here we will save all the channels, including categories
+                const channels = []
+
+                items.forEach(channel => {
+                    if(channel.type === ChannelType.GuildCategory || channel.parent) return
+
+                    channels.push({name: channel.name, id: channel.id, type: ChannelType[channel.type], position: channel.position})
+                })
+
+                // We get all the categories and sort them by their position
+                const categories = items.filter(channel => channel.type === ChannelType.GuildCategory).sort((a,b) => {return a.position - b.position})
+
+                // Then, we sort all the channels inside of the category by their position
+                categories.forEach(category => {
+                    // We get and sort all the channels of the category
+                    var category_channels = category.children.cache.sort((a,b) => {return a.position - b.position})
+
+                    // We push the category channel before pushing its children
+                    channels.push({name: category.name, id: category.id, type: "GuildCategory", position: category.position})
+
+                    // Finally, for each channel, we push them in the correct order
+                    category_channels.forEach(channel => {
+                        channels.push({name: channel.name, id: channel.id, type: ChannelType[channel.type], position: channel.position})
+                    })
+                })
+
+                // Finally, we send them to the dashboard
+                DiscordConfig.socketServer.clients.forEach((sclient) => {
+                    sclient.send(
+                        JSON.stringify({
+                            header:"channels",
+                            content: channels
+                        })
+                    )
+                })
             })
         }
 

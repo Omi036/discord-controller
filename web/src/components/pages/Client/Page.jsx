@@ -23,7 +23,7 @@ export const ClientPage = () => {
             tag:"",
             id:"",
             avatarURL:"",
-            createdAt:""
+            createdAt:"",
         },
         app: {
             botPublic: false,
@@ -65,7 +65,7 @@ export const ClientPage = () => {
                         tag: userSettings.tag,
                         id: userSettings.id,
                         avatarURL: userSettings.avatarURL,
-                        createdAt: userSettings.createdAt
+                        createdAt: userSettings.createdAt,
                     };
         
                     new_settings.app = {

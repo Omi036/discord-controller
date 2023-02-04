@@ -53,7 +53,7 @@ export const ServerPage = ({page}) => {
     return (
         <Box className={classes.parent}>
             <ListSection servers={servers} />
-            <InfoSection />
+            <InfoSection server={actualSv} />
         </Box>
     )
 }

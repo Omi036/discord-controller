@@ -55,27 +55,22 @@ export const ChannelInfo = ({channelId, setChannel, serverId}) => {
             </Box>
             <ScrollArea>
                 <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
-                
-                    {["GuildText","GuildVoice","GuildNews"].includes(data.type) && 
-                    <TextDisplay value={data.messages} label={"Messages"} />
-                    }
-                    {data.type === "GuildVoice" && 
-                    <TextDisplay label={"Users Limits"} value={data.userLimit} />
-                    }
+                    {["GuildText","GuildVoice","GuildNews"].includes(data.type) && <TextDisplay value={data.messages} label={"Messages"} />}
+                    {data.type === "GuildVoice" && <TextDisplay label={"Users Limits"} value={data.userLimit} />}
                 </Box>
                 <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
-                    {data.type === "GuildVoice" && 
-                    <TextDisplay label={"Members Connected"} value={data.members} />
-                    }
+                    {data.type === "GuildVoice" && <TextDisplay label={"Members Connected"} value={data.members} />}
                 </Box>
-                <SimpleGrid cols={2}>
+                <SimpleGrid cols={2} style={{marginBottom: 10}}>
                     <Checkbox  readOnly color={"indigo"} label="Manageable by bot" checked={data.manageable} />
                     <Checkbox  readOnly color={"indigo"} label="Viewable by bot" checked={data.viewable} />
                     <Checkbox  readOnly color={"indigo"} label="Deletable by bot" checked={data.deletable} />
-                    {["GuildStage","GuildVoice"].includes(data.type) && <Checkbox  readOnly color={"indigo"} checked="Joinable by Bot" value={data.joinable} />}
-                    {["GuildStage","GuildVoice"].includes(data.type) && <Checkbox  readOnly color={"indigo"} checked="Full" value={data.isFull} />}
+                    {["GuildStage","GuildVoice"].includes(data.type) && <Checkbox  readOnly color={"indigo"} label="Joinable by Bot" checked={data.joinable} />}
+                    {["GuildStage","GuildVoice"].includes(data.type) && <Checkbox  readOnly color={"indigo"} label="Full" checked={data.isFull} />}
                     {data.type === "GuildVoice" && <Checkbox  readOnly color={"indigo"} label="Bot can Speak" checked={data.speakable} />}
                     {["GuildText","GuildVoice","GuildForum", "GuildNews"].includes(data.type) && <Checkbox  readOnly color={"indigo"} label="NSFW" checked={data.nsfw} />}
+                </SimpleGrid>
+                <SimpleGrid cols={2}>
                     <TextInput readOnly label="Name" value={data.name}/>
                     <TextInput readOnly label="Id" value={data.id}/>
                     <TextInput readOnly label="Type" value={data.type}/>

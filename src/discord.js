@@ -95,7 +95,7 @@ exports.login = ({token, intents}) => {
                         position: role.position,
                         tags: role.tags || "None",
                         unicodeEmoji:role.unicodeEmoji || "None",
-                        permissions:""
+                        permissions:role.permissions.toArray()
                     }
                 }))
             })

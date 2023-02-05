@@ -1,4 +1,4 @@
-import { Box, ScrollArea, ActionIcon, Text, SimpleGrid, TextInput, Checkbox, LoadingOverlay, ColorInput } from "@mantine/core"
+import { Box, ScrollArea, ActionIcon, Text, SimpleGrid, TextInput, Checkbox, LoadingOverlay, ColorInput, Accordion } from "@mantine/core"
 import { IconArrowBack } from "@tabler/icons"
 import { useEffect, useState } from "react"
 import { TextDisplay } from "../../../misc/TextDisplay"
@@ -20,20 +20,75 @@ export const RoleInfo = ({ serverId, roleId, setRole }) => {
         position: 0,
         tags: [],
         unicodeEmoji:"",
-        permissions:{}
+        permissions:""
+    }
+    const defaultPerms = {
+        AddReactions: false,
+        Administrator: false,
+        AttachFiles: false,
+        BanMembers: false,
+        ChangeNickname: false,
+        Connect: false,
+        CreateInstantInvite: false,
+        CreatePrivateThreads: false,
+        CreatePublicThreads: false,
+        DeafenMembers: false,
+        EmbedLinks: false,
+        KickMembers: false,
+        ManageChannels: false,
+        ManageEmojisAndStickers: false,
+        ManageEvents: false,
+        ManageGuild: false,
+        ManageMessages: false,
+        ManageNicknames: false,
+        ManageRoles: false,
+        ManageThreads: false,
+        ManageWebhooks: false,
+        MentionEveryone: false,
+        ModerateMembers: false,
+        MoveMembers: false,
+        MuteMembers: false,
+        PrioritySpeaker: false,
+        ReadMessageHistory: false,
+        RequestToSpeak: false,
+        SendMessages: false,
+        SendMessagesInThreads: false,
+        SendTTSMessages: false,
+        Speak: false,
+        Stream: false,
+        UseApplicationCommands: false,
+        UseEmbeddedActivities: false,
+        UseExternalEmojis: false,
+        UseExternalStickers: false,
+        UseVAD: false,
+        ViewAuditLog: false,
+        ViewChannel: false,
+        ViewGuildInsights: false
     }
     const [roleInfo, setRoleInfo] = useState(defaultRoleInfo)
+    const [permissions, setPermissions] = useState(defaultPerms)
 
+    // We add the listener for all the data
     useEffect(() => {
         AddSocketListener("role_data", data => {
             setRoleInfo(data)
+
+            for(const perm of data.permissions) {
+                defaultPerms[perm] = true
+            }
         })
     })
 
-
+    // When the tab is pressed, we request the data
     useEffect(() => {
         SendMessage("get_role_data", {svId:serverId, id:roleId})
     }, [roleId])
+
+
+    const permsChecks = []
+    for(const key in defaultPerms) {
+        permsChecks.push(<Checkbox readOnly color={"indigo"} label={key} checked={permissions[key]} key={key} />)
+    }
 
     return(
         <>
@@ -65,6 +120,16 @@ export const RoleInfo = ({ serverId, roleId, setRole }) => {
                     <TextInput readOnly label="Tags" value={roleInfo.tags}/>
                     <TextInput readOnly label="Emoji" value={roleInfo.unicodeEmoji}/>
                 </SimpleGrid>
+                <Accordion  variant="contained" chevronPosition="left" defaultValue="customization">
+                    <Accordion.Item value="permissions">
+                        <Accordion.Control>Permissions</Accordion.Control>
+                        <Accordion.Panel>
+                            <SimpleGrid cols={2} style={{marginBottom: 10}}>
+                            {permsChecks}
+                            </SimpleGrid>
+                        </Accordion.Panel>
+                    </Accordion.Item>
+                </Accordion>
             </ScrollArea>
         </>
     )

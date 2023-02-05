@@ -5,7 +5,9 @@ import { IconClearAll, IconHash, IconVolume, IconSpeakerphone, IconMessages } fr
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
 import { ChannelInfo } from "./ChannelInfo"
 
+// Avatar Item
 const Channel = ({name, id, type, setChannelSetted}) => {
+    // Sets a different icon depending on the type of channel.
     const icons = {
         "GuildCategory": <IconClearAll size={18}/>,
         "GuildText": <IconHash size={18} />,
@@ -13,6 +15,7 @@ const Channel = ({name, id, type, setChannelSetted}) => {
         "GuildNews": <IconSpeakerphone size={18} />,
         "GuildForum": <IconMessages size={18} />,
     }
+
 
     return(
     <Box sx={(theme)=>({
@@ -61,6 +64,8 @@ export const ChannelsTab = ({server, tab}) => {
         SendMessage("get_channels", {id:server})
     }, [tab])
 
+
+    // Removes the channel info section and returns to the list
     useEffect(() => {
         if(!server) return
         setChannelSetted(false)
@@ -71,12 +76,11 @@ export const ChannelsTab = ({server, tab}) => {
     return (
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
             {channelSetted ? 
-            <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server}/> : 
-            <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
-                {channels}
-            </SimpleGrid>
+                <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server}/> : 
+                <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
+                    {channels}
+                </SimpleGrid>
             }
-            
         </ScrollArea>
     )
 }

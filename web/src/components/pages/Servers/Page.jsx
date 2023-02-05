@@ -1,12 +1,12 @@
 import { Box,  Text, useMantineTheme, Avatar } from "@mantine/core"
 import { useStyles } from "../../../styles/Pages.style"
 import { useState, useEffect } from "react"
-import { WSocket, AddSocketListener, SendMessage } from "../../misc/WebSocket"
+import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
 import { ListSection } from "./ListSection"
 import { InfoSection } from "./InfoSection"
 
-
-const AvatarProfile = ({avatarUrl, name, id, active, setActive}) => {
+// Server item, containing a name, icon, and id
+const ServerProfile = ({avatarUrl, name, id, active, setActive}) => {
     const {classes} = useStyles()
     const theme = useMantineTheme()
     return (
@@ -23,18 +23,19 @@ export const ServerPage = ({page}) => {
     const [actualSv, setActualSv] = useState()
     const [serverList, setServerList] = useState([])
     const {classes} = useStyles()
+    const servers = []
 
+    // Fills the server list
     useEffect(() => {
-        AddSocketListener("servers_info", (data) => {
-            setServerList(data)
-        })
+        AddSocketListener("servers_info", (data) => setServerList(data))
     })
+
 
     // This executes when the serverPage is loaded
     useEffect(() => {
         if(page !== "Servers") return
 
-        SendMessage("get_servers",{})
+        SendMessage("get_servers")
     }, [page])
 
     
@@ -45,10 +46,11 @@ export const ServerPage = ({page}) => {
         SendMessage("get_server_data", {id:actualSv})
     },[actualSv])
 
-    const servers = []
-    serverList.forEach(server => {
-        servers.push(<AvatarProfile active={actualSv} setActive={setActualSv} avatarUrl={server.avatar} name={server.name} id={server.id} key={server.id}/>)
-    })
+
+    // Foreach server inside the list, we will append it to the sidebar.
+    for (const server of serverList) {
+        servers.push(<ServerProfile active={actualSv} setActive={setActualSv} avatarUrl={server.avatar} name={server.name} id={server.id} key={server.id}/>)
+    }
 
     return (
         <Box className={classes.parent}>

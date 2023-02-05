@@ -41,29 +41,3 @@ const StartWSServer = () => {
 
 exports.WSConfig = WSConfig
 exports.StartWSServer = StartWSServer
-
-
-/* Explanation of Websockets here
-
-    We have our server (This script)
-
-    And we have the client (The browser)
-
-    They both comunicate using strings and not objects
-
-    That's why we JSON.stringify the message in the sender and JSON.parse in the receiver
-
-    All the messages has to follow the following structure:
-
-    message = {
-        header: "auth",   - Name of the command to exec, it can't have spaces
-        content: ...      - Whatever you want to send
-    }
-
-    We then JSON.stringify it and send it to the server/client
-
-    Finally, we JSON.parse it, and exec the message.header command with the message.content
-
-    That works viceversa.
-
-*/

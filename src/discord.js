@@ -44,10 +44,9 @@ exports.login = ({token, intents}) => {
         });
 
         exports.genInvite = (connection, data) => {
-            console.log(data)
             const permissions = []
+            console.log(data)
             data.forEach(perm => permissions.push(PermissionFlagsBits[perm]))
-            console.log(permissions)
             const invite = client.generateInvite({scopes:["bot"],permissions:permissions})
             connection.send(JSON.stringify({
                 header:"reply_invite",

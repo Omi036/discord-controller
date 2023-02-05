@@ -4,8 +4,9 @@ import { IconArrowBack } from "@tabler/icons"
 import { useState, useEffect } from "react"
 import { TextDisplay } from "../../misc/TextDisplay"
 
+// Contains info about a channel
 export const ChannelInfo = ({channelId, setChannel, serverId}) => {
-    const channelData = {
+    const defaultChannelInfo = {
         name:"Channel",
         id:"000000000000000000",
         type:"",
@@ -28,21 +29,21 @@ export const ChannelInfo = ({channelId, setChannel, serverId}) => {
         avaiableTags: [],
         defaultDuration: "0"
     }
-    const [data, setData] = useState(channelData)
+    const [channelInfo, setChannelInfo] = useState(defaultChannelInfo)
 
+    // Updates the channel info
     useEffect(() => {
         AddSocketListener("channel_data", (data) => {
-            const new_data = {...data}
-            Object.keys(data).forEach(key => {new_data[key] = data[key]})
-            setData(new_data)
+            const new_info = {...defaultChannelInfo}
+            for(const key in data){ new_info[key] = data[key] }
+            setChannelInfo(new_info)
         })
     })
 
+    // When a new channel is selected, will request new data
     useEffect(() => {
         SendMessage("get_channel_data", {svId:serverId,id:channelId})
     },[channelId])
-
-    console.log(data.name)
     
     return (
         <>
@@ -50,38 +51,38 @@ export const ChannelInfo = ({channelId, setChannel, serverId}) => {
                 <ActionIcon onClick={()=>{setChannel(false)}}>
                     <IconArrowBack />
                 </ActionIcon>
-                <Text style={{marginLeft:10}}>{data.name}</Text>
-                <Text sx={(theme) => ({marginLeft:"auto", marginBottom:10, color:theme.colors.dark[3]})}>{data.id}</Text>
+                <Text style={{marginLeft:10}}>{channelInfo.name}</Text>
+                <Text sx={(theme) => ({marginLeft:"auto", marginBottom:10, color:theme.colors.dark[3]})}>{channelInfo.id}</Text>
             </Box>
             <ScrollArea>
                 <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
-                    {["GuildText","GuildVoice","GuildNews"].includes(data.type) && <TextDisplay value={data.messages} label={"Messages"} />}
-                    {data.type === "GuildVoice" && <TextDisplay label={"Users Limits"} value={data.userLimit} />}
+                    {["GuildText","GuildVoice","GuildNews"].includes(channelInfo.type) && <TextDisplay value={channelInfo.messages} label={"Messages"} />}
+                    {channelInfo.type === "GuildVoice" && <TextDisplay label={"Users Limits"} value={channelInfo.userLimit} />}
                 </Box>
                 <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
-                    {data.type === "GuildVoice" && <TextDisplay label={"Members Connected"} value={data.members} />}
+                    {channelInfo.type === "GuildVoice" && <TextDisplay label={"Members Connected"} value={channelInfo.members} />}
                 </Box>
                 <SimpleGrid cols={2} style={{marginBottom: 10}}>
-                    <Checkbox  readOnly color={"indigo"} label="Manageable by bot" checked={data.manageable} />
-                    <Checkbox  readOnly color={"indigo"} label="Viewable by bot" checked={data.viewable} />
-                    <Checkbox  readOnly color={"indigo"} label="Deletable by bot" checked={data.deletable} />
-                    {["GuildStage","GuildVoice"].includes(data.type) && <Checkbox  readOnly color={"indigo"} label="Joinable by Bot" checked={data.joinable} />}
-                    {["GuildStage","GuildVoice"].includes(data.type) && <Checkbox  readOnly color={"indigo"} label="Full" checked={data.isFull} />}
-                    {data.type === "GuildVoice" && <Checkbox  readOnly color={"indigo"} label="Bot can Speak" checked={data.speakable} />}
-                    {["GuildText","GuildVoice","GuildForum", "GuildNews"].includes(data.type) && <Checkbox  readOnly color={"indigo"} label="NSFW" checked={data.nsfw} />}
+                    <Checkbox  readOnly color={"indigo"} label="Manageable by bot" checked={channelInfo.manageable} />
+                    <Checkbox  readOnly color={"indigo"} label="Viewable by bot" checked={channelInfo.viewable} />
+                    <Checkbox  readOnly color={"indigo"} label="Deletable by bot" checked={channelInfo.deletable} />
+                    {["GuildStage","GuildVoice"].includes(channelInfo.type) && <Checkbox  readOnly color={"indigo"} label="Joinable by Bot" checked={channelInfo.joinable} />}
+                    {["GuildStage","GuildVoice"].includes(channelInfo.type) && <Checkbox  readOnly color={"indigo"} label="Full" checked={channelInfo.isFull} />}
+                    {channelInfo.type === "GuildVoice" && <Checkbox  readOnly color={"indigo"} label="Bot can Speak" checked={channelInfo.speakable} />}
+                    {["GuildText","GuildVoice","GuildForum", "GuildNews"].includes(channelInfo.type) && <Checkbox  readOnly color={"indigo"} label="NSFW" checked={channelInfo.nsfw} />}
                 </SimpleGrid>
                 <SimpleGrid cols={2}>
-                    <TextInput readOnly label="Name" value={data.name}/>
-                    <TextInput readOnly label="Id" value={data.id}/>
-                    <TextInput readOnly label="Type" value={data.type}/>
-                    <TextInput readOnly label="Url" value={data.url}/>
-                    <TextInput readOnly label="Created At" value={data.createdAt}/>
-                    <TextInput readOnly label="Topic" value={data.topic} />
-                    {["GuildText","GuildVoice","GuildForum"].includes(data.type) && <TextInput readOnly label="Text Timeout" value={`${data.rateLimit}s`}/>}
-                    {data.type === "GuildVoice" && <TextInput readOnly label="Bit Rate" value={data.bitrate}/>}
-                    {data.type === "GuildVoice" && <TextInput readOnly label="Voice Region" value={data.rtcRegion}/>}
-                    {data.type === "GuildForum" && <TextInput readOnly label="Tags Avaiable" value={data.avaiableTags}/>}
-                    {data.type === "GuildForum" && <TextInput readOnly label="Archive At" value={data.defaultDuration / 60 / 60}/>}
+                    <TextInput readOnly label="Name" value={channelInfo.name}/>
+                    <TextInput readOnly label="Id" value={channelInfo.id}/>
+                    <TextInput readOnly label="Type" value={channelInfo.type}/>
+                    <TextInput readOnly label="Url" value={channelInfo.url}/>
+                    <TextInput readOnly label="Created At" value={channelInfo.createdAt}/>
+                    <TextInput readOnly label="Topic" value={channelInfo.topic} />
+                    {["GuildText","GuildVoice","GuildForum"].includes(channelInfo.type) && <TextInput readOnly label="Text Timeout" value={`${channelInfo.rateLimit}s`}/>}
+                    {channelInfo.type === "GuildVoice" && <TextInput readOnly label="Bit Rate" value={channelInfo.bitrate}/>}
+                    {channelInfo.type === "GuildVoice" && <TextInput readOnly label="Voice Region" value={channelInfo.rtcRegion}/>}
+                    {channelInfo.type === "GuildForum" && <TextInput readOnly label="Tags Avaiable" value={channelInfo.avaiableTags}/>}
+                    {channelInfo.type === "GuildForum" && <TextInput readOnly label="Archive At" value={channelInfo.defaultDuration / 60 / 60}/>}
                 </SimpleGrid>
             </ScrollArea>
         </>

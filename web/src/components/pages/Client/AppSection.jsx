@@ -15,15 +15,15 @@ export const AppSection = ({settings}) => {
             </Box>
             <Box>
                 <ScrollArea type="auto" className={classes.scroll}>
-                    <Checkbox label="Bot is Public" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={settings.app.botPublic ?? false}/>
-                    <Checkbox label="Bot require Code Grant to invite" readOnly color="indigo" style={{     marginBottom: 10,     marginTop: 10,     fontSize: 16, }} checked={settings.app.codeGrant ?? false}/>
+                    <Checkbox label="Bot is Public" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={settings.app.public ?? false}/>
+                    <Checkbox label="Bot require Code Grant to invite" readOnly color="indigo" style={{marginBottom: 10, marginTop: 10, fontSize: 16, }} checked={settings.app.codeGrant ?? false}/>
                     <TextInput label="Name" readOnly className={classes.text_input} value={settings.app.name} />
                     <TextInput label="Description" readOnly className={classes.text_input} value={settings.app.description} />
                     <TextInput label="Owner" readOnly className={classes.text_input} value={settings.app.owner} />
                     <TextInput label="Id" readOnly className={classes.text_input} value={settings.app.id} />
                     <TextInput label="Tags" readOnly className={classes.text_input} value={settings.app.tags}/>
                     <ImageDisplay label="Icon URL" value={settings.app.iconURL} />
-                    <TextInput label="Slash Commands" readOnly className={classes.text_input} value={settings.app.commandsCounter}/>
+                    <TextInput label="Slash Commands" readOnly className={classes.text_input} value={settings.app.commands}/>
                     <TextInput label="Created At" readOnly className={classes.text_input} value={settings.app.createdAt}/>
                 </ScrollArea>
             </Box>

@@ -5,7 +5,7 @@ import { TextDisplay } from "../../misc/TextDisplay"
 import { useEffect, useState } from "react"
 import { AddSocketListener } from "../../misc/WebSocket"
 
-
+// Contains general information about the server
 export const GeneralTab = () => {
     const {classes} = useStyles()
     const [data, setData] = useState({
@@ -31,9 +31,10 @@ export const GeneralTab = () => {
         nsfwLevel: 0
     })
 
+    // Listens to when server data is received
     useEffect(() => {
         AddSocketListener("server_data", (data) => {
-            setData({...data})
+            setData(data)
         })
     })
 

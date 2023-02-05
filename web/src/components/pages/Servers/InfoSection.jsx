@@ -8,15 +8,18 @@ import { RolesTab } from "./RolesTab"
 import { ChannelsTab } from "./ChannelsTab"
 import { UsersTab } from "./UsersTab"
 
+// Contains info about a server
 export const InfoSection = ({server}) => {
     const [tab, setTab] = useState("general")
     const theme = useMantineTheme()
     const {classes} = useStyles()
 
+    // When the server is changed, the tab will return to general
     useEffect(() => {
         setTab("general")
     }, [server])
 
+    
     return(<Paper shadow="sm" radius={"md"} className={classes.paperswidth}>
         <Tabs variant="pills" color={"dark"} defaultValue="general" value={tab} onTabChange={setTab} style={{height:"50%"}}>
         <Box className={classes.paper_header}>

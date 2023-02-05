@@ -103,8 +103,8 @@ exports.login = ({token, intents}) => {
                                     public: app.botPublic,
                                     codeGrant: app.botRequireCodeGrant,
                                     name: app.name,
-                                    description: app.description,
-                                    owner: app.owner ? app.owner.tag : app.owner.name,
+                                    description: app.description || "None",
+                                    owner: (app.owner ? app.owner.tag : app.owner.name) || "Unknown",
                                     id: app.id,
                                     tags: app.tags,
                                     iconURL: `https://cdn.discordapp.com/app-icons/${app.id}/${app.icon}.png?size=600`,
@@ -273,7 +273,7 @@ exports.login = ({token, intents}) => {
             sclient.send(
                 JSON.stringify({
                     header: "deny_auth",
-                    content: {}
+                    content: {reason: err.name}
                 })
             );
         });

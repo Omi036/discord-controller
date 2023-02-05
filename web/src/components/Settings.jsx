@@ -27,7 +27,7 @@ export const Settings = () => {
         "DirectMessages": true,
         "DirectMessageReactions": false,
         "DirectMessageTyping": false,
-        "MessageContent": true,
+        "MessageContent": false,
         "AutoModerationConfiguration": true,
         "AutoModerationExecution": true
     }
@@ -41,11 +41,16 @@ export const Settings = () => {
             setOpened(false);
         })
 
-        // When the server denies our connection
-        AddSocketListener("deny_auth", () => {
+        // When the server denies our connection, we will reply with the reason
+        AddSocketListener("deny_auth", (data) => {
+            var errorMessages = {
+                "Error [DisallowedIntents]":"Server didn't allow to use those intents. Try with less intents",
+                "Error [TokenInvalid]":"Server didn't recognize the token"
+            }
+
             if(!opened) return
             setDisabled(false)
-            setError("Server didn't like token")
+            setError(errorMessages[data.reason])
             tokenInput.current.value = ""
         })
         
@@ -61,13 +66,14 @@ export const Settings = () => {
         setError(false)
         setDisabled(true)
 
+        //!NOTE, this is giving problems on older bots token
         // We check if its a valid token 
-        const token_validation_regex = /[M-Z][A-Za-z\d]{23}\.[\w-]{6}\.[\w-]{27}/g
-        if(!tokenInput.current.value.match(token_validation_regex)){
-            setDisabled(false)
-            setError("Provide a valid token")
-            return
-        }
+        // const token_validation_regex = /[M-Z][A-Za-z\d]{23}\.[\w-]{6}\.[\w-]{27}/g
+        // if(!tokenInput.current.value.match(token_validation_regex)){
+        //     setDisabled(false)
+        //     setError("Provide a valid token")
+        //     return
+        // }
 
         // Then we request the login to the server
         SendMessage("auth", {
@@ -91,9 +97,10 @@ export const Settings = () => {
         setLayout(value)
 
         switch (value) {
-            case "none":
+            case "minimum":
                 // We set every key to false
                 for(const key in newIntents) { newIntents[key] = false}
+                newIntents.Guilds = true
                 break;
         
             case "all":
@@ -136,14 +143,14 @@ export const Settings = () => {
                 {/* Layout selector */}
                 <SegmentedControl fullWidth radius={"sm"} color="indigo" value={layout} onChange={handleChangeLayout} disabled={disabled}
                 data={[
-                    {label:"None", value:"none"},
+                    {label:"Minimun", value:"minimum"},
                     {label:"Default", value:"default"},
                     {label:"All", value:"all"}
                 ]} />
 
                 {/* If you see this, please, for your our own sake, don't take notice of the following 21 lines of code */}
                 <SimpleGrid cols={2} style={{marginTop:10}}>
-                    <Checkbox  checked={intents.Guilds}  onChange={()=>handleCheckChange("Guilds")} color="indigo" label="Guilds"/>
+                    <Checkbox  checked={intents.Guilds} readOnly color="teal" label="Guilds"/>
                     <Checkbox  checked={intents.GuildMembers}  onChange={()=>handleCheckChange("GuildMembers")} color="indigo" label="GuildMembers"/>
                     <Checkbox  checked={intents.GuildBans}  onChange={()=>handleCheckChange("GuildBans")} color="indigo" label="GuildBans"/>
                     <Checkbox  checked={intents.GuildIntegrations}  onChange={()=>handleCheckChange("GuildIntegrations")} color="indigo" label="GuildIntegrations"/>

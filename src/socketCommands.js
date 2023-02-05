@@ -51,6 +51,10 @@ const SendRoles = (server, connection, data) => {
     Discord.sendRoles(connection, data.id)
 }
 
+const SendRoleData = (server, connection, data) => {
+    Discord.sendRoleData(connection, data.svId, data.id)
+}
+
 // This object contains all the websockets commands
 exports.Commands = {
     "auth":AuthorizeUser,
@@ -63,4 +67,5 @@ exports.Commands = {
     "get_channels":SendChannels,
     "get_channel_data":SendChannelData,
     "get_roles":SendRoles,
+    "get_role_data": SendRoleData,
 }

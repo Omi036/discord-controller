@@ -62,7 +62,7 @@ export const RolesTab = ({ server, tab }) => {
     return (
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
             { roles.length === 0 ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
-            { role ? <RoleInfo roleId={role} setRole={setRole} /> :
+            { role ? <RoleInfo roleId={role} serverId={server} setRole={setRole} /> :
             <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
                 { roles }
             </SimpleGrid>

@@ -32,7 +32,7 @@ export const InfoSection = ({server}) => {
         <Box style={{height:"100%"}}>
             <Tabs.Panel value="general"><GeneralTab /></Tabs.Panel>
             <Tabs.Panel value="channels"><ChannelsTab tab={tab} server={server} /></Tabs.Panel>
-            <Tabs.Panel value="roles"><RolesTab /></Tabs.Panel>
+            <Tabs.Panel value="roles"><RolesTab tab={tab} server={server} /></Tabs.Panel>
             <Tabs.Panel value="users"><UsersTab /></Tabs.Panel>
         </Box>
         </Tabs>

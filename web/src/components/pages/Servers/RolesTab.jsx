@@ -1,5 +1,6 @@
 import { ScrollArea, SimpleGrid, TextInput, Box, Text } from "@mantine/core"
-import { useState } from "react"
+import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
+import { useState, useEffect } from "react"
 import { useStyles } from "../../../styles/Pages.style"
 
 const Role = ({name, id, color, setRole}) => {
@@ -27,18 +28,37 @@ const Role = ({name, id, color, setRole}) => {
 }
 
 
-export const RolesTab = () => {
+export const RolesTab = ({ server, tab }) => {
     const [role, setRole] = useState(false)
+    const [roles, setRoles] = useState([])
     const {classes} = useStyles()
+
+    useEffect(() => {
+        AddSocketListener("roles", roles => {
+            var new_roles = [];
+
+            roles.forEach(role => {
+                new_roles.push(<Role {...role} setRole={setRole} key={role.id} />)
+            })
+
+            setRoles(new_roles)
+        })
+    })
+
+    useEffect(() => {
+        if(tab !== "roles") return
+        SendMessage("get_roles", {id:server})
+    }, [tab])
+
+    useEffect(() => {
+        if(!server) return
+        setRole(false)
+    }, [server])
     
     return (
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
             <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
-                <Role name="Administración" id="000000000000000000" color={"#99aab5"} setRole={setRole} />
-                <Role name="Fundador" id="000000000000000000" color={"#ed6f90"} setRole={setRole} />
-                <Role name="Admin" id="000000000000000000" color={"#f77e74"} setRole={setRole} />
-                <Role name="Moderador" id="000000000000000000" color={"#f7a474"} setRole={setRole} />
-                <Role name="Bot" id="000000000000000000" color={"#edc479"} setRole={setRole} />
+                { roles }
             </SimpleGrid>
         </ScrollArea>
     )

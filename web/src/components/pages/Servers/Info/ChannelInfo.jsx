@@ -1,8 +1,9 @@
-import { ScrollArea, SimpleGrid, Box, TextInput, Text, ActionIcon, Checkbox } from "@mantine/core"
-import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
+import { ScrollArea, SimpleGrid, Box, TextInput, Text, ActionIcon, Checkbox, LoadingOverlay } from "@mantine/core"
+import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
 import { IconArrowBack } from "@tabler/icons"
 import { useState, useEffect } from "react"
-import { TextDisplay } from "../../misc/TextDisplay"
+import { TextDisplay } from "../../../misc/TextDisplay"
+import { customLoader } from "../../../../styles/Settings.style"
 
 // Contains info about a channel
 export const ChannelInfo = ({channelId, setChannel, serverId}) => {
@@ -47,6 +48,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId}) => {
     
     return (
         <>
+            { channelInfo.id === "000000000000000000" ? <LoadingOverlay visible overlayBlur={0} loader={customLoader} /> : <></> }
             <Box sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`, display:"flex", marginBottom:5})}>
                 <ActionIcon onClick={()=>{setChannel(false)}}>
                     <IconArrowBack />

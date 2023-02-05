@@ -313,7 +313,7 @@ exports.login = ({token, intents}) => {
     }
 
     exports.logout = () => { 
-        exports.isOnline = () => {return false}
-        client.destroy() 
+        exports.isOnline = () => false
+        client.destroy()
     }
 };

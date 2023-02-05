@@ -1,12 +1,13 @@
-import { ScrollArea, SimpleGrid, TextInput,  Checkbox, Box } from "@mantine/core"
-import { useStyles } from "../../../styles/Pages.style"
-import { ImageDisplay } from "../../misc/ImageDisplay"
-import { TextDisplay } from "../../misc/TextDisplay"
+import { ScrollArea, SimpleGrid, TextInput,  Checkbox, Box, LoadingOverlay } from "@mantine/core"
+import { useStyles } from "../../../../styles/Pages.style"
+import { ImageDisplay } from "../../../misc/ImageDisplay"
+import { TextDisplay } from "../../../misc/TextDisplay"
 import { useEffect, useState } from "react"
-import { AddSocketListener } from "../../misc/WebSocket"
+import { AddSocketListener } from "../../../misc/WebSocket"
+import { customLoader } from "../../../../styles/Settings.style"
 
 // Contains general information about the server
-export const GeneralTab = () => {
+export const GeneralTab = ({server}) => {
     const {classes} = useStyles()
     const [data, setData] = useState({
         users: 0,
@@ -38,8 +39,15 @@ export const GeneralTab = () => {
         })
     })
 
+    useEffect(() => {
+        var new_data = {...data}
+        new_data.id = "000000000000000000"
+        setData(new_data)
+    }, [server])
+
     return (
         <ScrollArea type="auto" style={{height:"90vh"}} className={classes.scroll}>
+            { data.id === "000000000000000000" ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
             <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
                 <TextDisplay label="Users" value={data.users} />
                 <TextDisplay label="Channels" value={data.channels} />

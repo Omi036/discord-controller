@@ -1,9 +1,10 @@
-import { ScrollArea, SimpleGrid, TextInput, Box, Text } from "@mantine/core"
-import { useStyles } from "../../../styles/Pages.style"
+import { ScrollArea, SimpleGrid, Box, Text, LoadingOverlay } from "@mantine/core"
+import { useStyles } from "../../../../styles/Pages.style"
 import { useEffect, useState } from "react"
 import { IconClearAll, IconHash, IconVolume, IconSpeakerphone, IconMessages } from "@tabler/icons"
-import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
-import { ChannelInfo } from "./ChannelInfo"
+import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
+import { ChannelInfo } from "../Info/ChannelInfo"
+import { customLoader } from "../../../../styles/Settings.style"
 
 // Avatar Item
 const Channel = ({name, id, type, setChannelSetted}) => {
@@ -43,7 +44,7 @@ const Channel = ({name, id, type, setChannelSetted}) => {
 export const ChannelsTab = ({server, tab}) => {
     const {classes} = useStyles()
     const [channelSetted, setChannelSetted] = useState(false)
-    const [channels, setChannels] = useState()
+    const [channels, setChannels] = useState([])
     
     useEffect(() => {
         AddSocketListener("channels", channels => {
@@ -69,12 +70,14 @@ export const ChannelsTab = ({server, tab}) => {
     useEffect(() => {
         if(!server) return
         setChannelSetted(false)
+        setChannels([])
 
     }, [server])
 
 
     return (
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
+            { channels.length === 0 ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
             {channelSetted ? 
                 <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server}/> : 
                 <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>

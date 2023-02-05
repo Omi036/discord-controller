@@ -3,10 +3,10 @@ import { useStyles } from "../../../styles/Pages.style"
 import { IconInfoCircle } from "@tabler/icons"
 import { useState, useEffect } from "react"
 
-import { GeneralTab } from "./GeneralTab"
-import { RolesTab } from "./RolesTab"
-import { ChannelsTab } from "./ChannelsTab"
-import { UsersTab } from "./UsersTab"
+import { GeneralTab } from "./Tabs/GeneralTab"
+import { RolesTab } from "./Tabs/RolesTab"
+import { ChannelsTab } from "./Tabs/ChannelsTab"
+import { UsersTab } from "./Tabs/UsersTab"
 
 // Contains info about a server
 export const InfoSection = ({server}) => {
@@ -33,7 +33,7 @@ export const InfoSection = ({server}) => {
             </Tabs.List>
         </Box>
         <Box style={{height:"100%"}}>
-            <Tabs.Panel value="general"><GeneralTab /></Tabs.Panel>
+            <Tabs.Panel value="general"><GeneralTab server={server} /></Tabs.Panel>
             <Tabs.Panel value="channels"><ChannelsTab tab={tab} server={server} /></Tabs.Panel>
             <Tabs.Panel value="roles"><RolesTab tab={tab} server={server} /></Tabs.Panel>
             <Tabs.Panel value="users"><UsersTab /></Tabs.Panel>

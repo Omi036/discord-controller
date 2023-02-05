@@ -1,5 +1,5 @@
 import { ScrollArea, SimpleGrid, TextInput } from "@mantine/core"
-import { useStyles } from "../../../styles/Pages.style"
+import { useStyles } from "../../../../styles/Pages.style"
 
 
 export const UsersTab = () => {

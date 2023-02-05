@@ -1,7 +1,9 @@
-import { ScrollArea, SimpleGrid, TextInput, Box, Text } from "@mantine/core"
-import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
+import { ScrollArea, SimpleGrid, Box, Text, LoadingOverlay } from "@mantine/core"
+import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
 import { useState, useEffect } from "react"
-import { useStyles } from "../../../styles/Pages.style"
+import { useStyles } from "../../../../styles/Pages.style"
+import { RoleInfo } from "../Info/RoleInfo"
+import { customLoader } from "../../../../styles/Settings.style"
 
 const Role = ({name, id, color, setRole}) => {
     return(
@@ -53,13 +55,18 @@ export const RolesTab = ({ server, tab }) => {
     useEffect(() => {
         if(!server) return
         setRole(false)
+        setRoles([])
+
     }, [server])
     
     return (
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
+            { roles.length === 0 ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
+            { role ? <RoleInfo roleId={role} setRole={setRole} /> :
             <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
                 { roles }
             </SimpleGrid>
+             }
         </ScrollArea>
     )
 }

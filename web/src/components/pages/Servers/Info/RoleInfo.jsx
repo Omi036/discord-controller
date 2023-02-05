@@ -114,7 +114,7 @@ export const RoleInfo = ({ serverId, roleId, setRole }) => {
                 <SimpleGrid cols={2} style={{marginBottom: 10}}>
                     <TextInput readOnly label="Name" value={roleInfo.name}/>
                     <TextInput readOnly label="Id" value={roleInfo.id}/>
-                    <ColorInput readOnly label="Color" defaultValue="#99aab5" value={roleInfo.hexColor}/>
+                    <ColorInput readOnly label="Color" defaultValue="#99aab5" value={roleInfo.hexColor === "#000000" ? "#99aab5" : roleInfo.hexColor}/>
                     <TextInput readOnly label="Created At" value={roleInfo.createdAt}/>
                     <TextInput readOnly label="Icon" value={roleInfo.icon}/>
                     <TextInput readOnly label="Tags" value={roleInfo.tags}/>

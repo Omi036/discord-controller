@@ -143,7 +143,7 @@ export const Settings = () => {
                 {/* Layout selector */}
                 <SegmentedControl fullWidth radius={"sm"} color="indigo" value={layout} onChange={handleChangeLayout} disabled={disabled}
                 data={[
-                    {label:"Minimun", value:"minimum"},
+                    {label:"Minimum", value:"minimum"},
                     {label:"Default", value:"default"},
                     {label:"All", value:"all"}
                 ]} />

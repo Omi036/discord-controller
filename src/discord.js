@@ -20,6 +20,7 @@ exports.login = ({token, intents}) => {
     client.once(Events.ClientReady, (c) => {
         console.log(`Ready! Logged in as ${c.user.tag}`);
 
+
         // Sends to the web that the login was successfull
         DiscordConfig.socketServer.clients.forEach((sclient) => {
             sclient.send(
@@ -67,6 +68,27 @@ exports.login = ({token, intents}) => {
             }))
         }
 
+        exports.sendMembers = (connection, svId) => {
+            const sv = client.guilds.cache.find(server => server.id === svId)
+            if(sv.large) {
+                connection.send(JSON.stringify({
+                    header:"members",
+                    content:{isLarge: true, members:[]}
+                }))
+            } else {
+                sv.members.fetch().then((members) => {
+                    var membersData = []
+                    
+                    members = members.sort((a,b) => b.user.bot - a.user.bot)
+                    membersData = members.map((member) => { return {tag: member.user.tag, id:member.user.id, isBot:member.user.bot, isOwner:member.user.id === sv.ownerId, avatarUrl:member.user.avatarURL()}})
+                    connection.send(JSON.stringify({
+                        header:"members",
+                        content:{isLarge: false, members:membersData.sort((a, b) => b.isOwner - a.isOwner)}
+                    }))
+                })
+            }
+        }
+
         
         exports.setStatus = (status) => {
             client.user.setStatus(status);
@@ -106,9 +128,11 @@ exports.login = ({token, intents}) => {
             client.application.fetch().then((app) => {
                 DiscordConfig.socketServer.clients.forEach(async (sclient) => {
 
+                    //! Note, this line slows down the app, consider replacing with the next line
                     const commands = await app.commands.fetch()
+                    // const commands = app.commands.cache.size
 
-                    await sclient.send(
+                    sclient.send(
                         JSON.stringify({
                             header: "fill_client_info",
                             content: {
@@ -254,7 +278,7 @@ exports.login = ({token, intents}) => {
             const users = sv.memberCount
             const channels = sv.channels.cache.size
             const roles = sv.roles.cache.size
-            const bans = await sv.bans.fetch() // This line downs a lot of performance
+            const bans = await sv.bans.fetch() //! This line Slows down a lot of the performance
             const emojis = sv.emojis.cache.size
             const stickers = sv.stickers.cache.size
             var owner;

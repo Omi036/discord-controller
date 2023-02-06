@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import { GeneralTab } from "./Tabs/GeneralTab"
 import { RolesTab } from "./Tabs/RolesTab"
 import { ChannelsTab } from "./Tabs/ChannelsTab"
-import { UsersTab } from "./Tabs/UsersTab"
+import { MembersTab } from "./Tabs/MembersTab"
 
 // Contains info about a server
 export const InfoSection = ({server}) => {
@@ -29,14 +29,14 @@ export const InfoSection = ({server}) => {
                 <Tabs.Tab value="general">General</Tabs.Tab>
                 <Tabs.Tab value="channels">Channels</Tabs.Tab>
                 <Tabs.Tab value="roles">Roles</Tabs.Tab>
-                <Tabs.Tab value="users">Users</Tabs.Tab>
+                <Tabs.Tab value="members">Members</Tabs.Tab>
             </Tabs.List>
         </Box>
         <Box style={{height:"100%"}}>
             <Tabs.Panel value="general"><GeneralTab server={server} /></Tabs.Panel>
             <Tabs.Panel value="channels"><ChannelsTab tab={tab} server={server} /></Tabs.Panel>
             <Tabs.Panel value="roles"><RolesTab tab={tab} server={server} /></Tabs.Panel>
-            <Tabs.Panel value="users"><UsersTab /></Tabs.Panel>
+            <Tabs.Panel value="members"><MembersTab tab={tab} server={server} /></Tabs.Panel>
         </Box>
         </Tabs>
     </Paper>)

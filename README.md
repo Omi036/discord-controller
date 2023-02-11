@@ -99,7 +99,7 @@ It's located at <code> discord-controller/src/ </code>
 * When the app starts, the script <code>index.js</code> is executed.  
 * This script starts the websocket on port <code>5017</code> and prepares discord login command on <code>socketCommands.js</code>
 * The server will wait until it receives a socket message with the token, then, sends the token to <code>discord.js</code>.  
-* After that, discord.js will export all the possible commands to <code>socketCommands.js</code>.  
+* After that, discord.js will export all the possible commands inside of <code>/discordCommands</code> to <code>socketCommands.js</code>.  
 * Finally, when a message is received, it's header section will be used to fetch the command on <code>socketCommands.js</code>, and it's content will be send through the fetched function.
 <img src="https://media.discordapp.net/attachments/1064596920133230642/1071476340219453470/image.png?width=1441&height=403" />
 

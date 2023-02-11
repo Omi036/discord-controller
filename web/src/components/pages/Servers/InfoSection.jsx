@@ -11,6 +11,7 @@ import { MembersTab } from "./Tabs/MembersTab"
 // Contains info about a server
 export const InfoSection = ({server}) => {
     const [tab, setTab] = useState("general")
+    const [thirdRole, setThirdRole] = useState()
     const theme = useMantineTheme()
     const {classes} = useStyles()
 
@@ -35,8 +36,8 @@ export const InfoSection = ({server}) => {
         <Box style={{height:"100%"}}>
             <Tabs.Panel value="general"><GeneralTab server={server} /></Tabs.Panel>
             <Tabs.Panel value="channels"><ChannelsTab tab={tab} server={server} /></Tabs.Panel>
-            <Tabs.Panel value="roles"><RolesTab tab={tab} server={server} /></Tabs.Panel>
-            <Tabs.Panel value="members"><MembersTab tab={tab} server={server} /></Tabs.Panel>
+            <Tabs.Panel value="roles"><RolesTab tab={tab} server={server} thirdRole={thirdRole} setThirdRole={setThirdRole}/></Tabs.Panel>
+            <Tabs.Panel value="members"><MembersTab tab={tab} server={server} setThirdRole={setThirdRole} setTab={setTab} /></Tabs.Panel>
         </Box>
         </Tabs>
     </Paper>)

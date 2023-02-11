@@ -9,7 +9,8 @@ const AuthorizeUser = (server, connection, data) => {
 // If a bot is connected, there is no need to go again throught the login process
 // This function handles that
 const IsLoggedIn = (server, connection, data) => {
-    Discord.isOnline()
+    try { Discord.isOnline()
+    } catch (_) {}
 }
 
 // Logout the bot
@@ -71,12 +72,16 @@ exports.Commands = {
     "logout":LogoutUser,
     "change_status":ChangeStatus,
     "gen_invite":GenerateInvite,
+
     "get_servers":SendServers,
     "get_server_data":SendServerData,
+
     "get_channels":SendChannels,
     "get_channel_data":SendChannelData,
+
     "get_roles":SendRoles,
     "get_role_data": SendRoleData,
+    
     "get_members": SendMembers,
     "get_member_data": SendMemberData,
 }

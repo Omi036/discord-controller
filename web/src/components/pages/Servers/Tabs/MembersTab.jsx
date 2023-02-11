@@ -31,7 +31,7 @@ const Member = ({tag, id, avatarUrl, isBot, isOwner, setMember}) => {
     </Box>)
 }
 
-export const MembersTab = ({ server, tab }) => {
+export const MembersTab = ({ server, tab, setTab, setThirdRole }) => {
     const {classes} = useStyles()
     const [ isLarge, setLarge ] = useState(false)
     const [ member, setMember ] = useState()
@@ -49,7 +49,10 @@ export const MembersTab = ({ server, tab }) => {
 
     // Requests info data if the tab is pressed
     useEffect(() => {
-        if(tab !== "members") return
+        if(tab !== "members") {
+            setMember()
+            return
+        }
         SendMessage("get_members", {svId:server})
     }, [tab])
 
@@ -68,7 +71,7 @@ export const MembersTab = ({ server, tab }) => {
     return (
         <ScrollArea type="auto" style={{height:"90vh"}} className={classes.scroll}>
             { !dataLoaded ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
-            { member ? <MemberInfo memberId={member} serverId={server} setMember={setMember} /> :
+            { member ? <MemberInfo memberId={member} serverId={server} setMember={setMember} setTab={setTab} setThirdRole={setThirdRole} /> :
             <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
                 {usersDom}
             </SimpleGrid>

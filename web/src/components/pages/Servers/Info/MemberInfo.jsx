@@ -6,7 +6,34 @@ import { ImageDisplay } from "../../../misc/ImageDisplay"
 import { SendMessage, AddSocketListener } from "../../../misc/WebSocket"
 import { perms as Perms } from "./PermissionsList.json"
 
-export const MemberInfo = ({ serverId, memberId, setMember }) => {
+const RoleButton = ({ name, id, color, setTab, setThirdRole }) => {
+    return (
+        <Box sx={(theme)=>({
+            boxSizing:"border-box",
+            padding:10,
+            display:"flex",
+            flexDirection: "row",
+            alignItems:"center",
+            marginLeft: 0,
+            border:`1px solid ${theme.colors.dark[4]}`,
+            backgroundColor: theme.colors.dark[6],
+            borderRadius: 5,
+            cursor:"pointer",
+            "&:hover":{
+                border:`1px solid ${theme.colors.dark[3]}`,
+                backgroundColor: theme.colors.dark[5],
+            }
+        })} onClick={()=> {
+            setTab("roles")
+            setThirdRole(id)
+        }}>
+            <Box style={{width:10, height:10, borderRadius:"100%", backgroundColor: color, marginLeft:5}} />
+            <Text sx={(theme)=>({marginLeft:10, color:theme.colors.dark[2]})}>{name}</Text>
+        </Box>
+    )
+}
+
+export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole }) => {
     const defaultMemberSettings = {
         bannable: false,
         kickable: false,
@@ -58,20 +85,7 @@ export const MemberInfo = ({ serverId, memberId, setMember }) => {
     const rolesElements = []
     for(const role in settings.roles) {
         rolesElements.push(
-            <Box sx={(theme)=>({
-                boxSizing:"border-box",
-                padding:10,
-                display:"flex",
-                flexDirection: "row",
-                alignItems:"center",
-                marginLeft: 0,
-                border:`1px solid ${theme.colors.dark[4]}`,
-                backgroundColor: theme.colors.dark[6],
-                borderRadius: 5,
-            })} key={role}>
-                <Box style={{width:10, height:10, borderRadius:"100%", backgroundColor: settings.roles[role], marginLeft:5}} />
-                <Text sx={(theme)=>({marginLeft:10, color:theme.colors.dark[2]})}>{role}</Text>
-            </Box>
+            <RoleButton key={settings.roles[role].id} color={settings.roles[role].color} name={role} id={settings.roles[role].id} setTab={setTab} setThirdRole={setThirdRole}/>
         )
     }
 

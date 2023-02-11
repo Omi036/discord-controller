@@ -30,7 +30,7 @@ const Role = ({name, id, color, setRole}) => {
 }
 
 
-export const RolesTab = ({ server, tab }) => {
+export const RolesTab = ({ server, tab, thirdRole, setThirdRole }) => {
     const [role, setRole] = useState(false)
     const [roles, setRoles] = useState([])
     const {classes} = useStyles()
@@ -56,6 +56,7 @@ export const RolesTab = ({ server, tab }) => {
         if(!server) return
         setRole(false)
         setRoles([])
+        setThirdRole()
 
     }, [server])
     
@@ -63,6 +64,7 @@ export const RolesTab = ({ server, tab }) => {
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
             { roles.length === 0 ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
             { role ? <RoleInfo roleId={role} serverId={server} setRole={setRole} /> :
+            thirdRole ? <RoleInfo roleId={thirdRole} serverId={server} setRole={() => setThirdRole()} /> :
             <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
                 { roles }
             </SimpleGrid>

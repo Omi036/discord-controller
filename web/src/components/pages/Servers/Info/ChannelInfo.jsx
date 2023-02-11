@@ -78,7 +78,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId}) => {
                     <TextInput readOnly label="Id" value={channelInfo.id}/>
                     <TextInput readOnly label="Type" value={channelInfo.type}/>
                     <TextInput readOnly label="Url" value={channelInfo.url}/>
-                    <TextInput readOnly label="Created At" value={channelInfo.createdAt}/>
+                    <TextInput readOnly label="Created At" value={new Date(channelInfo.createdAt)}/>
                     <TextInput readOnly label="Topic" value={channelInfo.topic} />
                     {["GuildText","GuildVoice","GuildForum"].includes(channelInfo.type) && <TextInput readOnly label="Text Timeout" value={`${channelInfo.rateLimit}s`}/>}
                     {channelInfo.type === "GuildVoice" && <TextInput readOnly label="Bit Rate" value={channelInfo.bitrate}/>}

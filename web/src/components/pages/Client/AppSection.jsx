@@ -24,7 +24,7 @@ export const AppSection = ({settings}) => {
                     <TextInput label="Tags" readOnly className={classes.text_input} value={settings.app.tags}/>
                     <ImageDisplay label="Icon URL" value={settings.app.iconURL} />
                     <TextInput label="Slash Commands" readOnly className={classes.text_input} value={settings.app.commands}/>
-                    <TextInput label="Created At" readOnly className={classes.text_input} value={settings.app.createdAt}/>
+                    <TextInput label="Created At" readOnly className={classes.text_input} value={new Date(settings.app.createdAt)}/>
                 </ScrollArea>
             </Box>
         </Paper>

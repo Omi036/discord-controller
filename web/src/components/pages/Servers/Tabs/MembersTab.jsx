@@ -1,11 +1,11 @@
-import { ScrollArea, SimpleGrid, TextInput, Box, Text, Avatar, Indicator, LoadingOverlay } from "@mantine/core"
+import { ScrollArea, SimpleGrid, TextInput, Box, Text, Avatar, Indicator, LoadingOverlay, Badge } from "@mantine/core"
 import { useStyles } from "../../../../styles/Pages.style"
-import { IconRobot, IconCrown } from "@tabler/icons"
+import { MemberInfo } from "../Info/MemberInfo"
 import { useState, useEffect } from "react"
 import { customLoader } from "../../../../styles/Settings.style"
 import { SendMessage, AddSocketListener } from "../../../misc/WebSocket"
 
-const Member = ({tag, id, avatarUrl, isBot, isOwner}) => {
+const Member = ({tag, id, avatarUrl, isBot, isOwner, setMember}) => {
     return (
     <Box sx={(theme)=>({
         boxSizing:"border-box",
@@ -22,18 +22,19 @@ const Member = ({tag, id, avatarUrl, isBot, isOwner}) => {
             border:`1px solid ${theme.colors.dark[3]}`,
             backgroundColor: theme.colors.dark[5],
         }
-    })}>
-        <Indicator disabled={!(isBot || isOwner)} label={isBot ? <IconRobot  size={19} /> : <IconCrown  size={20} />} color={isBot ? "indigo" : "yellow"} size={17}>
-            <Avatar src={avatarUrl}></Avatar>
-        </Indicator>
+    })} onClick={() => setMember(id)}>
+        <Avatar src={avatarUrl}></Avatar>
         <Text sx={(theme)=>({marginLeft:10, color:isBot ? theme.colors.blue[4] : isOwner ? theme.colors.yellow[4] : theme.colors.dark[2]})}>{tag}</Text>
-        <Text sx={(theme)=>({marginLeft:"auto", color:theme.colors.dark[3]})}>{id}</Text>
+        {isBot && <Badge sx={{marginLeft:"auto"}} variant="filled" color="indigo">Bot</Badge>}
+        {isOwner && <Badge sx={{marginLeft:"auto"}} variant="filled" color="yellow">Owner</Badge>}
+        <Text sx={(theme)=>({marginLeft:isBot||isOwner? 10 : "auto", color:theme.colors.dark[3]})}>{id}</Text>
     </Box>)
 }
 
 export const MembersTab = ({ server, tab }) => {
     const {classes} = useStyles()
     const [ isLarge, setLarge ] = useState(false)
+    const [ member, setMember ] = useState()
     const [ dataLoaded, setDataLoaded ] = useState(false)
     const [ membersList, setMembersList] = useState([])
 
@@ -61,14 +62,17 @@ export const MembersTab = ({ server, tab }) => {
 
     }, [server])
     
-    const usersDom = membersList.map(member => {return <Member avatarUrl={member.avatarUrl} isOwner={member.isOwner} isBot={member.isBot} tag={member.tag} id={member.id} key={member.id} />})
+    // Transforms all the users to React Elements
+    const usersDom = membersList.map(member => {return <Member setMember={setMember} avatarUrl={member.avatarUrl} isOwner={member.isOwner} isBot={member.isBot} tag={member.tag} id={member.id} key={member.id} />})
 
     return (
         <ScrollArea type="auto" style={{height:"90vh"}} className={classes.scroll}>
             { !dataLoaded ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
+            { member ? <MemberInfo memberId={member} serverId={server} setMember={setMember} /> :
             <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
                 {usersDom}
             </SimpleGrid>
+            }
         </ScrollArea>
     )
 }

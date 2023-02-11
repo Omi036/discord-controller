@@ -23,7 +23,7 @@ const Role = ({name, id, color, setRole}) => {
             backgroundColor: theme.colors.dark[5],
         }
     })} onClick={()=>{setRole(id)}}>
-        <Box style={{width:10, height:10, borderRadius:"100%", backgroundColor: color, marginLeft:5}}></Box>
+        <Box style={{width:10, height:10, borderRadius:"100%", backgroundColor: color, marginLeft:5}} />
         <Text sx={(theme)=>({marginLeft:10, color:theme.colors.dark[2]})}>{name}</Text>
         <Text sx={(theme)=>({marginLeft:"auto", color:theme.colors.dark[3]})}>{id}</Text>
     </Box>)

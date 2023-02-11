@@ -24,7 +24,7 @@ export const ClientPage = () => {
             tag:"",
             id:"",
             avatarURL:"",
-            createdAt:"",
+            createdAt:new Date(),
         },
         app: {
             public: false,

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { TextDisplay } from "../../../misc/TextDisplay"
 import { SendMessage, AddSocketListener } from "../../../misc/WebSocket"
 import { customLoader } from "../../../../styles/Settings.style"
+import { perms as Perms} from "./PermissionsList.json"
 
 export const RoleInfo = ({ serverId, roleId, setRole }) => {
     const defaultRoleInfo = {
@@ -19,63 +20,15 @@ export const RoleInfo = ({ serverId, roleId, setRole }) => {
         members: 0,
         position: 0,
         tags: [],
-        unicodeEmoji:"",
-        permissions:""
-    }
-    const defaultPerms = {
-        AddReactions: false,
-        Administrator: false,
-        AttachFiles: false,
-        BanMembers: false,
-        ChangeNickname: false,
-        Connect: false,
-        CreateInstantInvite: false,
-        CreatePrivateThreads: false,
-        CreatePublicThreads: false,
-        DeafenMembers: false,
-        EmbedLinks: false,
-        KickMembers: false,
-        ManageChannels: false,
-        ManageEmojisAndStickers: false,
-        ManageEvents: false,
-        ManageGuild: false,
-        ManageMessages: false,
-        ManageNicknames: false,
-        ManageRoles: false,
-        ManageThreads: false,
-        ManageWebhooks: false,
-        MentionEveryone: false,
-        ModerateMembers: false,
-        MoveMembers: false,
-        MuteMembers: false,
-        PrioritySpeaker: false,
-        ReadMessageHistory: false,
-        RequestToSpeak: false,
-        SendMessages: false,
-        SendMessagesInThreads: false,
-        SendTTSMessages: false,
-        Speak: false,
-        Stream: false,
-        UseApplicationCommands: false,
-        UseEmbeddedActivities: false,
-        UseExternalEmojis: false,
-        UseExternalStickers: false,
-        UseVAD: false,
-        ViewAuditLog: false,
-        ViewChannel: false,
-        ViewGuildInsights: false
+        permissions:[],
+        unicodeEmoji:""
     }
     const [roleInfo, setRoleInfo] = useState(defaultRoleInfo)
-    const [permissions, setPermissions] = useState(defaultPerms)
 
     // We add the listener for all the data
     useEffect(() => {
         AddSocketListener("role_data", data => {
             setRoleInfo(data)
-
-            for(const perm of data.permissions) {
-                defaultPerms[perm] = true
-            }
         })
     })
 
@@ -84,10 +37,17 @@ export const RoleInfo = ({ serverId, roleId, setRole }) => {
         SendMessage("get_role_data", {svId:serverId, id:roleId})
     }, [roleId])
 
-
+    // Foreach perm inside the json file, we will create the element
     const permsChecks = []
-    for(const key in defaultPerms) {
-        permsChecks.push(<Checkbox readOnly color={"indigo"} label={key} checked={permissions[key]} key={key} />)
+    for(const permission of Perms) {
+        permsChecks.push(
+            <Checkbox 
+            readOnly 
+            color={"indigo"}
+            label={permission}
+            checked={roleInfo.permissions.includes(permission)}
+            key={permission} />
+        )
     }
 
     return(
@@ -115,7 +75,7 @@ export const RoleInfo = ({ serverId, roleId, setRole }) => {
                     <TextInput readOnly label="Name" value={roleInfo.name}/>
                     <TextInput readOnly label="Id" value={roleInfo.id}/>
                     <ColorInput readOnly label="Color" defaultValue="#99aab5" value={roleInfo.hexColor === "#000000" ? "#99aab5" : roleInfo.hexColor}/>
-                    <TextInput readOnly label="Created At" value={roleInfo.createdAt}/>
+                    <TextInput readOnly label="Created At" value={new Date(roleInfo.createdAt)}/>
                     <TextInput readOnly label="Icon" value={roleInfo.icon}/>
                     <TextInput readOnly label="Tags" value={roleInfo.tags}/>
                     <TextInput readOnly label="Emoji" value={roleInfo.unicodeEmoji}/>

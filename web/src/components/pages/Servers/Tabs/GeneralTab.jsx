@@ -71,8 +71,8 @@ export const GeneralTab = ({server}) => {
                 <TextInput label="Owner" readOnly className={classes.text_input} value={data.owner}/>
                 <ImageDisplay label="Icon Url" value={data.iconUrl} />
                 <TextInput label="Language" readOnly className={classes.text_input} value={data.language}/>
-                <TextInput label="Created At" readOnly className={classes.text_input} value={data.createdAt}/>
-                <TextInput label="Joined At" readOnly className={classes.text_input} value={data.joinedAt}/>
+                <TextInput label="Created At" readOnly className={classes.text_input} value={new Date(data.createdAt)}/>
+                <TextInput label="Joined At" readOnly className={classes.text_input} value={new Date(data.joinedAt)}/>
                 <TextInput label="Verification Level" readOnly className={classes.text_input} value={data.verificationLevel}/>
                 <TextInput label="Boost Tier" readOnly className={classes.text_input} value={data.boostTier}/>
                 <TextInput label="Explicit Content Filter" readOnly className={classes.text_input} value={data.explicitFilter}/>

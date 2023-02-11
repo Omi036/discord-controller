@@ -42,7 +42,7 @@ export const UserSection = ({settings, setSettings}) => {
                     <TextInput label="Tag" readOnly className={classes.text_input} value={settings.user.tag}/>
                     <TextInput label="Id" readOnly className={classes.text_input} value={settings.user.id}/>
                     <ImageDisplay label="Avatar URL" value={settings.user.avatarURL}/>
-                    <TextInput label="Created At" readOnly className={classes.text_input} value={settings.user.createdAt}/>
+                    <TextInput label="Created At" readOnly className={classes.text_input} value={new Date(settings.user.createdAt)}/>
                 </ScrollArea>
             </Box>
         </Paper>

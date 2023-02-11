@@ -23,7 +23,7 @@ export const ClientSection = ({settings, setInviteModalOpened}) => {
                     <PasswordInput readOnly label={"Token"} className={classes.text_input} value={settings.client.token}
                         visibilityToggleIcon={({ reveal, size }) => reveal ? (<IconEyeOff size={size} />) : (<IconEye size={size} />)}
                     />
-                    <TextInput label="Initializated At" readOnly className={classes.text_input} value={settings.client.initializedAt}/>
+                    <TextInput label="Initializated At" readOnly className={classes.text_input} value={new Date(settings.client.initializedAt)}/>
                     <Button fullWidth color={"indigo"} className={classes.button_input} onClick={() => setInviteModalOpened(true)}>Generate Bot Invite</Button>
                 </ScrollArea>
             </Box>

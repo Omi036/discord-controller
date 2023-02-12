@@ -1,6 +1,6 @@
 // Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits, ChannelType, PermissionFlagsBits } = require("discord.js");
-const DiscordConfig = { socketServer: undefined, commandsPath:"./discordCommands" };
+const DiscordConfig = { socketServer: undefined };
 
 exports.DiscordConfig = DiscordConfig;
 exports.login = ({token, intents}) => {
@@ -42,19 +42,17 @@ exports.login = ({token, intents}) => {
             );
         });
 
-        // This is a mess
-        // Base estructure:   exports.[COMMAND NAME] = (PARAMS) => require(`${DiscordConfig.commandsPath}/[FILENAME]`).[COMMAND NAME](CMD PARAMS)
-        exports.genInvite = (connection, data) => require(`${DiscordConfig.commandsPath}/genInvite`).genInvite(client, connection, data, PermissionFlagsBits)
-        exports.sendServers = (connection) => require(`${DiscordConfig.commandsPath}/sendServers`).sendServers(client, connection)
-        exports.sendMembers = (connection, svId) => require(`${DiscordConfig.commandsPath}/sendMembers`).sendMembers(client, connection, svId)
-        exports.setStatus = (status) => require(`${DiscordConfig.commandsPath}/setStatus`).setStatus(client, status, exports.sendClientPageData)
-        exports.sendMemberData = (connection, svId, memberId) => require(`${DiscordConfig.commandsPath}/sendMemberData`).sendMemberData(client, connection, svId, memberId, new_intents, GatewayIntentBits)
-        exports.sendRoleData = (connection, svId, roleId) => require(`${DiscordConfig.commandsPath}/sendRoleData`).sendRoleData(client, connection, svId, roleId)
-        exports.sendClientPageData = () => require(`.${DiscordConfig.commandsPath}/sendClientPageData`).sendClientPageData(client, DiscordConfig)
-        exports.sendRoles = (connection, id) => require(`${DiscordConfig.commandsPath}/sendRoles`).sendRoles(client, connection, id)
-        exports.sendChannels = (connection, id) => require(`${DiscordConfig.commandsPath}/sendChannels`).sendChannels(client, connection, id, ChannelType)
-        exports.sendChannelData = async (connection, svId, id) => require(`${DiscordConfig.commandsPath}/sendChannelData`).sendChannelData(client, connection, svId, id, ChannelType)
-        exports.sendServerData = async (connection, id) => require(`${DiscordConfig.commandsPath}/sendServerData`).sendServerData(client, connection, id)
+        exports.genInvite = (connection, data) => require("./discordCommands/genInvite").genInvite(client, connection, data, PermissionFlagsBits)
+        exports.sendServers = (connection) => require("./discordCommands/sendServers").sendServers(client, connection)
+        exports.sendMembers = (connection, svId) => require("./discordCommands/sendMembers").sendMembers(client, connection, svId)
+        exports.setStatus = (status) => require("./discordCommands/setStatus").setStatus(client, status, exports.sendClientPageData)
+        exports.sendMemberData = (connection, svId, memberId) => require("./discordCommands/sendMemberData").sendMemberData(client, connection, svId, memberId, new_intents, GatewayIntentBits)
+        exports.sendRoleData = (connection, svId, roleId) => require("./discordCommands/sendRoleData").sendRoleData(client, connection, svId, roleId)
+        exports.sendClientPageData = () => require("./discordCommands/sendClientPageData").sendClientPageData(client, DiscordConfig)
+        exports.sendRoles = (connection, id) => require("./discordCommands/sendRoles").sendRoles(client, connection, id)
+        exports.sendChannels = (connection, id) => require("./discordCommands/sendChannels").sendChannels(client, connection, id, ChannelType)
+        exports.sendChannelData = async (connection, svId, id) => require("./discordCommands/sendChannelData").sendChannelData(client, connection, svId, id, ChannelType)
+        exports.sendServerData = async (connection, id) => require("./discordCommands/sendServerData").sendServerData(client, connection, id)
         
         exports.sendClientPageData()
     });

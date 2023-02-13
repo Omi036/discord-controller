@@ -11,7 +11,7 @@ export const AppSection = ({settings}) => {
         <Paper shadow="sm" radius={"md"} className={classes.papers}>
             <Box className={classes.paper_header}>
                 <IconApps color={theme.white} className={classes.app_icon}/>
-                <Text color={theme.white} fontWeight="bold">Application</Text>
+                <Text color={theme.white} weight="600">Application</Text>
             </Box>
             <Box>
                 <ScrollArea type="auto" className={classes.scroll}>

@@ -5,7 +5,7 @@ import { customLoader } from "../styles/Settings.style";
 
 // This component that asks you for the token and the Intents at the start
 export const Settings = () => {
-    const [opened, setOpened] = useState(true);
+    const [modalOpened, setModalOpened] = useState(true);
     const [error, setError] = useState(false);
     const [layout, setLayout] = useState("default");
     const [disabled, setDisabled] = useState(false);
@@ -37,8 +37,8 @@ export const Settings = () => {
     // We add the responses for every server message
     useEffect(() => {
         AddSocketListener("confirm_auth", () => {
-            if(!opened) return
-            setOpened(false);
+            if(!modalOpened) return
+            setModalOpened(false);
         })
 
         // When the server denies our connection, we will reply with the reason
@@ -48,7 +48,7 @@ export const Settings = () => {
                 "Error [TokenInvalid]":"Server didn't recognize the token"
             }
 
-            if(!opened) return
+            if(!modalOpened) return
             setDisabled(false)
             setError(errorMessages[data.reason])
             tokenInput.current.value = ""
@@ -56,8 +56,8 @@ export const Settings = () => {
         
         // When the App has already a bot connected
         AddSocketListener("already_login", () => {
-            if(!opened) return
-            setOpened(false);
+            if(!modalOpened) return
+            setModalOpened(false);
         })
     })
 
@@ -65,15 +65,6 @@ export const Settings = () => {
     const handleLoginClick = () => {
         setError(false)
         setDisabled(true)
-
-        //!NOTE, this is giving problems on older bots token
-        // We check if its a valid token 
-        // const token_validation_regex = /[M-Z][A-Za-z\d]{23}\.[\w-]{6}\.[\w-]{27}/g
-        // if(!tokenInput.current.value.match(token_validation_regex)){
-        //     setDisabled(false)
-        //     setError("Provide a valid token")
-        //     return
-        // }
 
         // Then we request the login to the server
         SendMessage("auth", {
@@ -120,8 +111,8 @@ export const Settings = () => {
 
     return (
         <Modal
-            opened={opened}
-            onClose={() => setOpened(false)}
+            opened={modalOpened}
+            onClose={() => setModalOpened(false)}
             title="Setting Up"
             withCloseButton={false}
             closeOnEscape={false}

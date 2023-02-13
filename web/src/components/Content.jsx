@@ -9,8 +9,11 @@ export const Content = () => {
 
     return (
         <Box sx={{display:"flex", zIndex:0, position:"relative"}}>
-            <Sidebar setPage={setPage} />
-            <Pages page={page}/>
+            {/* Left Sidebar */}
+            <Sidebar page={page} setPage={setPage} />
+
+            {/* Render-section of the pages */}
+            <Pages page={page} setPage={setPage}/>
         </Box>
     )
 }

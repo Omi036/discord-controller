@@ -32,7 +32,7 @@ export const UserSection = ({settings, setSettings}) => {
         <Paper shadow="sm" radius={"md"} className={classes.papers}>
             <Box className={classes.paper_header}>
                 <IconUser color={theme.white} className={classes.app_icon}/>
-                <Text  color={theme.white} fontWeight="bold">User</Text>
+                <Text  color={theme.white} weight="600">User</Text>
             </Box>
             <Box>
                 <ScrollArea type="auto" className={classes.scroll}>

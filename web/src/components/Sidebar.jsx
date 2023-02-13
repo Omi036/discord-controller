@@ -4,6 +4,7 @@ import { IconRobot, IconMessage, IconCode, IconServer, IconUser, IconDots, IconL
 import { useStyles } from "../styles/Sidebar.style";
 import { AddSocketListener } from "./misc/WebSocket";
 import { LogoutModal } from "./misc/LogoutModal";
+
 // Gets the version from the upper main package.json
 import { version } from "../../../package.json"
 
@@ -19,31 +20,25 @@ const sidebarLinks = [
 
 
 // Sidebar Component
-export function Sidebar({setPage}) {
+export function Sidebar({page , setPage}) {
     const { classes, cx } = useStyles();
-    const [active, setActive] = useState("Client");
-    const [avatar, setAvatar] = useState(undefined);
+    const [profile, setProfile] = useState({avatar:undefined, username:"Dummy#0000"});
     const [logoutModalOpened, setLogoutModalOpened] = useState(false);
-    const [username, setUsername] = useState("Dummy#0000");
 
     useEffect(() => {
         // When we receive data from the server with basic info
-        AddSocketListener("basic_profile", (data) => {
-            setAvatar(data.avatar)
-            setUsername(data.username)
-        })
+        AddSocketListener("basic_profile", data => setProfile(data))
     })
 
     // We create the sidelink for every item previously defined
     // Note: Code borrowed from mantine.dev
     const sideLinks = sidebarLinks.map((item) => (
         <a
-            className={cx(classes.link, {[classes.linkActive]: item.label === active})}
+            className={cx(classes.link, {[classes.linkActive]: item.label === page})}
             href={item.link}
             key={item.label}
             onClick={(event) => {
                 event.preventDefault();
-                setActive(item.label);
                 setPage(item.label);
             }}
         >
@@ -71,8 +66,8 @@ export function Sidebar({setPage}) {
                 {/* Bottom section of the sidebar */}
                 <Navbar.Section className={classes.footer}>
                     <Box sx={{display:"flex",  alignItems:"center"}}>
-                        <Avatar src={avatar}/>
-                        <Text sx={{marginLeft:10}}>{username}</Text>
+                        <Avatar src={profile.avatar}/>
+                        <Text sx={{marginLeft:10}}>{profile.username}</Text>
                         <ActionIcon style={{marginLeft:"auto", padding:3}} onClick={() => setLogoutModalOpened(true)}>
                             <IconLogout color={"#ED4245"} stroke={1.5} />
                         </ActionIcon>

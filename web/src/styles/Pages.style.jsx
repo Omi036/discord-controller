@@ -18,6 +18,13 @@ export const useStyles = createStyles((theme) => {
             overflow: "hidden",
         },
 
+        paperfat: {
+            height: "20vh",
+            width: "33%",
+            backgroundColor: theme.colors.dark[6],
+            overflow: "hidden",
+        },
+
         paperswidth: {
             height: "94vh",
             width: "63%",

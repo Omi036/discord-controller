@@ -5,6 +5,7 @@ import { useStyles } from "../../../../styles/Pages.style"
 import { RoleInfo } from "../Info/RoleInfo"
 import { customLoader } from "../../../../styles/Settings.style"
 
+// One of the many role elements showed in the roles list
 const Role = ({name, id, color, setRole}) => {
     return(
     <Box sx={(theme)=>({
@@ -29,46 +30,46 @@ const Role = ({name, id, color, setRole}) => {
     </Box>)
 }
 
-
+// Lists all the roles and their information
 export const RolesTab = ({ server, tab, thirdRole, setThirdRole }) => {
-    const [role, setRole] = useState(false)
+    const [actualRole, setActualRole] = useState()
     const [roles, setRoles] = useState([])
     const {classes} = useStyles()
 
+    // Adds the Socket listener that will add all the roles to the list
     useEffect(() => {
         AddSocketListener("roles", roles => {
             var new_roles = [];
-
-            roles.forEach(role => {
-                new_roles.push(<Role {...role} setRole={setRole} key={role.id} />)
-            })
-
+            new_roles = roles.map(role => <Role {...role} setRole={setActualRole} key={role.id} />)
             setRoles(new_roles)
         })
     })
 
+    // If the tab is pressed, will request all the roles of the server
     useEffect(() => {
         if(tab !== "roles") return
         SendMessage("get_roles", {id:server})
     }, [tab])
 
+    // On server change, will clean the section
     useEffect(() => {
         if(!server) return
-        setRole(false)
+        setActualRole()
         setRoles([])
         setThirdRole()
-
     }, [server])
     
+
+    // React Element (Note the two nested ternary operators)
     return (
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
-            { roles.length === 0 ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
-            { role ? <RoleInfo roleId={role} serverId={server} setRole={setRole} /> :
-            thirdRole ? <RoleInfo roleId={thirdRole} serverId={server} setRole={() => setThirdRole()} /> :
-            <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
-                { roles }
-            </SimpleGrid>
-             }
+            { roles.length === 0 && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
+            { actualRole 
+                ? <RoleInfo roleId={actualRole} serverId={server} setRole={setActualRole} /> 
+                : thirdRole 
+                    ? <RoleInfo roleId={thirdRole} serverId={server} setRole={() => setThirdRole()} /> 
+                    : <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>{ roles }</SimpleGrid>
+            }
         </ScrollArea>
     )
 }

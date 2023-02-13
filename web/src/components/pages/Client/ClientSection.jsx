@@ -12,7 +12,7 @@ export const ClientSection = ({settings, setInviteModalOpened}) => {
         <Paper shadow="sm" radius={"md"} className={classes.papers}>
             <Box className={classes.paper_header}>
                 <IconRobot color={theme.white} className={classes.app_icon}/>
-                <Text color={theme.white} fontWeight="bold">Discord Client</Text>
+                <Text color={theme.white} weight="600">Discord Client</Text>
             </Box>
             <Box style={{ height: "100%" }}>
                 <ScrollArea type="auto" className={classes.scroll}>

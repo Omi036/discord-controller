@@ -5,6 +5,8 @@ import { useState, useEffect } from "react"
 import { customLoader } from "../../../../styles/Settings.style"
 import { SendMessage, AddSocketListener } from "../../../misc/WebSocket"
 
+
+// One of the many User elements showed in the list
 const Member = ({tag, id, avatarUrl, isBot, isOwner, setMember}) => {
     return (
     <Box sx={(theme)=>({
@@ -31,17 +33,16 @@ const Member = ({tag, id, avatarUrl, isBot, isOwner, setMember}) => {
     </Box>)
 }
 
+// Displays all the members in the server and their info
 export const MembersTab = ({ server, tab, setTab, setThirdRole }) => {
     const {classes} = useStyles()
-    const [ isLarge, setLarge ] = useState(false)
-    const [ member, setMember ] = useState()
+    const [ actualMember, setActualMember ] = useState()
     const [ dataLoaded, setDataLoaded ] = useState(false)
     const [ membersList, setMembersList] = useState([])
 
     // Adds the listener that adds all the members data
     useEffect(() => {
         AddSocketListener("members", (data) => {
-            setLarge(data.isLarge)
             setMembersList(data.members)
             setDataLoaded(true)
         })
@@ -50,31 +51,31 @@ export const MembersTab = ({ server, tab, setTab, setThirdRole }) => {
     // Requests info data if the tab is pressed
     useEffect(() => {
         if(tab !== "members") {
-            setMember()
+            setActualMember()
             return
         }
         SendMessage("get_members", {svId:server})
     }, [tab])
 
+
     // When the server is changed, the category will be cleaned
     useEffect(() => {
         if(!server) return
         setMembersList([])
-        setLarge(false)
         setDataLoaded(false)
 
     }, [server])
     
     // Transforms all the users to React Elements
-    const usersDom = membersList.map(member => {return <Member setMember={setMember} avatarUrl={member.avatarUrl} isOwner={member.isOwner} isBot={member.isBot} tag={member.tag} id={member.id} key={member.id} />})
+    const usersDom = membersList.map(member => {return <Member setMember={setActualMember} avatarUrl={member.avatarUrl} isOwner={member.isOwner} isBot={member.isBot} tag={member.tag} id={member.id} key={member.id} />})
 
+    // React Element
     return (
         <ScrollArea type="auto" style={{height:"90vh"}} className={classes.scroll}>
-            { !dataLoaded ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
-            { member ? <MemberInfo memberId={member} serverId={server} setMember={setMember} setTab={setTab} setThirdRole={setThirdRole} /> :
-            <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
-                {usersDom}
-            </SimpleGrid>
+            { !dataLoaded && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
+            { actualMember 
+                ? <MemberInfo memberId={actualMember} serverId={server} setMember={actualMember} setTab={setTab} setThirdRole={setThirdRole} /> 
+                : <SimpleGrid cols={1} spacing={40} verticalSpacing={5}> {usersDom} </SimpleGrid>
             }
         </ScrollArea>
     )

@@ -6,7 +6,7 @@ import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
 import { ChannelInfo } from "../Info/ChannelInfo"
 import { customLoader } from "../../../../styles/Settings.style"
 
-// Avatar Item
+// Will display many of these elements in the list
 const Channel = ({name, id, type, setChannelSetted}) => {
     // Sets a different icon depending on the type of channel.
     const icons = {
@@ -17,7 +17,7 @@ const Channel = ({name, id, type, setChannelSetted}) => {
         "GuildForum": <IconMessages size={18} />,
     }
 
-
+    // React Element
     return(
     <Box sx={(theme)=>({
         boxSizing:"border-box",
@@ -41,7 +41,9 @@ const Channel = ({name, id, type, setChannelSetted}) => {
     </Box>)
 }
 
-export const ChannelsTab = ({server, tab}) => {
+
+// Channels list
+export const ChannelsTab = ({server, tab, setMsgDestiny, setPage}) => {
     const {classes} = useStyles()
     const [channelSetted, setChannelSetted] = useState(false)
     const [channels, setChannels] = useState([])
@@ -49,11 +51,7 @@ export const ChannelsTab = ({server, tab}) => {
     useEffect(() => {
         AddSocketListener("channels", channels => {
             var new_channels = [];
-
-            channels.forEach(channel => {
-                new_channels.push(<Channel {...channel} setChannelSetted={setChannelSetted} key={channel.id} />)
-            })
-
+            new_channels = channels.map(channel => <Channel {...channel} setChannelSetted={setChannelSetted} key={channel.id} />)
             setChannels(new_channels)
         })
     })
@@ -75,14 +73,13 @@ export const ChannelsTab = ({server, tab}) => {
     }, [server])
 
 
+    // React Element
     return (
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
-            { channels.length === 0 ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
-            {channelSetted ? 
-                <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server}/> : 
-                <SimpleGrid cols={1} spacing={40} verticalSpacing={5}>
-                    {channels}
-                </SimpleGrid>
+            { channels.length === 0 && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
+            {channelSetted 
+                ? <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server} setMsgDestiny={setMsgDestiny} setPage={setPage}/> 
+                : <SimpleGrid cols={1} spacing={40} verticalSpacing={5}> {channels} </SimpleGrid>
             }
         </ScrollArea>
     )

@@ -65,13 +65,24 @@ const SendMemberData = (server, connection, data) => {
 }
 
 
+const GenerateChannelInvite = (server, connection, data) => {
+    Discord.genChannelInvite(connection, data.svId, data.id, data.settings)
+}
+
+const SendChatSettings = (server, connection, data) => {
+    Discord.sendChatSettings(connection, data.type, data.svId, data.id)
+}
+
+
 // This object contains all the websockets commands
 exports.Commands = {
     "auth":AuthorizeUser,
     "islogged":IsLoggedIn,
     "logout":LogoutUser,
     "change_status":ChangeStatus,
+    "send_chat_settings":SendChatSettings,
     "gen_invite":GenerateInvite,
+    "gen_channel_invite":GenerateChannelInvite,
 
     "get_servers":SendServers,
     "get_server_data":SendServerData,

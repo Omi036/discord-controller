@@ -6,6 +6,7 @@ import { ImageDisplay } from "../../../misc/ImageDisplay"
 import { SendMessage, AddSocketListener } from "../../../misc/WebSocket"
 import { perms as Perms } from "./PermissionsList.json"
 
+// All the roles of a user are represented as these elements
 const RoleButton = ({ name, id, color, setTab, setThirdRole }) => {
     return (
         <Box sx={(theme)=>({
@@ -33,6 +34,8 @@ const RoleButton = ({ name, id, color, setTab, setThirdRole }) => {
     )
 }
 
+
+// Displays all the info about an user
 export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole }) => {
     const defaultMemberSettings = {
         bannable: false,
@@ -58,17 +61,20 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
     const [ settings, setSettings ] = useState(defaultMemberSettings)
 
 
+    // Adds the listener that will add all the data
     useEffect(() => {
         AddSocketListener("member_data", (data) => {
             setSettings(data)
         })
     })
 
+    // Every time the id gets changed, will request the data
     useEffect(() => {
         SendMessage("get_member_data", {svId: serverId, id: memberId})
     },[memberId])
 
 
+    // Will add all the checkboxes and check all the ones the user has
     const permsChecks = []
     for(const permission of Perms) {
         permsChecks.push(
@@ -77,11 +83,13 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
             color={"indigo"}
             label={permission}
             checked={settings.permissions.includes(permission)}
-            key={permission} />
+            key={permission} 
+            />
         )
     }
 
 
+    // Will append every existent role inside the user
     const rolesElements = []
     for(const role in settings.roles) {
         rolesElements.push(
@@ -89,9 +97,11 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
         )
     }
 
+    // React Element
     return(
         <>
             { settings.id === "000000000000000000" ? <LoadingOverlay visible overlayBlur={0} loader={customLoader} /> : <></> }
+
             <Box sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`, display:"flex", marginBottom:5})}>
                 <ActionIcon onClick={()=>{setMember()}}>
                     <IconArrowBack />
@@ -99,6 +109,7 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
                 <Text style={{marginLeft:10}}>{settings.tag}</Text>
                 <Text sx={(theme) => ({marginLeft:"auto", marginBottom:10, color:theme.colors.dark[3]})}>{memberId}</Text>
             </Box>
+
             <ScrollArea>
                 <SimpleGrid cols={2} style={{marginBottom: 10}}>
                     <Checkbox  readOnly color={"indigo"} label="Is Bot" checked={settings.isBot} />
@@ -108,6 +119,7 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
                     <Checkbox  readOnly color={"indigo"} label="Kickable by Bot" checked={settings.kickable} />
                     <Checkbox  readOnly color={"indigo"} label="Bannable by Bot" checked={settings.bannable} />
                 </SimpleGrid>
+
                 <SimpleGrid cols={2} style={{marginBottom: 10}}>
                     <TextInput readOnly label="Tag" value={settings.tag}/>
                     <TextInput readOnly label="Nickname" value={settings.nickname}/>
@@ -121,6 +133,7 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
                     <TextInput readOnly label="Current Status" value={settings.status}/>
                     { settings.statusDevice ? <TextInput readOnly label="Device" value={settings.statusDevice}/> : <></>}
                 </SimpleGrid>
+
                 <Accordion  variant="contained" chevronPosition="left" defaultValue="customization">
                     <Accordion.Item value="permissions">
                         <Accordion.Control>Permissions</Accordion.Control>

@@ -126,7 +126,7 @@ export const InviteModal = ({ opened, setOpened }) => {
                 { checkBoxes }
             </SimpleGrid>
             <Button fullWidth color={"indigo"} style={{marginTop:10}} onClick={handleInviteClick}>Generate Invite</Button>
-            <Box style={{display:"flex", flexDirection:"row", justifyContent: "space-around", alignItems: "center", marginTop:10}}>
+            <Box style={{display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", marginTop:10}}>
                 <TextInput readOnly style={{ width: "80%"}} value={invite}/>
                 <CopyButton value={invite}>
                     {({ copied, copy }) => (
@@ -135,7 +135,7 @@ export const InviteModal = ({ opened, setOpened }) => {
                       </Button>
                     )}
                 </CopyButton>
-                <Button color={'indigo'} style={{width:"8%", margin:"auto 0"}} onClick={invite.length > 1 ? () => window.open(invite, "_blank") : () => {}}>
+                <Button color={'indigo'} style={{width:"8%", margin:"auto 0"}} onClick={() => invite && window.open(invite, "_blank")}>
                     <IconSend />
                 </Button>
             </Box>

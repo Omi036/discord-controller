@@ -1,12 +1,70 @@
-import { ScrollArea, SimpleGrid, Box, TextInput, Text, ActionIcon, Checkbox, LoadingOverlay } from "@mantine/core"
+import { ScrollArea, SimpleGrid, Box, TextInput, Text, ActionIcon, Checkbox, LoadingOverlay, Button, Modal, Slider, CopyButton, NumberInput,} from "@mantine/core"
 import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
-import { IconArrowBack } from "@tabler/icons"
-import { useState, useEffect } from "react"
+import { IconArrowBack, IconClipboard, IconSend } from "@tabler/icons"
+import { useState, useEffect, useRef } from "react"
 import { TextDisplay } from "../../../misc/TextDisplay"
 import { customLoader } from "../../../../styles/Settings.style"
 
+// The modal that will send an invite to a channel
+const CreateInviteModal = ({channelID, serverId, opened, setOpened}) => {
+    const [infinite, setInfinite] = useState(true)
+    const [uses, setUses] = useState(0)
+    const temporaryEl = useRef()
+    const durationEl = useRef()
+    const reasonEl = useRef()
+    const [ invite, setInvite ] = useState("")
+
+    // Adds the listener that will receiv the invitation link
+    useEffect(() => {
+        AddSocketListener("reply_channel_invite", inv => setInvite(inv))
+    })
+    
+    // The click handler
+    const createInvite = () => {
+        var duration;
+        if(infinite) duration = 0
+        else {duration = durationEl.current.value}
+
+        SendMessage("gen_channel_invite", {svId:serverId, id:channelID, settings:{
+            temporary: temporaryEl.current.checked,
+            reason: reasonEl.current.value,
+            maxAge: duration,
+            maxUses: uses
+        }})
+    }
+
+    // React Element
+    return (
+        <Modal title="Create Channel Invite"  opened={opened} onClose={() => setOpened(false)}>
+            <SimpleGrid cols={1}>
+                <Checkbox color="indigo" label="Temporary Invite" ref={temporaryEl}/>
+                <Checkbox color="indigo" label="Infinite Duration" checked={infinite} onChange={(e) => setInfinite(e.currentTarget.checked)}/>
+                <NumberInput label="Duration" placeholder="Invite duration (In seconds)" disabled={infinite} ref={durationEl}/>
+                <TextInput label="Reason" placeholder="Optional reason" ref={reasonEl}/>
+                <Text style={{marginBottom:0}}>Uses (0 for unlimited uses)</Text>
+                <Slider value={uses} onChange={setUses} style={{marginTop:0}} color="indigo" marks={[{ value: 20, label: '20%' },{ value: 50, label: '50%' },{ value: 80, label: '80%' },]} />
+                <Button color="indigo" fullWidth style={{marginTop:15}} onClick={createInvite}>Create Invite</Button>
+            </SimpleGrid>
+            <Box style={{display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", marginTop:10}}>
+                <TextInput readOnly style={{ width: "65%"}} value={invite}/>
+                <CopyButton value={invite}>
+                  {({ copied, copy }) => (
+                    <Button color={copied ? 'teal' : 'indigo'} onClick={copy}>
+                      <IconClipboard />
+                    </Button>
+                  )}
+                </CopyButton>
+                <Button color={'indigo'} style={{margin:"auto 0"}} onClick={() => {invite && window.open(invite, "_blank")}}>
+                    <IconSend />
+                </Button>
+            </Box>
+        </Modal>
+    )
+}
+
+
 // Contains info about a channel
-export const ChannelInfo = ({channelId, setChannel, serverId}) => {
+export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, setPage}) => {
     const defaultChannelInfo = {
         name:"Channel",
         id:"000000000000000000",
@@ -31,6 +89,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId}) => {
         defaultDuration: "0"
     }
     const [channelInfo, setChannelInfo] = useState(defaultChannelInfo)
+    const [ inviteModalOpened, setInviteModalOpened] = useState(false)
 
     // Updates the channel info
     useEffect(() => {
@@ -49,6 +108,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId}) => {
     return (
         <>
             { channelInfo.id === "000000000000000000" ? <LoadingOverlay visible overlayBlur={0} loader={customLoader} /> : <></> }
+            <CreateInviteModal channelID={channelId} serverId={serverId} opened={inviteModalOpened} setOpened={setInviteModalOpened}/>
             <Box sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`, display:"flex", marginBottom:5})}>
                 <ActionIcon onClick={()=>{setChannel(false)}}>
                     <IconArrowBack />
@@ -86,6 +146,10 @@ export const ChannelInfo = ({channelId, setChannel, serverId}) => {
                     {channelInfo.type === "GuildForum" && <TextInput readOnly label="Tags Avaiable" value={channelInfo.avaiableTags}/>}
                     {channelInfo.type === "GuildForum" && <TextInput readOnly label="Archive At" value={channelInfo.defaultDuration / 60 / 60}/>}
                 </SimpleGrid>
+                <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginTop:10}}>
+                    <Button color="indigo" disabled={!["GuildText","GuildVoice","GuildNews"].includes(channelInfo.type)} fullWidth style={{marginRight:10}} onClick={()=>{setMsgDestiny({type:"channel",svId:serverId, id:channelId});setPage("Messages")}}>Send Message</Button>
+                    <Button color="indigo" disabled={["GuildCategory"].includes(channelInfo.type)} fullWidth style={{marginLeft:10}} onClick={() => setInviteModalOpened(true)}>Generate Invite</Button>
+                </Box>
             </ScrollArea>
         </>
     )

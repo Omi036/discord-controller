@@ -9,7 +9,7 @@ import { customLoader } from "../../../../styles/Settings.style"
 // Contains general information about the server
 export const GeneralTab = ({server}) => {
     const {classes} = useStyles()
-    const [data, setData] = useState({
+    const defaultData = {
         users: 0,
         channels: 0,
         roles: 0,
@@ -30,7 +30,9 @@ export const GeneralTab = ({server}) => {
         boostTier: 0,
         explicitFilter: 0,
         nsfwLevel: 0
-    })
+    }
+    const [data, setData] = useState(defaultData)
+
 
     // Listens to when server data is received
     useEffect(() => {
@@ -39,31 +41,37 @@ export const GeneralTab = ({server}) => {
         })
     })
 
+    // When a new server is selected, all the data is cleaned
     useEffect(() => {
-        var new_data = {...data}
-        new_data.id = "000000000000000000"
-        setData(new_data)
+        setData(defaultData)
     }, [server])
 
+
+    // React Elements
     return (
         <ScrollArea type="auto" style={{height:"90vh"}} className={classes.scroll}>
-            { data.id === "000000000000000000" ? <LoadingOverlay visible overlayBlur={2} loader={customLoader} /> : <></> }
+            { data.id === "000000000000000000" && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
+
             <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
                 <TextDisplay label="Users" value={data.users} />
                 <TextDisplay label="Channels" value={data.channels} />
             </Box>
+
             <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
                 <TextDisplay label="Roles" value={data.roles} />
                 <TextDisplay label="Bans" value={data.bans} />
             </Box>
+
             <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginBottom:10}}>
                 <TextDisplay label="Emojis" value={data.emojis} />
                 <TextDisplay label="Stickers" value={data.stickers} />
             </Box>
+
             <SimpleGrid cols={2} spacing={40} verticalSpacing={5}>
                 <Checkbox label="Server is Verifired" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={data.isVerified}/>
                 <Checkbox label="Server is Partnered" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={data.isPartenered}/>
             </ SimpleGrid>
+            
             <SimpleGrid cols={2} spacing={40} verticalSpacing={5}>
                 <TextInput label="Name" readOnly className={classes.text_input} value={data.name}/>
                 <TextInput label="Description" readOnly className={classes.text_input} value={data.description}/>

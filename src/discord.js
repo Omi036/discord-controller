@@ -42,6 +42,8 @@ exports.login = ({token, intents}) => {
             );
         });
 
+        exports.sendChatSettings = (connection, type, svId, id) => require("./discordCommands/sendChatSettings.js").sendChatSettings(client, connection, type, svId, id)
+        exports.genChannelInvite = (connection, svId, id, settings) => require("./discordCommands/genChannelInvite").genChannelInvite(client, connection, svId, id, settings)
         exports.genInvite = (connection, data) => require("./discordCommands/genInvite").genInvite(client, connection, data, PermissionFlagsBits)
         exports.sendServers = (connection) => require("./discordCommands/sendServers").sendServers(client, connection)
         exports.sendMembers = (connection, svId) => require("./discordCommands/sendMembers").sendMembers(client, connection, svId)

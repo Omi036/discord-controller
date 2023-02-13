@@ -19,7 +19,7 @@ const ServerProfile = ({avatarUrl, name, id, active, setActive}) => {
 }
 
 
-export const ServerPage = ({page}) => {
+export const ServerPage = ({page, setMsgDestiny, setPage}) => {
     const [actualSv, setActualSv] = useState()
     const [serverList, setServerList] = useState([])
     const {classes} = useStyles()
@@ -42,7 +42,6 @@ export const ServerPage = ({page}) => {
     // This executes when the server is changed
     useEffect(() => {
         if(!actualSv) return
-
         SendMessage("get_server_data", {id:actualSv})
     },[actualSv])
 
@@ -55,7 +54,7 @@ export const ServerPage = ({page}) => {
     return (
         <Box className={classes.parent}>
             <ListSection servers={servers} />
-            <InfoSection server={actualSv} />
+            <InfoSection server={actualSv} setMsgDestiny={setMsgDestiny} setPage={setPage}/>
         </Box>
     )
 }

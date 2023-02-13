@@ -9,10 +9,13 @@ export const ListSection = ({servers}) => {
 
     return(
         <Paper shadow="sm" radius={"md"} className={classes.papers}>
+            {/* Titlebar */}
             <Box className={classes.paper_header}>
                 <IconServer color={theme.white} className={classes.app_icon}/>
-                <Text color={theme.white} fontWeight="bold">Server List</Text>
+                <Text color={theme.white} weight="600">Server List</Text>
             </Box>
+
+            {/* List */}
             <Box style={{height:"100%"}}>
                 <ScrollArea type="auto" className={classes.scroll}>
                     { servers }

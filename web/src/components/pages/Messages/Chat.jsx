@@ -24,8 +24,83 @@ const Attachment = ({type,name,url}) => {
 }
 
 
-const Message = ({ user, avatar, content, attachments }) => {
+
+const Embed = ({author, color, description, footer, image, thumbnail, timestamp, title, fields}) => {
+    return (
+        <Box style={{backgroundColor:color || "#242526", width:"90%", borderRadius:10, overflow:"hidden", boxSizing:"border-box", paddingLeft:5, maxWidth:"60%"}}>
+
+            {/* True Embed */}
+            <Box style={{backgroundColor:"#2f3136", boxSizing:"border-box", paddingLeft:10, paddingRight:10, paddingBottom:10, paddingTop:10}}>
+
+                {/* Upper Section, title, description and thumbnail */}
+                <Box style={{display:"flex"}}>
+                    <Box>
+                        <Text weight="bold" size={14} style={{marginBottom:7}}>{author}</Text>
+                        <Text weight="bold" size={18} style={{marginBottom:7}}>{title}</Text>
+                        <Text style={{marginBottom:7}}>{description}</Text>
+                    </Box>
+                    {thumbnail && <Image radius={10} style={{marginTop:10, marginLeft:10, marginBottom:10}} src={thumbnail} />}
+                </Box>
+
+                {/* Fields */}
+                {fields.map(field => (
+                <Box key={`${field.name}${field.value}`} style={{marginBottom:14}}>
+                    <Text weight="bold">{field.name}</Text>
+                    <Text>{field.value}</Text>
+                </Box>
+                ))}
+
+                {/* Image */}
+                {image && <Image radius={10} style={{marginTop:10, marginBottom:10}} src={image} />}
+
+                {/* Footer */}
+                <Box style={{display: 'flex'}}>
+                    <Text size={11} weight="bold">{footer}</Text>
+                    {footer && timestamp && (<Text size={11} style={{marginLeft:5, marginRight:5}}weight="bold">•</Text>)}
+                    <Text size={11} weight="bold">{new Date(timestamp).toDateString()}</Text>
+                </Box>
+
+            </Box>
+
+        </Box>
+    )
+}
+
+
+
+const Message = ({ user, avatar, content, attachments, embeds, id }) => {
     const theme = useMantineTheme()
+    var accordionEls = []
+    const embedsEl = embeds.map(embed => 
+    <Embed 
+        key={`embed_${id}_${embed.description}`} 
+        author={embed.author} 
+        color={embed.color} 
+        description={embed.description} 
+        footer={embed.footer} 
+        image={embed.image}
+        thumbnail={embed.thumbnail} 
+        timestamp={embed.timestamp} 
+        title={embed.title} 
+        fields={embed.fields}
+    />)
+
+    if(embeds.length >= 1){
+        accordionEls.push(
+        <Accordion.Item value="embeds" key="embed">
+            <Accordion.Control>Embeds</Accordion.Control>
+            <Accordion.Panel>{embedsEl}</Accordion.Panel>
+        </Accordion.Item>)
+    }
+
+    if(attachments.length >= 1){
+        accordionEls.push(
+        <Accordion.Item value="attachments" key="attach">
+            <Accordion.Control>Attachments</Accordion.Control>
+            <Accordion.Panel>{attachments.map(attach => <Attachment key={`attachment_${id}_${attach.url}`} type={attach.type} name={attach.name} url={attach.url} />)}</Accordion.Panel>
+        </Accordion.Item>)
+    }
+
 
     return (
         <Box style={{display:"flex", flexDirection:"column", boxSizing:"border-box", padding:7, border:`1px solid ${theme.colors.dark[4]}`, marginBottom:10, borderRadius:10, marginRight:20}}>
@@ -36,17 +111,17 @@ const Message = ({ user, avatar, content, attachments }) => {
                     <Text style={{color:theme.colors.gray[6]}}>{content}</Text>
                 </Box>
             </Box>
-            {attachments.length >=1 && 
+            {(attachments.length >=1 || embeds.length >=1) && 
             <Accordion variant="">
-                <Accordion.Item value="attachments">
-                <Accordion.Control>Attachments</Accordion.Control>
-                <Accordion.Panel>{attachments.map(attach => <Attachment type={attach.type} name={attach.name} url={attach.url} />)}</Accordion.Panel>
-                </Accordion.Item>
+                {accordionEls}
             </Accordion>
             }
         </Box>
     )
 }
+
+
+
 
 export const Chat = ({destiny, setDestiny}) => {
     const { classes } = useStyles()
@@ -70,7 +145,16 @@ export const Chat = ({destiny, setDestiny}) => {
 
     var messagesElements = []
     for(const message of settings.messages) {
-        messagesElements.push(<Message key={message.content} attachments={message.attachments} user={message.author} avatar={message.authorAvatar} content={message.content}/>)
+        messagesElements.push(
+        <Message 
+            key={message.id} 
+            attachments={message.attachments} 
+            user={message.author} 
+            avatar={message.authorAvatar} 
+            content={message.content}
+            embeds={message.embeds}
+            id={message.id}
+         />)
     }
     
     return (

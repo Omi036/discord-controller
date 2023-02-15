@@ -11,6 +11,7 @@ export const Chat = ({destiny, setDestiny}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
     const messageInput = useRef()
+    const scrollArea = useRef()
     const defaultSettings = {
         name: "Channel",
         id: "000000000000000000",
@@ -19,7 +20,11 @@ export const Chat = ({destiny, setDestiny}) => {
     const [settings, setSettings] = useState(defaultSettings)
 
     useEffect(() => {
-        AddSocketListener("chat_settings", settings => setSettings(settings))
+        AddSocketListener("chat_settings", settings => {
+            setSettings(settings)
+            setTimeout(() => scrollArea.current.scrollTo({top: scrollArea.current.scrollHeight, behavior: 'smooth'}), 100)
+            
+        })
     })
     
 
@@ -71,7 +76,7 @@ export const Chat = ({destiny, setDestiny}) => {
                     <Text style={{marginLeft:10}}>{settings.name}</Text>
                     <Text sx={(theme) => ({marginLeft:"auto", marginBottom:10, color:theme.colors.dark[3]})}>{destiny.id}</Text>
                 </Box>
-                <ScrollArea type="auto" style={{height:"70vh"}}>
+                <ScrollArea type="auto" style={{height:"70vh"}} viewportRef={scrollArea}>
                     {messagesElements}
                 </ScrollArea>
                 <Box style={{marginTop:"1vh"}}>

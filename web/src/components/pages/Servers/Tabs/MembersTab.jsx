@@ -74,7 +74,7 @@ export const MembersTab = ({ server, tab, setTab, setThirdRole }) => {
         <ScrollArea type="auto" style={{height:"90vh"}} className={classes.scroll}>
             { !dataLoaded && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
             { actualMember 
-                ? <MemberInfo memberId={actualMember} serverId={server} setMember={actualMember} setTab={setTab} setThirdRole={setThirdRole} /> 
+                ? <MemberInfo memberId={actualMember} serverId={server} setMember={setActualMember} setTab={setTab} setThirdRole={setThirdRole} /> 
                 : <SimpleGrid cols={1} spacing={40} verticalSpacing={5}> {usersDom} </SimpleGrid>
             }
         </ScrollArea>

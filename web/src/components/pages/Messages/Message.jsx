@@ -37,7 +37,7 @@ export const Message = ({ user, avatar, content, attachments, embeds, id }) => {
 
 
     return (
-        <Box style={{display:"flex", flexDirection:"column", boxSizing:"border-box", padding:7, border:`1px solid ${theme.colors.dark[4]}`, marginBottom:10, borderRadius:10, marginRight:20}}>
+        <Box style={{display:"flex", flexDirection:"column", boxSizing:"border-box", padding:7, backgroundColor:"#2c2e33", marginBottom:10, borderRadius:10, marginRight:20}}>
             <Box style={{display:"flex", alignItems:"center"}}>
                 <Avatar src={avatar} style={{marginLeft:5, marginRight:10}} />
                 <Box>

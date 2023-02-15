@@ -68,7 +68,7 @@ export const Settings = () => {
 
         // Then we request the login to the server
         SendMessage("auth", {
-            token:tokenInput.current.value,
+            token:tokenInput.current.value.trim(),
             intents:intents
         })
     };

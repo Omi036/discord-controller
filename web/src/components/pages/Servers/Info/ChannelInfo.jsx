@@ -72,6 +72,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
         url:"",
         createdAt:"",
         manageable:false,
+        messageable: false,
         viewable:false,
         deletable: false,
         messages: 0,
@@ -128,6 +129,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
                     <Checkbox  readOnly color={"indigo"} label="Manageable by bot" checked={channelInfo.manageable} />
                     <Checkbox  readOnly color={"indigo"} label="Viewable by bot" checked={channelInfo.viewable} />
                     <Checkbox  readOnly color={"indigo"} label="Deletable by bot" checked={channelInfo.deletable} />
+                    {["GuildText","GuildVoice","GuildNews"].includes(channelInfo.type) && <Checkbox  readOnly color={"indigo"} label="Messageable by Bot" checked={channelInfo.messageable} />}
                     {["GuildStage","GuildVoice"].includes(channelInfo.type) && <Checkbox  readOnly color={"indigo"} label="Joinable by Bot" checked={channelInfo.joinable} />}
                     {["GuildStage","GuildVoice"].includes(channelInfo.type) && <Checkbox  readOnly color={"indigo"} label="Full" checked={channelInfo.isFull} />}
                     {channelInfo.type === "GuildVoice" && <Checkbox  readOnly color={"indigo"} label="Bot can Speak" checked={channelInfo.speakable} />}
@@ -147,7 +149,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
                     {channelInfo.type === "GuildForum" && <TextInput readOnly label="Archive At" value={channelInfo.defaultDuration / 60 / 60}/>}
                 </SimpleGrid>
                 <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginTop:10}}>
-                    <Button color="indigo" disabled={!["GuildText","GuildVoice","GuildNews"].includes(channelInfo.type)} fullWidth style={{marginRight:10}} onClick={()=>{setMsgDestiny({type:"channel",svId:serverId, id:channelId});setPage("Messages")}}>Send Message</Button>
+                    <Button color="indigo" disabled={!["GuildText","GuildVoice","GuildNews"].includes(channelInfo.type) || !channelInfo.messageable} fullWidth style={{marginRight:10}} onClick={()=>{setMsgDestiny({type:"channel",svId:serverId, id:channelId});setPage("Messages")}}>Send Message</Button>
                     <Button color="indigo" disabled={["GuildCategory"].includes(channelInfo.type)} fullWidth style={{marginLeft:10}} onClick={() => setInviteModalOpened(true)}>Generate Invite</Button>
                 </Box>
             </ScrollArea>

@@ -22,6 +22,7 @@ exports.sendChannelData = async (client, connection, svId, id, ChannelType) => {
             type:ChannelType[channel.type],
             url: channel.url,
             viewable: channel.viewable,
+            messageable: (channel.permissionsFor(client.user).toArray().includes("SendMessages") && channel.permissionsFor(client.user).toArray().includes("ViewChannel")),
             manageable: channel.manageable,
             createdAt: channel.createdAt,
             deletable: channel.deletable,

@@ -1,9 +1,10 @@
 import { useMantineTheme, Accordion, Box, Avatar, Text } from "@mantine/core"
 import { Embed } from "./Embed"
 import { Attachment } from "./Attachment"
-import { IconFile, IconLayoutSidebar } from "@tabler/icons"
+import { IconFile, IconLayoutSidebar, IconTrash } from "@tabler/icons"
+import { SendMessage } from "../../misc/WebSocket"
 
-export const Message = ({ user, avatar, content, attachments, embeds, id }) => {
+export const Message = ({ user, avatar, content, attachments, embeds, id, channelId, svId }) => {
     const theme = useMantineTheme()
     var accordionEls = []
     const embedsEl = embeds.map(embed => 
@@ -37,12 +38,20 @@ export const Message = ({ user, avatar, content, attachments, embeds, id }) => {
     }
 
 
+    const handleDelete = () => {
+        SendMessage("delete_message", {svId:svId, chId:channelId, id:id})
+    }
+
+
     return (
         <Box style={{display:"flex", flexDirection:"column", boxSizing:"border-box", padding:7, backgroundColor:"#2c2e33", marginBottom:10, borderRadius:10, marginRight:20}}>
             <Box style={{display:"flex", alignItems:"center"}}>
                 <Avatar src={avatar} style={{marginLeft:5, marginRight:10}} />
-                <Box>
-                    <Text weight={600}>{user}</Text>
+                <Box style={{width:"100%"}}>
+                    <Box style={{display:"flex", alignItems:"center"}}>
+                        <Text weight={600}>{user}</Text>
+                        <IconTrash color={theme.colors.dark[3]} onClick={handleDelete} size={20} style={{marginLeft:"auto", marginRight:10, cursor:"pointer"}} />
+                    </Box>
                     <Text style={{color:theme.colors.gray[6]}}>{content}</Text>
                 </Box>
             </Box>

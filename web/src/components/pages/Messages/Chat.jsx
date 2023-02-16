@@ -35,6 +35,8 @@ export const Chat = ({destiny, setDestiny}) => {
     for(const message of settings.messages) {
         messagesElements.push(
         <Message 
+            svId={destiny.svId}
+            channelId={settings.id}
             key={message.id} 
             attachments={message.attachments} 
             user={message.author} 

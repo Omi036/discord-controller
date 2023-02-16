@@ -78,6 +78,10 @@ const PostMessage = (server, connection, data) => {
     Discord.postMessage(connection, data.type, data.svId, data.id, data.content)
 }
 
+const DeleteMessage = (server, connection, data) => {
+    Discord.deleteMessage(connection, data.svId, data.chId, data.id)
+}
+
 
 // This object contains all the websockets commands
 exports.Commands = {
@@ -85,8 +89,11 @@ exports.Commands = {
     "islogged":IsLoggedIn,
     "logout":LogoutUser,
     "change_status":ChangeStatus,
+
     "post_message": PostMessage,
+    "delete_message": DeleteMessage,
     "send_chat_settings":SendChatSettings,
+
     "gen_invite":GenerateInvite,
     "gen_channel_invite":GenerateChannelInvite,
 

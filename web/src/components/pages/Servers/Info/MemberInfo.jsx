@@ -100,7 +100,7 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
     // React Element
     return(
         <>
-            { settings.id === "000000000000000000" ? <LoadingOverlay visible overlayBlur={0} loader={customLoader} /> : <></> }
+            { settings.id === "000000000000000000" && <LoadingOverlay visible overlayBlur={0} loader={customLoader} />}
 
             <Box sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`, display:"flex", marginBottom:5})}>
                 <ActionIcon onClick={()=>{setMember()}}>

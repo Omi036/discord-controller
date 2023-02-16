@@ -1,4 +1,5 @@
-import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea } from "@mantine/core"
+import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea, LoadingOverlay } from "@mantine/core"
+import { customLoader } from "../../../styles/Settings.style"
 import { useStyles } from "../../../styles/Pages.style"
 import { IconAt, IconArrowBack } from "@tabler/icons"
 import { useMantineTheme } from "@mantine/core"
@@ -11,7 +12,6 @@ export const Chat = ({destiny, setDestiny}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
     const messageInput = useRef()
-    const scrollArea = useRef()
     const defaultSettings = {
         name: "Channel",
         id: "000000000000000000",
@@ -22,8 +22,6 @@ export const Chat = ({destiny, setDestiny}) => {
     useEffect(() => {
         AddSocketListener("chat_settings", settings => {
             setSettings(settings)
-            setTimeout(() => scrollArea.current.scrollTo({top: scrollArea.current.scrollHeight, behavior: 'smooth'}), 100)
-            
         })
     })
     
@@ -68,20 +66,26 @@ export const Chat = ({destiny, setDestiny}) => {
                 <IconAt color={theme.white} className={classes.app_icon}/>
                 <Text color={theme.white} weight="600">Chat</Text>
             </Box>
+
             <Box style={{boxSizing: "border-box",padding:10}}>
+
                 <Box sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`, display:"flex", marginBottom:5})}>
                     <ActionIcon onClick={()=>{setDestiny()}}>
                         <IconArrowBack />
                     </ActionIcon>
                     <Text style={{marginLeft:10}}>{settings.name}</Text>
-                    <Text sx={(theme) => ({marginLeft:"auto", marginBottom:10, color:theme.colors.dark[3]})}>{destiny.id}</Text>
+                    <Text sx={(theme) => ({marginLeft:"auto", marginBottom:10, color:theme.colors.dark[3]})}>{settings.id}</Text>
                 </Box>
-                <ScrollArea type="auto" style={{height:"70vh"}} viewportRef={scrollArea}>
+
+                <ScrollArea type="auto" style={{height:"70vh", boxSizing:"border-box", paddingTop:10}}>
+                    { settings.id === "000000000000000000" && <LoadingOverlay visible overlayBlur={0} loader={customLoader} />}
                     {messagesElements}
                 </ScrollArea>
+
                 <Box style={{marginTop:"1vh"}}>
                     <Textarea onKeyDown={keyHandler} placeholder="Enter here your text" ref={messageInput}/>
                 </Box>
+
             </Box>
         </Paper>
     )

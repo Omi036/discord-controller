@@ -1,6 +1,7 @@
 import { useMantineTheme, Accordion, Box, Avatar, Text } from "@mantine/core"
 import { Embed } from "./Embed"
 import { Attachment } from "./Attachment"
+import { IconFile, IconLayoutSidebar } from "@tabler/icons"
 
 export const Message = ({ user, avatar, content, attachments, embeds, id }) => {
     const theme = useMantineTheme()
@@ -22,7 +23,7 @@ export const Message = ({ user, avatar, content, attachments, embeds, id }) => {
     if(embeds.length >= 1){
         accordionEls.push(
         <Accordion.Item value="embeds" key="embed">
-            <Accordion.Control>Embeds</Accordion.Control>
+            <Accordion.Control icon={<IconLayoutSidebar />}>Embeds</Accordion.Control>
             <Accordion.Panel>{embedsEl}</Accordion.Panel>
         </Accordion.Item>)
     }
@@ -30,7 +31,7 @@ export const Message = ({ user, avatar, content, attachments, embeds, id }) => {
     if(attachments.length >= 1){
         accordionEls.push(
         <Accordion.Item value="attachments" key="attach">
-            <Accordion.Control>Attachments</Accordion.Control>
+            <Accordion.Control icon={<IconFile />}>Attachments</Accordion.Control>
             <Accordion.Panel>{attachments.map(attach => <Attachment key={`attachment_${id}_${attach.url}`} type={attach.type} name={attach.name} url={attach.url} />)}</Accordion.Panel>
         </Accordion.Item>)
     }

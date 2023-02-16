@@ -54,7 +54,7 @@ export const RoleInfo = ({ serverId, roleId, setRole }) => {
 
     return(
         <>
-            { roleInfo.id === "000000000000000000" ? <LoadingOverlay visible overlayBlur={0} loader={customLoader} /> : <></> }
+            { roleInfo.id === "000000000000000000" && <LoadingOverlay visible overlayBlur={0} loader={customLoader} />}
             
             <Box sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`, display:"flex", marginBottom:5})}>
                 <ActionIcon onClick={()=>{setRole(false)}}>

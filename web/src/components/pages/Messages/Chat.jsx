@@ -1,11 +1,12 @@
-import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea, LoadingOverlay } from "@mantine/core"
+import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea, LoadingOverlay, Popover, Button } from "@mantine/core"
 import { customLoader } from "../../../styles/Settings.style"
 import { useStyles } from "../../../styles/Pages.style"
-import { IconAt, IconArrowBack } from "@tabler/icons"
+import { IconAt, IconArrowBack, IconPlus } from "@tabler/icons"
 import { useMantineTheme } from "@mantine/core"
 import { useEffect, useState, useRef } from "react"
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
 import { Message } from "./Message"
+import { AddEmbedModal } from "./AddEmbedModal"
 
 
 export const Chat = ({destiny, setDestiny}) => {
@@ -18,6 +19,8 @@ export const Chat = ({destiny, setDestiny}) => {
         messages:[]
     }
     const [settings, setSettings] = useState(defaultSettings)
+    const [attModalOpened, setAttModalOpened] = useState(false)
+    const [embedModalOpened, setEmbedModalOpened] = useState(false)
 
     useEffect(() => {
         AddSocketListener("chat_settings", settings => {
@@ -61,8 +64,26 @@ export const Chat = ({destiny, setDestiny}) => {
         messageInput.current.value = ""
     }
 
+    const AttachElement = () => {
+        return (
+            <Popover width={200} position="bottom" withArrow shadow="md" opened={attModalOpened} onChange={setAttModalOpened}>
+                <Popover.Target>
+                    <ActionIcon style={{marginRight:30}} onClick={() => setAttModalOpened((o) => !o)}>
+                        <IconPlus />
+                    </ActionIcon>
+                </Popover.Target>
+                <Popover.Dropdown>
+                    <Button variant="subtle" color="gray" sx={{display:"flex", marginBottom:5}} fullWidth leftIcon={<IconPlus />} onClick={()=>setEmbedModalOpened(true)}>Add Embed</Button>
+                    <Button variant="subtle" color="gray" sx={{display:"flex"}} fullWidth leftIcon={<IconPlus />}>Add File</Button>
+                </Popover.Dropdown>
+            </Popover>
+        )
+    }
+
     
     return (
+        <>
+        <AddEmbedModal opened={embedModalOpened} setOpened={setEmbedModalOpened} />
         <Paper shadow="sm" radius={"md"} className={classes.papers} style={{width:"95%"}}>
             <Box className={classes.paper_header}>
                 <IconAt color={theme.white} className={classes.app_icon}/>
@@ -85,10 +106,11 @@ export const Chat = ({destiny, setDestiny}) => {
                 </ScrollArea>
 
                 <Box style={{marginTop:"1vh"}}>
-                    <Textarea onKeyDown={keyHandler} placeholder="Enter here your text" ref={messageInput}/>
+                    <Textarea onKeyDown={keyHandler} placeholder="Enter here your text" ref={messageInput} rightSection={<AttachElement />}/>
                 </Box>
 
             </Box>
         </Paper>
+        </>
     )
 }

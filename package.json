@@ -4,8 +4,8 @@
   "description": "A Discord Bot remote controller using Websockets and React",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently --kill-others -p \" \" \"node index.js\" \"npm run dev --prefix .\\web\\\"",
-    "setup": "npm i && npm run setup --prefix .\\web\\"
+    "start": "concurrently --kill-others -p ' ' 'node index.js' 'npm run dev --prefix ./web'",
+    "setup": "npm i && npm run setup --prefix ./web"
   },
   "repository": {
     "type": "git",

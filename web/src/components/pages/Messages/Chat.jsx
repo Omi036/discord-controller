@@ -1,7 +1,7 @@
-import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea, LoadingOverlay, Popover, Button } from "@mantine/core"
+import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea, LoadingOverlay, Popover, Button, FileButton } from "@mantine/core"
 import { customLoader } from "../../../styles/Settings.style"
 import { useStyles } from "../../../styles/Pages.style"
-import { IconAt, IconArrowBack, IconPlus } from "@tabler/icons"
+import { IconAt, IconArrowBack, IconPlus, IconPaperclip, IconFile } from "@tabler/icons"
 import { useMantineTheme } from "@mantine/core"
 import { useEffect, useState, useRef } from "react"
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
@@ -19,8 +19,8 @@ export const Chat = ({destiny, setDestiny}) => {
         messages:[]
     }
     const [settings, setSettings] = useState(defaultSettings)
-    const [attModalOpened, setAttModalOpened] = useState(false)
     const [embedModalOpened, setEmbedModalOpened] = useState(false)
+    const [files, setFiles] = useState([])
 
     useEffect(() => {
         AddSocketListener("chat_settings", settings => {
@@ -64,17 +64,40 @@ export const Chat = ({destiny, setDestiny}) => {
         messageInput.current.value = ""
     }
 
-    const AttachElement = () => {
+    const AddAttachElement = () => {
         return (
-            <Popover width={200} position="bottom" withArrow shadow="md" opened={attModalOpened} onChange={setAttModalOpened}>
+            <Popover width={200} position="top" withArrow shadow="md">
                 <Popover.Target>
-                    <ActionIcon style={{marginRight:30}} onClick={() => setAttModalOpened((o) => !o)}>
+                    <ActionIcon style={{marginRight:80}}>
                         <IconPlus />
                     </ActionIcon>
                 </Popover.Target>
                 <Popover.Dropdown>
                     <Button variant="subtle" color="gray" sx={{display:"flex", marginBottom:5}} fullWidth leftIcon={<IconPlus />} onClick={()=>setEmbedModalOpened(true)}>Add Embed</Button>
-                    <Button variant="subtle" color="gray" sx={{display:"flex"}} fullWidth leftIcon={<IconPlus />}>Add File</Button>
+                    <FileButton onChange={setFiles} multiple>
+                        {(props) => <Button variant="subtle"  {...props} color="gray" sx={{display:"flex"}} fullWidth leftIcon={<IconPlus />}>Add File</Button>}
+                    </FileButton>
+                </Popover.Dropdown>
+            </Popover>
+        )
+    }
+
+
+    const AttachList = () => {
+        return (
+            <Popover width={files.length >=1 ? 500 : 10} position="top" withArrow shadow="md">
+                <Popover.Target>
+                    <ActionIcon style={{marginRight:10}}>
+                        <IconPaperclip />
+                    </ActionIcon>
+                </Popover.Target>
+                <Popover.Dropdown style={{display:"grid", gridTemplateColumns: "repeat(3, 33%)", width:"100%"}}>
+                    {files.map(file  => (
+                        <Box key={file.name} style={{display:"flex",width:"90%", flexDirection:"column", alignItems:"center", backgroundColor:"#2c2e33", borderRadius:7, margin:5, boxSizing:"border-box", padding:7}}>
+                            <IconFile />
+                            <Text style={{overflow: "hidden", whiteSpace: "nowrap",textAlign:"center", textOverflow: "ellipsis", width: "80%"}}>{file.name}</Text>
+                        </Box>
+                    ))}
                 </Popover.Dropdown>
             </Popover>
         )
@@ -106,7 +129,7 @@ export const Chat = ({destiny, setDestiny}) => {
                 </ScrollArea>
 
                 <Box style={{marginTop:"1vh"}}>
-                    <Textarea onKeyDown={keyHandler} placeholder="Enter here your text" ref={messageInput} rightSection={<AttachElement />}/>
+                    <Textarea onKeyDown={keyHandler} placeholder="Enter here your text" ref={messageInput} rightSection={<><AttachList /><AddAttachElement /></>}/>
                 </Box>
 
             </Box>

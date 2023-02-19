@@ -46,7 +46,7 @@ With this tool, you can take <s>almost</s> fully control of a discord bot.
 Although we are still under early development, we plan to add fully control over channels, bots, guilds, users query, and more.  
 In the meanwhile, you can try our demo. See <a href="#getting-started">getting started.</a>
 <img src="https://media.discordapp.net/attachments/1064596920133230642/1071438018013057104/Captura_de_pantalla_2023-02-04_a_las_15.31.49.png?width=1422&height=675" />
-<img src="https://media.discordapp.net/attachments/1064596920133230642/1071438018289872896/Captura_de_pantalla_2023-02-04_a_las_15.31.41.png?width=1422&height=675" />
+<img src="https://i.imgur.com/XZi5IFr.gif" />
 
 ## Getting Started
 ### Prerequisites
@@ -75,12 +75,9 @@ In the meanwhile, you can try our demo. See <a href="#getting-started">getting s
 ```sh
 cd YOUR_PATH/discord-controller/
 ```
-2. Then, inside a terminal, start the project, a browser window to <a href="http://localhost:5018" target="_blank">localhost:5018</a> should show up.  
-```sh
-npm run start
-```
+2. Then, execute the `start.bat` (or `start.sh` if using Linux) script, a browser window to <a href="http://localhost:5018" target="_blank">localhost:5018</a> should show up.  
 3. You should be greeted with the following screen:  
-<img src="https://media.discordapp.net/attachments/1064596920133230642/1071452434574086267/Captura_de_pantalla_2023-02-04_a_las_16.29.19.png?width=1422&height=675" />
+<img src="https://i.imgur.com/ct8eZ40.png" />
 4. Type down your discord token and select the intents you want to login in. (If not sure, select default)<br/>
 5. Now, you are inside the dashboard!, take notice that we're still under early development, many categories are missing nor bugged.
 

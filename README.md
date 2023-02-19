@@ -65,10 +65,7 @@ In the meanwhile, you can try our demo. See <a href="#getting-started">getting s
   cd discord-controller
   npm run setup
   ```  
-3. Finally, test everything is OK
-  ```sh
-  npm run start
-  ```
+3. Finally, run the `start.bat` file (or `start.sh` if you're using linux)
 A browser window should pop up, if not, try going to <a href="http://localhost:5018" target="_blank">localhost:5018</a> in your browser.
 
 ## Usage

@@ -1,7 +1,7 @@
 import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea, LoadingOverlay, Popover, Button, FileButton, Indicator } from "@mantine/core"
 import { customLoader } from "../../../styles/Settings.style"
 import { useStyles } from "../../../styles/Pages.style"
-import { IconAt, IconArrowBack, IconPlus, IconPaperclip, IconFile, IconLayoutSidebar } from "@tabler/icons"
+import { IconAt, IconArrowBack, IconPlus, IconPaperclip, IconFile, IconLayoutSidebar, IconSend } from "@tabler/icons"
 import { useMantineTheme } from "@mantine/core"
 import { useEffect, useState, useRef } from "react"
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
@@ -54,6 +54,11 @@ export const Chat = ({destiny, setDestiny}) => {
          />)
     }
 
+    const postMessage = () => {
+        SendMessage("post_message", {type:destiny.type, svId: destiny.svId, id:destiny.id, content:messageInput.current.value})
+        messageInput.current.value = ""
+    }
+
     const keyHandler = e => {
         if(e.keyCode !== 13) return
         if(e.shiftKey) {
@@ -64,32 +69,21 @@ export const Chat = ({destiny, setDestiny}) => {
         if(!messageInput.current.value.length >= 1) return
 
         e.preventDefault()
-        SendMessage("post_message", {type:destiny.type, svId: destiny.svId, id:destiny.id, content:messageInput.current.value})
-        messageInput.current.value = ""
+        postMessage()
     }
 
-    const AddAttachElement = () => {
+    const SendButton = () => {
         return (
-            <Popover width={200} position="top" withArrow shadow="md">
-                <Popover.Target>
-                    <ActionIcon style={{marginRight:80}}>
-                        <IconPlus />
-                    </ActionIcon>
-                </Popover.Target>
-                <Popover.Dropdown>
-                    <Button variant="subtle" color="gray" sx={{display:"flex", marginBottom:5}} fullWidth leftIcon={<IconPlus />} onClick={()=>setEmbedModalOpened(true)}>Set Embed</Button>
-                    <FileButton onChange={setFiles} multiple>
-                        {(props) => <Button variant="subtle"  {...props} color="gray" sx={{display:"flex"}} fullWidth leftIcon={<IconPlus />}>Set Files</Button>}
-                    </FileButton>
-                </Popover.Dropdown>
-            </Popover>
+        <ActionIcon style={{marginRight:80}}>
+            <IconSend onClick={postMessage} />
+        </ActionIcon>
         )
     }
 
 
     const AttachList = () => {
         return (
-            <Popover width={files.length >=1 || embed.title ? 500 : 10} position="top" withArrow shadow="md">
+            <Popover width={500} position="top" withArrow shadow="md">
                 <Popover.Target>
                     <ActionIcon style={{marginRight:10}}>
                         <Indicator color="indigo" size={16} showZero label={`${files.length + (embed.title ? 1 :0)}`}>
@@ -97,7 +91,8 @@ export const Chat = ({destiny, setDestiny}) => {
                         </Indicator>
                     </ActionIcon>
                 </Popover.Target>
-                <Popover.Dropdown style={{display:"grid", gridTemplateColumns: "repeat(3, 33%)", width:"100%"}}>
+                <Popover.Dropdown >
+                    <Box style={{display:"grid", gridTemplateColumns: "repeat(3, 33%)", width:"100%"}}>
                     {files.map(file  => (
                         <Box key={file.name} style={{display:"flex",width:"90%", flexDirection:"column", alignItems:"center", backgroundColor:"#2c2e33", borderRadius:7, margin:5, boxSizing:"border-box", padding:7}}>
                             <IconFile color="#4dabf7"/>
@@ -110,6 +105,15 @@ export const Chat = ({destiny, setDestiny}) => {
                             <Text style={{overflow: "hidden", whiteSpace: "nowrap",textAlign:"center", textOverflow: "ellipsis", width: "80%"}}>{embed.title}</Text>
                         </Box>
                     )}
+                    </Box>
+                    <Box style={{display:"flex",flexDirection:"row", marginTop:8, justifyContent:"space-between",}}>
+
+                        <Button color="indigo" leftIcon={<IconPlus />} style={{width:"48%"}} onClick={()=>setEmbedModalOpened(true)}>Set Embed</Button>
+                        <FileButton onChange={setFiles} multiple>
+                            {(props) => <Button  {...props} color="indigo" leftIcon={<IconPlus />} style={{width:"48%"}}>Set Files</Button>}
+                        </FileButton>
+
+                    </Box>
                 </Popover.Dropdown>
             </Popover>
         )
@@ -141,7 +145,7 @@ export const Chat = ({destiny, setDestiny}) => {
                 </ScrollArea>
 
                 <Box style={{marginTop:"1vh"}}>
-                    <Textarea onKeyDown={keyHandler} placeholder="Enter here your text" ref={messageInput} rightSection={<><AttachList /><AddAttachElement /></>}/>
+                    <Textarea onKeyDown={keyHandler} placeholder="Enter here your text" ref={messageInput} rightSection={<><AttachList /><SendButton /></>}/>
                 </Box>
 
             </Box>

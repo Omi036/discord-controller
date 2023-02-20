@@ -1,11 +1,15 @@
-exports.postMessage = (client, connection, type, svId, id, content) => {
+exports.postMessage = (client, connection, type, svId, id, content, attachments) => {
 
     switch (type) {
         case "channel":
             const sv = client.guilds.cache.find(server => server.id === svId)
             const channel = sv.channels.cache.find(channel => channel.id === id)
+            var message = {}
 
-            channel.send(content).then(() =>{
+            if(content) message.content = content
+            if(attachments.embed) message.embeds = [attachments.embed]
+
+            channel.send(message).then(() =>{
                 require("./sendChatSettings").sendChatSettings(client, connection, type, svId, id)
             })
             break;

@@ -2,11 +2,10 @@ import { Box, Modal, Textarea , TextInput, ColorInput, Divider, Text, Button, Im
 import { useState, useRef } from "react"
 
 export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
-    const [color, setColor] = useState("#fff")
+    const [color, setColor] = useState("#ffffff")
     const [title, setTitle] = useState("")
     const [titleError, setTitleError] = useState("")
     const [descriptionError, setDescriptionError] = useState("")
-    const descriptionRef = useRef()
     const [description, setDescription] = useState("")
     const [author, setAuthor] = useState("")
     const [image, setImage] = useState("")
@@ -19,7 +18,25 @@ export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
         if(!description) {setDescriptionError("A description is required"); return}
         setEmbed({
             title: title,
-            json:""
+            json: {
+                color: parseInt(color.replace(/^#/,""),16),
+                title: title,
+                url:"",
+                author: {
+                    name: author,
+                    icon_url: '',
+                    url: '',
+                },
+                description: description,
+                thumbnail: { url: thumbnail },
+                fields: [],
+                image: {url: image},
+                timestamp: "",
+                footer: {
+                    text: footer,
+                    icon_url: '',
+                },
+            }
         })
         setOpened(false)
     }
@@ -29,7 +46,7 @@ export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
             <Box style={{display: 'flex', flexDirection: 'row', height:"37rem"}}>
                 <Box style={{width:"30%"}}>
                     <TextInput label="Title" required value={title} error={titleError} onChange={(event) => setTitle(event.currentTarget.value)}/>
-                    <Textarea label="Description" required value={description} error={descriptionError} ref={descriptionRef} onChange={(event) => setDescription(event.currentTarget.value)}/>
+                    <Textarea label="Description" required value={description} error={descriptionError} onChange={(event) => setDescription(event.currentTarget.value)}/>
                     <ColorInput label="Embed Color" maxLength={7} value={color} onChange={setColor}/>
                     <TextInput label="Author" value={author} onChange={(event) => setAuthor(event.currentTarget.value)}/>
                     <TextInput label="Footer" value={footer} onChange={(event) => setFooter(event.currentTarget.value)}/>

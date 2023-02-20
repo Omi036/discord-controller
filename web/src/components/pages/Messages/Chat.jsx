@@ -55,7 +55,14 @@ export const Chat = ({destiny, setDestiny}) => {
     }
 
     const postMessage = () => {
-        SendMessage("post_message", {type:destiny.type, svId: destiny.svId, id:destiny.id, content:messageInput.current.value})
+        if(!embed.title && !messageInput.current.value) return
+        
+        SendMessage("post_message", {type:destiny.type, svId: destiny.svId, id:destiny.id, content:messageInput.current.value,attachments:{embed:embed.json}})
+        setEmbed({
+            title:"",
+            json:""
+        })
+        setFiles([])
         messageInput.current.value = ""
     }
 

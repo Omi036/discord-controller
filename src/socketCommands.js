@@ -75,7 +75,8 @@ const SendChatSettings = (server, connection, data) => {
 
 
 const PostMessage = (server, connection, data) => {
-    Discord.postMessage(connection, data.type, data.svId, data.id, data.content)
+    console.log(data)
+    Discord.postMessage(connection, data.type, data.svId, data.id, data.content, data.attachments)
 }
 
 const DeleteMessage = (server, connection, data) => {

@@ -21,10 +21,8 @@ export const Chat = ({destiny, setDestiny}) => {
     const [settings, setSettings] = useState(defaultSettings)
     const [embedModalOpened, setEmbedModalOpened] = useState(false)
     const [files, setFiles] = useState([])
-    const [embed, setEmbed] = useState({
-        title:"",
-        json:""
-    })
+    const defaultEmbed = {title:"",json:""}
+    const [embed, setEmbed] = useState(defaultEmbed)
 
     useEffect(() => {
         AddSocketListener("chat_settings", settings => {
@@ -101,13 +99,13 @@ export const Chat = ({destiny, setDestiny}) => {
                 <Popover.Dropdown >
                     <Box style={{display:"grid", gridTemplateColumns: "repeat(3, 33%)", width:"100%"}}>
                     {files.map(file  => (
-                        <Box key={file.name} style={{display:"flex",width:"90%", flexDirection:"column", alignItems:"center", backgroundColor:"#2c2e33", borderRadius:7, margin:5, boxSizing:"border-box", padding:7}}>
+                        <Box key={file.name} sx={{display:"flex",width:"90%", flexDirection:"column", alignItems:"center", backgroundColor:"#2c2e33", borderRadius:7, margin:5, boxSizing:"border-box", padding:7,cursor:"pointer", "&:hover":{backgroundColor:"#a61e4d"}}} onClick={() => {var new_files = [...files]; new_files.splice(files.indexOf(file),1); setFiles(new_files)}}>
                             <IconFile color="#4dabf7"/>
                             <Text style={{overflow: "hidden", whiteSpace: "nowrap",textAlign:"center", textOverflow: "ellipsis", width: "80%"}}>{file.name}</Text>
                         </Box>
                     ))}
                     {embed.title && (
-                        <Box style={{display:"flex",width:"90%", flexDirection:"column", alignItems:"center", backgroundColor:"#2c2e33", borderRadius:7, margin:5, boxSizing:"border-box", padding:7}}>
+                        <Box sx={{display:"flex",width:"90%", flexDirection:"column", alignItems:"center", backgroundColor:"#2c2e33", borderRadius:7, margin:5, boxSizing:"border-box", padding:7,cursor:"pointer", "&:hover":{backgroundColor:"#a61e4d"}}} onClick={()=>setEmbed(defaultEmbed)}>
                             <IconLayoutSidebar color="#ffa94d"/>
                             <Text style={{overflow: "hidden", whiteSpace: "nowrap",textAlign:"center", textOverflow: "ellipsis", width: "80%"}}>{embed.title}</Text>
                         </Box>

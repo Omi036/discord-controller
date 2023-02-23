@@ -60,10 +60,10 @@ exports.login = ({token, intents}) => {
         exports.sendChannels = (connection, id) => require("./discordCommands/sendChannels").sendChannels(client, connection, id, ChannelType)
         exports.sendChannelData = async (connection, svId, id) => require("./discordCommands/sendChannelData").sendChannelData(client, connection, svId, id, ChannelType)
         exports.sendServerData = async (connection, id) => require("./discordCommands/sendServerData").sendServerData(client, connection, id)
+        exports.queryUser = async (connection, query) => require("./discordCommands/queryUser").queryUser(client,connection, query)
         
         exports.sendClientPageData()
     });
-
 
     // We'll try to connect with the provide token
     // If ERR, we will notify the web

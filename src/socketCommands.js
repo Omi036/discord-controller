@@ -84,6 +84,11 @@ const DeleteMessage = (server, connection, data) => {
 }
 
 
+const QueryUser = (server, connection, data) => {
+    Discord.queryUser(connection, data.query)
+}
+
+
 // This object contains all the websockets commands
 exports.Commands = {
     "auth":AuthorizeUser,
@@ -109,4 +114,6 @@ exports.Commands = {
     
     "get_members": SendMembers,
     "get_member_data": SendMemberData,
+
+    "query_user": QueryUser,
 }

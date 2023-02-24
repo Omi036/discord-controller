@@ -1,4 +1,4 @@
-import { Text, Box, ActionIcon, ScrollArea, Checkbox, SimpleGrid, LoadingOverlay, TextInput, ColorInput, Accordion } from "@mantine/core"
+import { Text, Box, ActionIcon, ScrollArea, Checkbox, SimpleGrid, LoadingOverlay, TextInput, ColorInput, Accordion, Button } from "@mantine/core"
 import { customLoader } from "../../../../styles/Settings.style"
 import { IconArrowBack } from "@tabler/icons"
 import { useState, useEffect } from "react"
@@ -36,7 +36,7 @@ const RoleButton = ({ name, id, color, setTab, setThirdRole }) => {
 
 
 // Displays all the info about an user
-export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole }) => {
+export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole, setMsgDestiny, setPage }) => {
     const defaultMemberSettings = {
         bannable: false,
         kickable: false,
@@ -152,6 +152,9 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
                         </Accordion.Panel>
                     </Accordion.Item>
                 </Accordion>
+                <SimpleGrid cols={2} style={{marginTop:10}}>
+                    <Button color="indigo" fullWidth onClick={()=>{setMsgDestiny({type:"dm", id:settings.id});setPage("Messages")}}>Send Message</Button>
+                </SimpleGrid>
             </ScrollArea>
         </>
     )

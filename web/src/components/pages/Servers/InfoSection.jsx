@@ -40,7 +40,7 @@ export const InfoSection = ({server, setMsgDestiny, setPage}) => {
                     <Tabs.Panel value="general"><GeneralTab server={server} /></Tabs.Panel>
                     <Tabs.Panel value="channels"><ChannelsTab tab={tab} server={server} setPage={setPage} setMsgDestiny={setMsgDestiny}/></Tabs.Panel>
                     <Tabs.Panel value="roles"><RolesTab tab={tab} server={server} thirdRole={thirdRole} setThirdRole={setThirdRole}/></Tabs.Panel>
-                    <Tabs.Panel value="members"><MembersTab tab={tab} server={server} setThirdRole={setThirdRole} setTab={setTab} /></Tabs.Panel>
+                    <Tabs.Panel value="members"><MembersTab tab={tab} server={server} setThirdRole={setThirdRole} setTab={setTab} setPage={setPage} setMsgDestiny={setMsgDestiny} /></Tabs.Panel>
                 </Box>
             </Tabs>
         </Paper>

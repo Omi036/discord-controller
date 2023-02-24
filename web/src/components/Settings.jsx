@@ -108,6 +108,11 @@ export const Settings = () => {
         setIntents(newIntents)
     }
 
+    const handleKeyDown = (e) => {
+        if (e.key !== 'Enter') return
+        handleLoginClick()
+    }
+
 
     return (
         <Modal
@@ -120,6 +125,7 @@ export const Settings = () => {
             closeOnClickOutside={false}
             size="lg"
             overlayBlur={3}
+            onKeyDown={handleKeyDown}
         >
             {/* This overlay will be shown meanwhile we receive the server approvation */}
             <LoadingOverlay visible={disabled} overlayBlur={2} loader={customLoader} />

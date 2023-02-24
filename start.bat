@@ -1,2 +1,3 @@
-start "" /d "./" npm start
-start "" /d "./web/" npm run dev
+start "" /b /d "./" npm start
+start "" /b /wait /d "./web/" npm run dev
+exit

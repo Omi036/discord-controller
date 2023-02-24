@@ -61,6 +61,7 @@ exports.login = ({token, intents}) => {
         exports.sendChannelData = async (connection, svId, id) => require("./discordCommands/sendChannelData").sendChannelData(client, connection, svId, id, ChannelType)
         exports.sendServerData = async (connection, id) => require("./discordCommands/sendServerData").sendServerData(client, connection, id)
         exports.queryUser = async (connection, query) => require("./discordCommands/queryUser").queryUser(client,connection, query)
+        exports.sendUserInfo = (connection, id) => require("./discordCommands/sendUserInfo").sendUserInfo(client,connection,id)
         
         exports.sendClientPageData()
     });

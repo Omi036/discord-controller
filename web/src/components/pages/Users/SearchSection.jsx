@@ -7,12 +7,11 @@ import { SendMessage, AddSocketListener } from "../../misc/WebSocket"
 import { SideUser } from "./SideUser"
 import { useRef, useEffect, useState } from "react"
 
-export const SearchSection = () => {
+export const SearchSection = ({userActive, setUserActive}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
     const queryRef = useRef()
     const [users, setUsers] = useState([])
-    const [userActive, setUserActive] = useState("984548429197869117")
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -24,7 +23,7 @@ export const SearchSection = () => {
 
 
     const keyHandler = (e) => {
-        if(e.keyCode != 13) return
+        if(e.key !== "Enter") return
         if(queryRef.current.value.length === 0) return
 
         e.preventDefault()
@@ -33,7 +32,6 @@ export const SearchSection = () => {
     }
 
     var UsersElement = []
-    console.log(users)
     for(const user of users) {
         UsersElement.push(<SideUser id={user.id} key={user.id} active={user.id === userActive} name={user.name} avatarUrl={user.avatarUrl} setActive={() => setUserActive(user.id)}></SideUser>)
     }

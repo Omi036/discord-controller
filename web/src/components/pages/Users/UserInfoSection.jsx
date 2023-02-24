@@ -1,4 +1,4 @@
-import { Paper, Box, Text, ScrollArea, Checkbox, TextInput, SimpleGrid, ColorInput, LoadingOverlay } from "@mantine/core"
+import { Paper, Box, Text, ScrollArea, Checkbox, TextInput, SimpleGrid, ColorInput, LoadingOverlay, Accordion } from "@mantine/core"
 import { customLoader } from "../../../styles/Settings.style"
 import { IconInfoCircle } from "@tabler/icons"
 import { ImageDisplay } from "../../misc/ImageDisplay"
@@ -22,6 +22,25 @@ export const UserInfoSection = ({userActive, setUserActive}) => {
         flags:[],
     }
     const [userData, setUserData] = useState(defaultData)
+    const flagsList = [
+        "ActiveDeveloper",
+        "BotHTTPInteractions",
+        "BugHunterLevel1",
+        "BugHunterLevel2",
+        "CertifiedModerator",
+        "HypeSquadOnlineHouse1",
+        "HypeSquadOnlineHouse2",
+        "HypeSquadOnlineHouse3",
+        "Hypesquad",
+        "Partner",
+        "PremiumEarlySupporter",
+        "Quarantined",
+        "Spammer",
+        "Staff",
+        "TeamPseudoUser",
+        "VerifiedBot",
+        "VerifiedDeveloper"
+    ]
 
 
     useEffect(() => {
@@ -35,6 +54,18 @@ export const UserInfoSection = ({userActive, setUserActive}) => {
         SendMessage("get_user_info", {id:userActive})
     },[userActive])
 
+    var flagsElement = []
+    for(const flag of flagsList){
+        flagsElement.push(
+            <Checkbox 
+            readOnly 
+            color={"indigo"}
+            label={flag}
+            checked={userData.flags.includes(flag)}
+            key={flag} 
+            />
+        )
+    }
     return (
         <Paper shadow="sm" radius="md" className={classes.paperswidth}> 
             <Box className={classes.paper_header}>
@@ -50,7 +81,7 @@ export const UserInfoSection = ({userActive, setUserActive}) => {
                         <Checkbox label="User is Bot" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={userData.isBot}/>
                     </ SimpleGrid>
 
-                    <SimpleGrid cols={2} spacing={40} verticalSpacing={5}>
+                    <SimpleGrid cols={2} spacing={40} verticalSpacing={5} style={{marginBottom: 10}}>
                         <TextInput label="Tag" readOnly className={classes.text_input} value={userData.tag}/>
                         <TextInput label="Id" readOnly className={classes.text_input} value={userData.id}/>
                         <TextInput label="Created At" readOnly className={classes.text_input} value={new Date(userData.createdAt)}/>
@@ -58,6 +89,16 @@ export const UserInfoSection = ({userActive, setUserActive}) => {
                         <ImageDisplay label="Avatar Url" value={userData.avatarUrl} />
                         {userData.banner && <ImageDisplay label="Banner Url" value={userData.banner} />}
                     </SimpleGrid>
+                    <Accordion variant="contained" chevronPosition="left">
+                        <Accordion.Item value="flags">
+                            <Accordion.Control>Flags</Accordion.Control>
+                            <Accordion.Panel>
+                                <SimpleGrid cols={2} style={{marginBottom: 15}}>
+                                    {flagsElement}
+                                </SimpleGrid>
+                            </Accordion.Panel>
+                        </Accordion.Item>
+                    </Accordion>
                 </ScrollArea>
             </Box>
         </Paper>

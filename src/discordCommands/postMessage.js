@@ -13,5 +13,19 @@ exports.postMessage = (client, connection, type, svId, id, content, attachments)
                 require("./sendChatSettings").sendChatSettings(client, connection, type, svId, id)
             })
             break;
+
+        case "dm":
+            client.users.fetch(id).then(user => {
+                var message = {}
+
+                if(content) message.content = content
+                if(attachments.embed) message.embeds = [attachments.embed]
+
+                
+                user.dmChannel.send(message).then(() =>{
+                    require("./sendChatSettings").sendChatSettings(client, connection, type, svId, id)
+                })
+            })
+            break;
     }
 }

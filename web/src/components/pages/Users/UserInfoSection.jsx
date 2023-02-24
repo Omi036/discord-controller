@@ -1,4 +1,4 @@
-import { Paper, Box, Text, ScrollArea, Checkbox, TextInput, SimpleGrid, ColorInput, LoadingOverlay, Accordion } from "@mantine/core"
+import { Paper, Box, Text, ScrollArea, Checkbox, TextInput, SimpleGrid, ColorInput, LoadingOverlay, Accordion, Button } from "@mantine/core"
 import { customLoader } from "../../../styles/Settings.style"
 import { IconInfoCircle } from "@tabler/icons"
 import { ImageDisplay } from "../../misc/ImageDisplay"
@@ -7,7 +7,7 @@ import { useMantineTheme } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
 
-export const UserInfoSection = ({userActive, setUserActive}) => {
+export const UserInfoSection = ({userActive, setUserActive, setMsgDestiny, setPage}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
     const defaultData = {
@@ -99,6 +99,9 @@ export const UserInfoSection = ({userActive, setUserActive}) => {
                             </Accordion.Panel>
                         </Accordion.Item>
                     </Accordion>
+                    <SimpleGrid cols={2} style={{marginTop:10}}>
+                        <Button color="indigo" fullWidth onClick={()=>{setMsgDestiny({type:"dm", id:userData.id});setPage("Messages")}}>Send Message</Button>
+                    </SimpleGrid>
                 </ScrollArea>
             </Box>
         </Paper>

@@ -99,9 +99,9 @@ export const UserInfoSection = ({userActive, setUserActive, setMsgDestiny, setPa
                             </Accordion.Panel>
                         </Accordion.Item>
                     </Accordion>
-                    <SimpleGrid cols={2} style={{marginTop:10}}>
+                    <Box style={{marginTop:10}}>
                         <Button color="indigo" fullWidth onClick={()=>{setMsgDestiny({type:"dm", id:userData.id});setPage("Messages")}}>Send Message</Button>
-                    </SimpleGrid>
+                    </Box>
                 </ScrollArea>
             </Box>
         </Paper>

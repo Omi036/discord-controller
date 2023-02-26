@@ -36,7 +36,6 @@ export const SearchSection = ({userActive, setUserActive}) => {
         UsersElement.push(<SideUser id={user.id} key={user.id} active={user.id === userActive} name={user.name} avatarUrl={user.avatarUrl} setActive={() => setUserActive(user.id)}></SideUser>)
     }
     return (
-        <>
         <Paper shadow="sm" radius={"md"} className={classes.papers}>
             {/* Titlebar */}
             <Box className={classes.paper_header}>
@@ -49,12 +48,16 @@ export const SearchSection = ({userActive, setUserActive}) => {
                     <TextInput ref={queryRef} placeholder="Enter name or id to search" disabled={loading} onKeyDown={keyHandler} rightSection={<IconSearch size={15} />}/>
                     <Divider style={{marginTop:15}}/>
                 </Box>
-                <ScrollArea type="auto" className={classes.scroll}>
+                <ScrollArea type="auto" className={classes.scroll} >
                     { UsersElement }
+                    { UsersElement.length === 0 && !loading &&
+                    <Box sx={{display: 'flex', alignItems:"center", justifyContent: 'center', height: '100%'}}>
+                        <Text color={theme.colors.dark[3]}>Search a user to start</Text> 
+                    </Box>
+                    }
                     { loading && <LoadingOverlay visible overlayBlur={0} loader={customLoader}/>}
                 </ScrollArea>
             </Box>
         </Paper>
-        </>
     )
 }

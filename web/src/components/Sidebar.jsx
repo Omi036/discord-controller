@@ -12,9 +12,9 @@ import { version } from "../../../package.json"
 const sidebarLinks = [
     {label: "Client", icon: IconRobot},
     {label: "Servers", icon: IconServer },
-    {label: "Messages", icon: IconMessage },
     {label: "Users", icon: IconUser },
     {label: "Commands", icon: IconCode },
+    {label: "Messages", icon: IconMessage },
     {label: "Misc", icon: IconDots },
 ];
 

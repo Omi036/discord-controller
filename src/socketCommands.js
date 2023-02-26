@@ -93,6 +93,16 @@ const SendUserInfo = (server, connection, data) => {
 }
 
 
+const SendCommands = (server, connection, data) => {
+    Discord.sendCommands(connection)
+}
+
+
+const SendCommandInfo = (server, connection, data) => {
+    Discord.sendCommandInfo(connection, data.id)
+}
+
+
 // This object contains all the websockets commands
 exports.Commands = {
     "auth":AuthorizeUser,
@@ -121,5 +131,8 @@ exports.Commands = {
 
     "query_user": QueryUser,
 
-    "get_user_info": SendUserInfo
+    "get_user_info": SendUserInfo,
+
+    "get_commands": SendCommands,
+    "get_command_info":SendCommandInfo,
 }

@@ -1,13 +1,23 @@
 import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea, LoadingOverlay, Popover, Button, FileButton, Indicator } from "@mantine/core"
 import { customLoader } from "../../../styles/Settings.style"
 import { useStyles } from "../../../styles/Pages.style"
-import { IconAt, IconArrowBack, IconPlus, IconPaperclip, IconFile, IconLayoutSidebar, IconSend } from "@tabler/icons"
+import { IconAt, IconArrowBack, IconPlus, IconPaperclip, IconFile, IconLayoutSidebar, IconSend, IconReload } from "@tabler/icons"
 import { useMantineTheme } from "@mantine/core"
 import { useEffect, useState, useRef } from "react"
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
 import { Message } from "./Message"
 import { AddEmbedModal } from "./AddEmbedModal"
 
+
+function _arrayBufferToBase64( buffer ) {
+    var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+}
 
 export const Chat = ({destiny, setDestiny}) => {
     const { classes } = useStyles()
@@ -52,16 +62,24 @@ export const Chat = ({destiny, setDestiny}) => {
          />)
     }
 
-    const postMessage = () => {
-        if(!embed.title && !messageInput.current.value) return
-        
-        SendMessage("post_message", {type:destiny.type, svId: destiny.svId, id:destiny.id, content:messageInput.current.value,attachments:{embed:embed.json}})
-        setEmbed({
-            title:"",
-            json:""
-        })
-        setFiles([])
-        messageInput.current.value = ""
+    const postMessage = async () => {
+        if(embed.title) console.log("Embed")
+        if(embed.title || messageInput.current.value.length > 0 || files.length > 0) {
+            var based_files = [] // 🗿
+            for(const file of files) {
+                const buffer = await file.arrayBuffer()
+                const base64String = _arrayBufferToBase64(buffer);
+                based_files.push({name:file.name, buffer:base64String});
+            }
+    
+            SendMessage("post_message", {type:destiny.type, svId: destiny.svId, id:destiny.id, content:messageInput.current.value,attachments:{embed:embed.json, files:based_files}})
+            setEmbed({
+                title:"",
+                json:""
+            })
+            setFiles([])
+            messageInput.current.value = ""
+        }
     }
 
     const keyHandler = e => {
@@ -71,7 +89,6 @@ export const Chat = ({destiny, setDestiny}) => {
             messageInput.current.value += "\n"
             return
         }
-        if(!messageInput.current.value.length >= 1) return
 
         e.preventDefault()
         postMessage()
@@ -132,6 +149,9 @@ export const Chat = ({destiny, setDestiny}) => {
             <Box className={classes.paper_header}>
                 <IconAt color={theme.white} className={classes.app_icon}/>
                 <Text color={theme.white} weight="600">Chat</Text>
+                <ActionIcon style={{marginLeft:"auto", marginRight:10}} onClick={()=>{SendMessage("send_chat_settings", {type:destiny.type, svId: destiny.svId, id:destiny.id})}}>
+                        <IconReload />
+                </ActionIcon>
             </Box>
 
             <Box style={{boxSizing: "border-box",padding:10}}>

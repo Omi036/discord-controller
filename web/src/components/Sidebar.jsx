@@ -15,7 +15,6 @@ const sidebarLinks = [
     {label: "Users", icon: IconUser },
     {label: "Commands", icon: IconCode },
     {label: "Messages", icon: IconMessage },
-    {label: "Misc", icon: IconDots },
 ];
 
 
@@ -53,7 +52,7 @@ export function Sidebar({page , setPage}) {
             <LogoutModal opened={logoutModalOpened} setOpened={setLogoutModalOpened} />
 
             {/* Main Sidebar */}
-            <Navbar height={"100vh"} width={{ sm: 300 }} p="md">
+            <Navbar height={"100vh"} width={{ sm: 230 }} p="md">
                 {/* Top section of the sidebar */}
                 <Navbar.Section grow>
                     <Group className={classes.header} position="apart">

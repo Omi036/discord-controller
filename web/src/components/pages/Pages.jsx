@@ -17,7 +17,6 @@ export const Pages = ({ page, setPage }) => {
             <Tabs.Panel value="Messages"><MessagesPage page={page} msgDestiny={msgDestiny} setMsgDestiny={setMsgDestiny} setPage={setPage} /></Tabs.Panel>
             <Tabs.Panel value="Users"><UsersPage page={page} setMsgDestiny={setMsgDestiny} setPage={setPage} /></Tabs.Panel>
             <Tabs.Panel value="Commands"><CommandsPage page={page} setPage={page} /></Tabs.Panel>
-            <Tabs.Panel value="Misc">g</Tabs.Panel>
         </Tabs>
     )
 }

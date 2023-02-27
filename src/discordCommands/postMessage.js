@@ -1,3 +1,5 @@
+const { AttachmentBuilder } = require('discord.js')
+
 exports.postMessage = (client, connection, type, svId, id, content, attachments) => {
 
     switch (type) {
@@ -8,6 +10,13 @@ exports.postMessage = (client, connection, type, svId, id, content, attachments)
 
             if(content) message.content = content
             if(attachments.embed) message.embeds = [attachments.embed]
+            if(attachments.files) {
+                message.files = []
+                for(const file of attachments.files){
+                    const attachment = new AttachmentBuilder(Buffer.from(file.buffer, "base64"), {name:file.name})
+                    message.files.push(attachment)
+                }
+            }
 
             channel.send(message).then(() =>{
                 require("./sendChatSettings").sendChatSettings(client, connection, type, svId, id)
@@ -20,7 +29,13 @@ exports.postMessage = (client, connection, type, svId, id, content, attachments)
 
                 if(content) message.content = content
                 if(attachments.embed) message.embeds = [attachments.embed]
-
+                if(attachments.files) {
+                    message.files = []
+                    for(const file of attachments.files){
+                        const attachment = new AttachmentBuilder(Buffer.from(file.buffer, "base64"), {name:file.name})
+                        message.files.push(attachment)
+                    }
+                }
                 
                 user.dmChannel.send(message).then(() =>{
                     require("./sendChatSettings").sendChatSettings(client, connection, type, svId, id)

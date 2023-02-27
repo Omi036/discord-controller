@@ -3,7 +3,7 @@ import { IconDownload, IconFile } from "@tabler/icons"
 
 export const Attachment = ({type,name,url}) => {
     const theme = useMantineTheme()
-    if(type.startsWith("application/") || type.startsWith("audio/")){
+    if(!type || type.startsWith("application/") || type.startsWith("audio/") || type.startsWith("video/")){
         return (
             <Box style={{display:"flex", flexDirection:"row", alignItems:"center", boxSizing:"border-box", padding:7, backgroundColor:theme.colors.dark[4], borderRadius:10, marginBottom:10}}>
                 <IconFile style={{marginRight:5}}/>

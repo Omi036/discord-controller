@@ -60,7 +60,7 @@ export const CmdInfoSection = ({commandActive, setCommandActive}) => {
             })}>
                 <SimpleGrid cols={4} spacing={20}>
                     <TextInput label="Name" readOnly className={classes.text_input} value={opt.name}/>
-                    <TextInput label="Desc" readOnly className={classes.text_input} value={opt.description}/>
+                    <TextInput label="Description" readOnly className={classes.text_input} value={opt.description}/>
                     <TextInput label="Type" readOnly className={classes.text_input} value={opt.type}/>
                     <Checkbox label="Required" color="indigo" readOnly style={{ margin:"auto 0", fontSize: 16 }} checked={opt.required}/>
                 </SimpleGrid>

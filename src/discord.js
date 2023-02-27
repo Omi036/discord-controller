@@ -1,5 +1,5 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits, ChannelType, PermissionFlagsBits, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
+const { Client, Events, GatewayIntentBits, ChannelType, PermissionFlagsBits, ApplicationCommandType, ApplicationCommandOptionType,GuildExplicitContentFilter,GuildVerificationLevel,GuildPremiumTier,GuildNSFWLevel } = require("discord.js");
 const DiscordConfig = { socketServer: undefined };
 
 exports.DiscordConfig = DiscordConfig;
@@ -59,7 +59,7 @@ exports.login = ({token, intents}) => {
         exports.sendRoles = (connection, id) => require("./discordCommands/sendRoles").sendRoles(client, connection, id)
         exports.sendChannels = (connection, id) => require("./discordCommands/sendChannels").sendChannels(client, connection, id, ChannelType)
         exports.sendChannelData = async (connection, svId, id) => require("./discordCommands/sendChannelData").sendChannelData(client, connection, svId, id, ChannelType)
-        exports.sendServerData = async (connection, id) => require("./discordCommands/sendServerData").sendServerData(client, connection, id)
+        exports.sendServerData = async (connection, id) => require("./discordCommands/sendServerData").sendServerData(client, connection, id,GuildExplicitContentFilter,GuildVerificationLevel,GuildPremiumTier,GuildNSFWLevel)
         exports.queryUser = async (connection, query) => require("./discordCommands/queryUser").queryUser(client,connection, query)
         exports.sendUserInfo = (connection, id) => require("./discordCommands/sendUserInfo").sendUserInfo(client,connection,id)
         exports.sendCommands = async (connection) => require("./discordCommands/sendCommands").sendCommands(client, connection)

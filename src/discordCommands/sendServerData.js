@@ -1,4 +1,4 @@
-exports.sendServerData = async (client, connection, id) => {
+exports.sendServerData = async (client, connection, id, GuildExplicitContentFilter,GuildVerificationLevel,GuildPremiumTier,GuildNSFWLevel) => {
     const sv = client.guilds.cache.find(server => server.id === id)
     const users = sv.memberCount
     const channels = sv.channels.cache.size
@@ -28,10 +28,10 @@ exports.sendServerData = async (client, connection, id) => {
                 language: sv.preferredLocale,
                 createdAt: sv.createdAt,
                 joinedAt: sv.joinedAt,
-                verificationLevel: sv.verificationLevel,
-                boostTier: sv.premiumTier,
-                explicitFilter: sv.explicitContentFilter,
-                nsfwLevel: sv.nsfwLevel,
+                verificationLevel: GuildVerificationLevel[sv.verificationLevel],
+                boostTier: GuildPremiumTier[sv.premiumTier],
+                explicitFilter: GuildExplicitContentFilter[sv.explicitContentFilter],
+                nsfwLevel: GuildNSFWLevel[sv.nsfwLevel],
             }
         }))
     })}

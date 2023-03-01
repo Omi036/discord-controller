@@ -52,7 +52,7 @@ exports.login = ({token, intents}) => {
         exports.genInvite = (connection, data) => require("./discordCommands/genInvite").genInvite(client, connection, data, PermissionFlagsBits)
         exports.sendServers = (connection) => require("./discordCommands/sendServers").sendServers(client, connection)
         exports.sendMembers = (connection, svId) => require("./discordCommands/sendMembers").sendMembers(client, connection, svId)
-        exports.setStatus = (status) => require("./discordCommands/setStatus").setStatus(client, status, exports.sendClientPageData)
+        exports.setStatus = (connection, status) => require("./discordCommands/setStatus").setStatus(client, connection, status, exports.sendClientPageData)
         exports.sendMemberData = (connection, svId, memberId) => require("./discordCommands/sendMemberData").sendMemberData(client, connection, svId, memberId, new_intents, GatewayIntentBits)
         exports.sendRoleData = (connection, svId, roleId) => require("./discordCommands/sendRoleData").sendRoleData(client, connection, svId, roleId)
         exports.sendClientPageData = () => require("./discordCommands/sendClientPageData").sendClientPageData(client, DiscordConfig)

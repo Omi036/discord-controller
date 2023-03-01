@@ -19,8 +19,8 @@ const LogoutUser = (server, connection, data) => {
 }
 
 // Changes the status of the bot
-const ChangeStatus = (server, connection, data) => {
-    Discord.setStatus(data)
+const SetPresence = (server, connection, data) => {
+    Discord.setStatus(connection, data)
 }
 
 // This generates an invites with custom invites
@@ -108,7 +108,8 @@ exports.Commands = {
     "auth":AuthorizeUser,
     "islogged":IsLoggedIn,
     "logout":LogoutUser,
-    "change_status":ChangeStatus,
+
+    "set_presence_data":SetPresence,
 
     "post_message": PostMessage,
     "delete_message": DeleteMessage,

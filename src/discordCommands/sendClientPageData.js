@@ -39,6 +39,21 @@ exports.sendClientPageData = (client, DiscordConfig) => {
                     }
                 })
             )
+
+            const presence = client.user.presence
+            const type = (presence.activities.length > 0 && presence.activities[0].type) || "-1"
+            const name = (type != "-1" && presence.activities[0].name) || "Sample Text"
+            sclient.send(
+                JSON.stringify({
+                    header: "presence_data",
+                    content: {
+                        status: presence.status,
+                        type: type,
+                        device: presence.clientStatus || "web",
+                        name: name,
+                    }
+                })
+            )
         })
 
     })

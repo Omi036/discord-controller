@@ -91,6 +91,8 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
     }
     const [channelInfo, setChannelInfo] = useState(defaultChannelInfo)
     const [ inviteModalOpened, setInviteModalOpened] = useState(false)
+    const [ modalConfirmation, setModalConfirmation] = useState(false)
+    const [ reason, setReason] = useState("")
 
     // Updates the channel info
     useEffect(() => {
@@ -105,11 +107,23 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
     useEffect(() => {
         SendMessage("get_channel_data", {svId:serverId,id:channelId})
     },[channelId])
+
+    const handleDelete = () => {
+        SendMessage("delete_channel", {svId:serverId,id:channelId, reason:reason})
+        setInviteModalOpened(false)
+        setChannel()
+    }
     
     return (
         <>
-            { channelInfo.id === "000000000000000000" ? <LoadingOverlay visible overlayBlur={0} loader={customLoader} /> : <></> }
+            { channelInfo.id === "000000000000000000" && <LoadingOverlay visible overlayBlur={0} loader={customLoader} /> }
             <CreateInviteModal channelID={channelId} serverId={serverId} opened={inviteModalOpened} setOpened={setInviteModalOpened}/>
+            <Modal opened={modalConfirmation} onClose={() => setModalConfirmation(false)}>
+                <Text  align="center">Are you sure you want to delete "{channelInfo.name}"?</Text>
+                <TextInput sx={{marginTop:10}} label="Reason (Optional)" placeholder="It was an ugly channel" value={reason} onChange={(event) => setReason(event.currentTarget.value)}/>
+                <Button sx={{marginTop:10}} fullWidth color={"red"} onClick={handleDelete}>Yes, I'm sure I want to delete "{channelInfo.name}"</Button>
+            </Modal>
+
             <Box sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`, display:"flex", marginBottom:5})}>
                 <ActionIcon onClick={()=>{setChannel(false)}}>
                     <IconArrowBack />
@@ -151,6 +165,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
                 <Box style={{display:"flex", flexDirection:"row", width: "100%", justifyContent: "space-around", marginTop:10}}>
                     <Button color="indigo" disabled={!["GuildText","GuildVoice","GuildNews"].includes(channelInfo.type) || !channelInfo.messageable} fullWidth style={{marginRight:10}} onClick={()=>{setMsgDestiny({type:"channel",svId:serverId, id:channelId});setPage("Messages")}}>Send Message</Button>
                     <Button color="indigo" disabled={["GuildCategory"].includes(channelInfo.type)} fullWidth style={{marginLeft:10}} onClick={() => setInviteModalOpened(true)}>Generate Invite</Button>
+                    <Button color="red" disabled={!channelInfo.deletable} fullWidth style={{marginLeft:10}} onClick={()=>setModalConfirmation(true)}>Delete Channel</Button>
                 </Box>
             </ScrollArea>
         </>

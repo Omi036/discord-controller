@@ -64,6 +64,7 @@ exports.login = ({token, intents}) => {
         exports.sendUserInfo = (connection, id) => require("./discordCommands/sendUserInfo").sendUserInfo(client,connection,id)
         exports.sendCommands = async (connection) => require("./discordCommands/sendCommands").sendCommands(client, connection)
         exports.sendCommandInfo = async (connection, id) => require("./discordCommands/sendCommandInfo").sendCommandInfo(client,connection,id, ApplicationCommandType, ApplicationCommandOptionType)
+        exports.deleteChannel = (connection, svId, id, reason) => require("./discordCommands/deleteChannel").deleteChannel(client, connection, svId, id, reason, ChannelType)
         
         exports.sendClientPageData()
     });

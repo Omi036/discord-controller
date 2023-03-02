@@ -1,4 +1,4 @@
-import { ScrollArea, SimpleGrid, Box, Text, LoadingOverlay } from "@mantine/core"
+import { ScrollArea, SimpleGrid, Box, Text, LoadingOverlay, Modal } from "@mantine/core"
 import { useStyles } from "../../../../styles/Pages.style"
 import { useEffect, useState } from "react"
 import { IconClearAll, IconHash, IconVolume, IconSpeakerphone, IconMessages } from "@tabler/icons"
@@ -40,6 +40,7 @@ const Channel = ({name, id, type, setChannelSetted}) => {
         <Text sx={(theme)=>({marginLeft:"auto", color:theme.colors.dark[3]})}>{id}</Text>
     </Box>)
 }
+
 
 
 // Channels list

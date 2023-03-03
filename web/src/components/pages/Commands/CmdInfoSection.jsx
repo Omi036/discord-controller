@@ -72,12 +72,12 @@ export const CmdInfoSection = ({commandActive, setCommandActive}) => {
 
     var nameLocales = []
     for(const locale in commandData.localizations.name){
-        nameLocales.push(<TextInput label={locale} key={locale} readOnly className={classes.text_input} value={commandData.localizations.name[locale]}/>)
+        nameLocales.push(<TextInput label={locale} key={`name_${locale}`} readOnly className={classes.text_input} value={commandData.localizations.name[locale]}/>)
     }
 
     var descLocales = []
     for(const locale in commandData.localizations.description){
-        descLocales.push(<TextInput label={locale} key={locale} readOnly className={classes.text_input} value={commandData.localizations.description[locale]}/>)
+        descLocales.push(<TextInput label={locale} key={`desc_${locale}`} readOnly className={classes.text_input} value={commandData.localizations.description[locale]}/>)
     }
 
     return (

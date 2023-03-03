@@ -15,7 +15,7 @@ exports.sendCommandInfo = async (client,connection,id, ApplicationCommandType, A
             id:command.id,
             description:command.description,
             createdAt:command.createdAt,
-            isNsfw:command.nsfw,
+            isNsfw:command.nsfw ? command.nsfw : false,
             isAvailableInDm:command.dmPermission ? command.dmPermission : false,
             type:ApplicationCommandType[command.type],
             guild:command.guild || "None",

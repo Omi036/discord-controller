@@ -1,40 +1,42 @@
 import { Box, Text, Image } from "@mantine/core"
 
 export const Embed = ({author, color, description, footer, image, thumbnail, timestamp, title, fields}) => {
+
+
+    const fieldElement = []
+    for(const field of fields) {
+        fieldElement.push(
+            <Box key={`${field.name}${field.value}`} mb={14}>
+                <Text weight="bold"> {field.name.replaceAll("*","").replaceAll("_","")} </Text>
+                <Text> {field.value.replaceAll("*","").replaceAll("_","")} </Text>
+            </Box>
+        )
+    }
+    
     return (
-        <Box style={{backgroundColor:color || "#242526", borderRadius:10, overflow:"hidden", boxSizing:"border-box", paddingLeft:5, maxWidth:"55%"}}>
+        <Box pl={5} maw="55%" bg={color || "#242526"} style={{borderRadius:10, overflow:"hidden", boxSizing:"border-box"}}>
 
-            {/* True Embed */}
-            <Box style={{backgroundColor:"#2f3136", boxSizing:"border-box", padding:10, width:"100%", display:"flex", flexDirection:"row"}}>
 
-                <Box style={{boxSizing:"border-box", maxWidth:"70%"}}>
-                    {/* Upper Section, title, description and thumbnail */}
-                    <Text weight="bold" size={14} style={{marginBottom:7}}>{author}</Text>
-                    <Text weight="bold" size={18} style={{marginBottom:7}}>{title}</Text>
-                    <Text style={{marginBottom:30}}>{description}</Text>
+            <Box bg="#2f3136" p={10} w="100%" style={{boxSizing:"border-box",  display:"flex", flexDirection:"row"}}>
 
-                    {/* Fields */}
-                    {fields.map(field => (
-                        <Box key={`${field.name}${field.value}`} style={{marginBottom:14}}>
-                            <Text weight="bold">{field.name.replaceAll("*","").replaceAll("_","")}</Text>
-                            <Text>{field.value.replaceAll("*","").replaceAll("_","")}</Text>
-                        </Box>
-                    ))}
+                <Box maw="70%" style={{boxSizing:"border-box"}}>
+                    
+                    <Text weight="bold" size={14} mb={7}> {author} </Text>
+                    <Text weight="bold" size={18} mb={7}> {title} </Text>
+                    <Text mb={30}> {description} </Text>
 
-                    {/* Image */}
-                    {image && <Image radius={10} style={{marginTop:10, marginBottom:10}} src={image} />}
+                    {fieldElement}
+                    {image && <Image radius={10} my={10} src={image} />}
 
-                    {/* Footer */}
-                    <Box style={{display: 'flex', marginTop:0}}>
-                        {footer && <Text size={11} style={{marginTop:0,}} weight="bold">{footer}</Text>}
-                        {footer && timestamp && (<Text size={11} style={{marginLeft:5, marginRight:5}} weight="bold">•</Text>)}
+                    <Box mt={0} style={{display: 'flex'}}>
+                        {footer && <Text size={11} mt={0} weight="bold">{footer}</Text>}
+                        {footer && timestamp && (<Text size={11} mx={5} weight="bold">•</Text>)}
                         {timestamp && <Text size={11} weight="bold">{new Date(timestamp).toDateString()}</Text>}
                     </Box>
                 </Box>
 
-                {/* Thumbnail Image */}
-                <Box style={{width:"fit-content", minWidth:"30%"}}>
-                    {thumbnail && <Image radius={10} style={{width:"100%"}} src={thumbnail} />}
+                <Box w="fit-content" miw="30%" >
+                    {thumbnail && <Image radius={10} w="100%" src={thumbnail} />}
                 </Box>
 
             </Box>

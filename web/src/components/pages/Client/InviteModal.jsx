@@ -1,109 +1,61 @@
-import { Modal, SegmentedControl, SimpleGrid, Text, Button, TextInput, Box, CopyButton } from "@mantine/core"
+import { Modal, SegmentedControl, SimpleGrid,  Button, TextInput, CopyButton, Flex, Title } from "@mantine/core"
 import { InviteCheckbox } from "./InviteCheckbox";
 import { IconClipboard, IconSend } from "@tabler/icons";
 import { SendMessage, AddSocketListener } from "../../misc/WebSocket";
 import { useState } from "react";
 import { useEffect } from "react";
+import { defaultPermissions, possibleLayouts } from "../../misc/Enums";
+
 
 export const InviteModal = ({ opened, setOpened }) => {
     const [inviteLayout, setInviteLayout] = useState("default");
-    const [invite, setInvite] = useState("");
-    const default_permissions = {
-        AddReactions: true,
-        Administrator: false,
-        AttachFiles: false,
-        BanMembers: false,
-        ChangeNickname: false,
-        Connect: true,
-        CreateInstantInvite: false,
-        CreatePrivateThreads: false,
-        CreatePublicThreads: false,
-        DeafenMembers: false,
-        EmbedLinks: false,
-        KickMembers: false,
-        ManageChannels: true,
-        ManageEmojisAndStickers: false,
-        ManageEvents: false,
-        ManageGuild: false,
-        ManageMessages: true,
-        ManageNicknames: false,
-        ManageRoles: true,
-        ManageThreads: false,
-        ManageWebhooks: false,
-        MentionEveryone: true,
-        ModerateMembers: false,
-        MoveMembers: false,
-        MuteMembers: false,
-        PrioritySpeaker: false,
-        ReadMessageHistory: true,
-        RequestToSpeak: false,
-        SendMessages: true,
-        SendMessagesInThreads: false,
-        SendTTSMessages: false,
-        Speak: true,
-        Stream: false,
-        UseApplicationCommands: true,
-        UseEmbeddedActivities: false,
-        UseExternalEmojis: true,
-        UseExternalStickers: true,
-        UseVAD: false,
-        ViewAuditLog: false,
-        ViewChannel: true,
-        ViewGuildInsights: false
-    }
-    const [permissions, setPermissions] = useState(default_permissions)
-
-    // All the possibles permissions layouts, you can add yours if you want to
-    const possibleLayouts = [
-        { label: "None", value: "none" },
-        { label: "Default", value: "default" },
-        { label: "All", value: "all" },
-        { label: "Admin", value: "admin"}
-    ]
+    const [inviteUrl, setInviteUrl] = useState("");
+    const [permissions, setPermissions] = useState(defaultPermissions)
 
 
-    // On segmented control layout change
-    const handleInviteChange = (layout) => {
-        switch (layout){
+
+    const handleInviteLayoutChange = (permsLayout) => {
+        switch (permsLayout){
             case "none":
                 var new_permissions = {}
-                for(const key in default_permissions){ new_permissions[key] = false }
+                for(const key in defaultPermissions){ new_permissions[key] = false }
                 setPermissions(new_permissions) 
                 break;
 
+
             case "all":
                 var new_permissions = {}
-                for(const key in default_permissions){ new_permissions[key] = true }
+                for(const key in defaultPermissions){ new_permissions[key] = true }
                 setPermissions(new_permissions) 
                 break;
 
 
             case "admin":
                 var new_permissions = {}
-                for(const key in default_permissions){ new_permissions[key] = false }
+                for(const key in defaultPermissions){ new_permissions[key] = false }
                 new_permissions.Administrator = true
                 setPermissions(new_permissions) 
                 break;
 
 
             case "default":
-                setPermissions(default_permissions)
+                setPermissions(defaultPermissions)
                 break
 
         }
-        setInviteLayout(layout)
+        setInviteLayout(permsLayout)
     }
 
 
-    // Listens and displays the new invite url when received
+
     useEffect(() => {
         AddSocketListener("reply_invite", (data) => {
-            setInvite(data)
+            setInviteUrl(data)
         })
     })
 
 
-    // On generate invite click
+
     const handleInviteClick = () => {
         const permissions_names = []
         for(const key in permissions) { if(permissions[key]) permissions_names.push(key) }
@@ -111,34 +63,41 @@ export const InviteModal = ({ opened, setOpened }) => {
     }
 
 
-    // Checkboxes to display on the modal
-    const checkBoxes = []
+
+
+    const permsCheckBoxes = []
     for(const key in permissions) {
-        checkBoxes.push(<InviteCheckbox permissions={permissions} setPermissions={setPermissions} property={key} key={key} />)
+        permsCheckBoxes.push(<InviteCheckbox permissions={permissions} setPermissions={setPermissions} property={key} key={key} />)
     }
+
 
     
     return(
-        <Modal title="Generate Bot Invite" opened={opened} size={"xll"} onClose={() => setOpened(false)}>
-            <Text>Permissions</Text>
-            <SegmentedControl fullWidth color={"indigo"} value={inviteLayout} onChange={handleInviteChange} data={possibleLayouts}/>
-            <SimpleGrid cols={4} style={{marginTop:5}}>
-                { checkBoxes }
-            </SimpleGrid>
-            <Button fullWidth color={"indigo"} style={{marginTop:10}} onClick={handleInviteClick}>Generate Invite</Button>
-            <Box style={{display:"flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", marginTop:10}}>
-                <TextInput readOnly style={{ width: "80%"}} value={invite}/>
-                <CopyButton value={invite}>
+        <Modal title="Generate Bot Invite" opened={opened} size="xll" onClose={() => setOpened(false)}>
+            <Title>Permissions</Title>
+
+            <SegmentedControl fullWidth color="indigo" value={inviteLayout} onChange={handleInviteLayoutChange} data={possibleLayouts}/>
+
+            <SimpleGrid cols={4} mt={5}> { permsCheckBoxes } </SimpleGrid>
+
+            <Button fullWidth color="indigo" mt={10} onClick={handleInviteClick}>Generate Invite</Button>
+
+            <Flex mt={10} direction="row" justify="space-between" align="center">
+                <TextInput readOnly w="80%" value={inviteUrl}/>
+
+                <CopyButton value={inviteUrl}>
                     {({ copied, copy }) => (
-                      <Button color={copied ? 'teal' : 'indigo'} style={{width:"8%", margin:"auto 0"}} onClick={copy}>
+                      <Button color={copied ? 'teal' : 'indigo'}  w="8%" m="auto 0" onClick={copy}>
                         <IconClipboard />
                       </Button>
                     )}
                 </CopyButton>
-                <Button color={'indigo'} style={{width:"8%", margin:"auto 0"}} onClick={() => invite && window.open(invite, "_blank")}>
+
+                <Button color="indigo" w="8%" m="auto 0" onClick={() => inviteUrl && window.open(inviteUrl, "_blank")}>
                     <IconSend />
                 </Button>
-            </Box>
+
+            </Flex>
         </Modal>
     )
 }

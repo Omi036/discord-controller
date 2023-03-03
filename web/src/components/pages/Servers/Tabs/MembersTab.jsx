@@ -34,7 +34,7 @@ const Member = ({tag, id, avatarUrl, isBot, isOwner, setMember}) => {
 }
 
 // Displays all the members in the server and their info
-export const MembersTab = ({ server, tab, setTab, setThirdRole, setPage, setMsgDestiny }) => {
+export const MembersTab = ({ server, tab, setTab, setThirdRole, setCurrentPage, setMsgDestiny }) => {
     const {classes} = useStyles()
     const [ actualMember, setActualMember ] = useState()
     const [ dataLoaded, setDataLoaded ] = useState(false)
@@ -74,7 +74,7 @@ export const MembersTab = ({ server, tab, setTab, setThirdRole, setPage, setMsgD
         <ScrollArea type="auto" style={{height:"90vh"}} className={classes.scroll}>
             { !dataLoaded && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
             { actualMember 
-                ? <MemberInfo memberId={actualMember} serverId={server} setMember={setActualMember} setTab={setTab} setThirdRole={setThirdRole} setPage={setPage} setMsgDestiny={setMsgDestiny}/> 
+                ? <MemberInfo memberId={actualMember} serverId={server} setMember={setActualMember} setTab={setTab} setThirdRole={setThirdRole} setCurrentPage={setCurrentPage} setMsgDestiny={setMsgDestiny}/> 
                 : <SimpleGrid cols={1} spacing={40} verticalSpacing={5}> {usersDom} </SimpleGrid>
             }
         </ScrollArea>

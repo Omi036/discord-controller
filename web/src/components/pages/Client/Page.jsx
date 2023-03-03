@@ -6,41 +6,15 @@ import { ClientSection } from "./ClientSection";
 import { UserSection } from "./UserSection";
 import { AppSection } from "./AppSection";
 import { InviteModal } from "./InviteModal";
+import { defaultSettings } from "../../misc/Enums";
 
-// The page of the Bot Client
+
 export const ClientPage = () => {
     const { classes } = useStyles();
     const [inviteModalOpened, setInviteModalOpened] = useState(false);
-    const [settings, setSettings] = useState({
-        client: {
-            guilds:0,
-            channels:0,
-            token:"",
-            initializedAt:""
-        },
-        user: {
-            verified: false,
-            status:"",
-            tag:"",
-            id:"",
-            avatarURL:"",
-            createdAt:new Date(),
-        },
-        app: {
-            public: false,
-            codeGrant: false,
-            name:"",
-            description:"",
-            owner:"",
-            id:"",
-            tags:"",
-            iconURL:"",
-            commands:0,
-            createdAt:""
-        }
-    })
+    const [settings, setSettings] = useState(defaultSettings)
 
-    // We add the listener that will add the bot data
+    
     useEffect(() => {
         AddSocketListener("fill_client_info", (data) => {
             setSettings(data)
@@ -52,7 +26,7 @@ export const ClientPage = () => {
             <InviteModal opened={inviteModalOpened} setOpened={setInviteModalOpened}/>
             <Box className={classes.parent}>
                 <ClientSection settings={settings} setSettings={setSettings} setInviteModalOpened={setInviteModalOpened}/>
-                <UserSection settings={settings} setSettings={setSettings}/>
+                <UserSection settings={settings} />
                 <AppSection settings={settings} setSettings={setSettings}/>
             </Box>
         </>

@@ -4,14 +4,14 @@ import { DestinySelector } from "./DestinySelector"
 import { Chat } from "./Chat"
 
 
-export const MessagesPage = ({msgDestiny, setMsgDestiny, setPage}) => {
+export const MessagesPage = ({msgDestiny, setMsgDestiny, setCurrentPage}) => {
     const { classes } = useStyles()
 
     return (
         <Box className={classes.parent}>
             { msgDestiny 
                 ? <Chat destiny={msgDestiny} setDestiny={setMsgDestiny}/> 
-                : <DestinySelector setPage={setPage} /> 
+                : <DestinySelector setCurrentPage={setCurrentPage} /> 
             }
         </Box>
     )

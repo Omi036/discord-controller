@@ -6,7 +6,7 @@ import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
 import { useEffect, useState } from "react"
 import { CmdProfile } from "./CmdProfile"
 
-export const ListSection = ({commandActive, setCommandActive, page}) => {
+export const ListSection = ({commandActive, setCommandActive, currentPage}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
     const [ commands, setCommands ] = useState([])
@@ -19,15 +19,17 @@ export const ListSection = ({commandActive, setCommandActive, page}) => {
 
 
     useEffect(() => {
-        if(page !== "Commands") return
+        if(currentPage !== "Commands") return
         SendMessage("get_commands")
-    }, [page])
+    }, [currentPage])
 
 
     const commandsEl = []
     for(const cmd of commands) {
-        commandsEl.push(<CmdProfile name={cmd.name} id={cmd.id} active={cmd.id === commandActive} setActive={()=>setCommandActive(cmd.id)} key={cmd.key} />)
+        commandsEl.push(<CmdProfile name={cmd.name} id={cmd.id} active={cmd.id === commandActive} setActive={()=>setCommandActive(cmd.id)} key={cmd.id} />)
     }
+
+    
     return (
         <Paper shadow="sm" radius={"md"} className={classes.papers}>
             {/* Titlebar */}

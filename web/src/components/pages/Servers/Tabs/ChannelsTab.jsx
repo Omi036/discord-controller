@@ -44,7 +44,7 @@ const Channel = ({name, id, type, setChannelSetted}) => {
 
 
 // Channels list
-export const ChannelsTab = ({server, tab, setMsgDestiny, setPage}) => {
+export const ChannelsTab = ({server, tab, setMsgDestiny, setCurrentPage}) => {
     const {classes} = useStyles()
     const [channelSetted, setChannelSetted] = useState(false)
     const [channels, setChannels] = useState([])
@@ -79,7 +79,7 @@ export const ChannelsTab = ({server, tab, setMsgDestiny, setPage}) => {
         <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
             { channels.length === 0 && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
             {channelSetted 
-                ? <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server} setMsgDestiny={setMsgDestiny} setPage={setPage}/> 
+                ? <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server} setMsgDestiny={setMsgDestiny} setCurrentPage={setCurrentPage}/> 
                 : <SimpleGrid cols={1} spacing={40} verticalSpacing={5}> {channels} </SimpleGrid>
             }
         </ScrollArea>

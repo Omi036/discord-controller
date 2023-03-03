@@ -4,7 +4,7 @@ import { IconQuestionMark} from "@tabler/icons"
 import { useMantineTheme } from "@mantine/core"
 
 
-export const DestinySelector = ({setPage}) => {
+export const DestinySelector = ({setCurrentPage}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
 
@@ -15,8 +15,8 @@ export const DestinySelector = ({setPage}) => {
                 <Text color={theme.white} weight="600">Select a channel or an user to send messages</Text>
             </Box>
             <Box style={{boxSizing:"border-box", height:"75%", padding:20, display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center"}}>
-                <Button color="indigo" fullWidth onClick={()=>setPage("Servers")} >Select a channel from a server</Button>
-                <Button color="indigo" fullWidth onClick={()=>setPage("Users")}>Select a user</Button>
+                <Button color="indigo" fullWidth onClick={()=>setCurrentPage("Servers")} >Select a channel from a server</Button>
+                <Button color="indigo" fullWidth onClick={()=>setCurrentPage("Users")}>Select a user</Button>
             </Box>
         </Paper>
     )

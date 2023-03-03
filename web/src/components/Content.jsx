@@ -5,15 +5,14 @@ import { Box } from "@mantine/core"
 
 // Main Component
 export const Content = () => {
-    const [page, setPage] = useState("Client")
+    const [currentPage, setCurrentPage] = useState("Client")
 
     return (
-        <Box sx={{display:"flex", zIndex:0, position:"relative"}}>
-            {/* Left Sidebar */}
-            <Sidebar page={page} setPage={setPage} />
+        <Box pos="relative" sx={{display:"flex", zIndex:0}}>
 
-            {/* Render-section of the pages */}
-            <Pages page={page} setPage={setPage}/>
+            <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Pages currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+
         </Box>
     )
 }

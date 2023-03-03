@@ -1,5 +1,5 @@
-import { Box, Modal, Textarea , TextInput, ColorInput, Divider, Text, Button, Image} from "@mantine/core"
-import { useState, useRef } from "react"
+import { Box, Modal, Textarea , TextInput, ColorInput, Divider, Text, Button, Image, Flex} from "@mantine/core"
+import { useState } from "react"
 
 export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
     const [color, setColor] = useState("#ffffff")
@@ -13,9 +13,10 @@ export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
     const [footer, setFooter] = useState("")
 
 
-    const handleClick = () =>{
+    const handleSubmitClick = () =>{
         if(!title) {setTitleError("A title is required"); return}
         if(!description) {setDescriptionError("A description is required"); return}
+
         setEmbed({
             title: title,
             json: {
@@ -41,22 +42,24 @@ export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
         setOpened(false)
     }
 
+
     return (
-        <Modal opened={opened} onClose={()=>setOpened(false)} size={1100}  title="Create Embed">
-            <Box style={{display: 'flex', flexDirection: 'row', height:"37rem"}}>
-                <Box style={{width:"30%"}}>
+        <Modal opened={opened} title="Create Embed" size={1100} onClose={()=>setOpened(false)}>
+            <Box h="37rem" style={{display: 'flex', flexDirection: 'row'}}>
+
+                <Box w="30%">
                     <TextInput label="Title" required value={title} error={titleError} onChange={(event) => setTitle(event.currentTarget.value)}/>
-                    <Textarea label="Description" required value={description} error={descriptionError} onChange={(event) => setDescription(event.currentTarget.value)}/>
+                    <Textarea  label="Description" required value={description} error={descriptionError} onChange={(event) => setDescription(event.currentTarget.value)}/>
                     <ColorInput label="Embed Color" maxLength={7} value={color} onChange={setColor}/>
                     <TextInput label="Author" value={author} onChange={(event) => setAuthor(event.currentTarget.value)}/>
                     <TextInput label="Footer" value={footer} onChange={(event) => setFooter(event.currentTarget.value)}/>
                     <TextInput label="Thumbnail URL" value={thumbnail} onChange={(event) => setThumbnail(event.currentTarget.value)}/>
                     <TextInput label="Image URL" value={image} onChange={(event) => setImage(event.currentTarget.value)}/>
-                    <Button color="indigo" fullWidth style={{marginTop:10}} onClick={handleClick}>Add Embed</Button>
+                    <Button color="indigo" fullWidth mt={10} onClick={handleSubmitClick}>Add Embed</Button>
                 </Box>
-                <Divider orientation="vertical" variant="dashed" style={{marginLeft: 10, marginRight:10}}/>
-                <Box style={{width:"69%", height:"100%"}}>
-                    <Box sx={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems: "center", height:"100%"}}>
+                <Divider orientation="vertical" variant="dashed" mx={10}/>
+                <Box w="69%" h="100%">
+                    <Flex direction="column" justify="center" align="center" h="100%">
 
                         {/* Embed Preview */}
                         <Box style={{width:"80%", borderRadius:5,overflow: "hidden",minHeight:"10%", display:"flex", flexDirection:"row"}}>
@@ -80,7 +83,7 @@ export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
                             </Box>
                         </Box>
                         
-                    </Box>
+                    </Flex>
                 </Box>
             </Box>
         </Modal>

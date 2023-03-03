@@ -7,23 +7,23 @@ export const ImageDisplay = ({label, value}) => {
     const [ opened, setOpened ] = useState(false)
     const {classes} = useStyles()
 
-    // The eye button showed at the right side of the input
+    
     const SideButton = (
-        <ActionIcon>
-            <IconEye size={15} onClick={() => setOpened(true)}style={{cursor:"pointer"}}/>
+        <ActionIcon onClick={() => setOpened(true)}>
+            <IconEye size={15} />
         </ActionIcon>
     )
 
     return (
         <>
-        <Modal
-        title={label}
-        opened={opened}
-        onClose={() => setOpened(false)}
-        >
-            <Image src={value} />
-        </Modal>
-        <TextInput label={label} readOnly className={classes.text_input} value={value} rightSection={SideButton}/>
+            <Modal
+                title={label}
+                opened={opened}
+                onClose={() => setOpened(false)}
+            >
+                <Image src={value} />
+            </Modal>
+            <TextInput label={label} readOnly className={classes.text_input} value={value} rightSection={SideButton}/>
         </>
     )
 }

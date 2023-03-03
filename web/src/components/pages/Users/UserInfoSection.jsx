@@ -7,7 +7,7 @@ import { useMantineTheme } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
 
-export const UserInfoSection = ({userActive, setUserActive, setMsgDestiny, setPage}) => {
+export const UserInfoSection = ({userActive, setMsgDestiny, setCurrentPage}) => {
     const { classes } = useStyles()
     const theme = useMantineTheme()
     const defaultData = {
@@ -100,7 +100,7 @@ export const UserInfoSection = ({userActive, setUserActive, setMsgDestiny, setPa
                         </Accordion.Item>
                     </Accordion>
                     <Box style={{marginTop:10}}>
-                        <Button color="indigo" fullWidth onClick={()=>{setMsgDestiny({type:"dm", id:userData.id});setPage("Messages")}}>Send Message</Button>
+                        <Button color="indigo" fullWidth onClick={()=>{setMsgDestiny({type:"dm", id:userData.id});setCurrentPage("Messages")}}>Send Message</Button>
                     </Box>
                 </ScrollArea>
             </Box>

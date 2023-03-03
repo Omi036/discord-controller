@@ -1,4 +1,3 @@
-// Creation and exportation of the socket client
 const WSocket = new WebSocket("ws:localhost:5017");
 
 export const AddSocketListener = (header, callback) => {
@@ -17,4 +16,4 @@ export const SendMessage = (header, content) => {
 
 // Some handlings
 WSocket.addEventListener("open", () => console.log("WebSocket connected"))
-WSocket.addEventListener("error", (e) => console.error(e) )
+WSocket.addEventListener("error", (error) => console.error(error) )

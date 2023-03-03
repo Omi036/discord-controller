@@ -1,22 +1,23 @@
-import { Box, Text } from "@mantine/core";
+import { Flex, Text, useMantineTheme } from "@mantine/core";
 
 export const TextDisplay = ({ label, value}) => {
+    const theme = useMantineTheme()
+
     return (
-        <Box
-            sx={(theme) => ({
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-around",
-                width: "46%",
-                height: "4rem",
-                backgroundColor: theme.colors.dark[6],
+        <Flex
+            direction="column"
+            align="center"
+            justify="space-around"
+            w="46%"
+            h="4rem"
+            bg={theme.colors.dark[6]}
+            style={{
                 borderRadius: 5,
                 border:`1px solid ${theme.colors.dark[4]}`
-            })}
+            }}
         >
-            <Text style={{fontWeight:"bold"}}>{label}</Text>
-            <Text>{value}</Text>
-        </Box>
+            <Text weight="bold">{label}</Text>
+            <Text> {value} </Text>
+        </Flex>
     );
 };

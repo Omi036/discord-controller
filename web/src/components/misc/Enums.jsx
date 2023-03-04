@@ -1,4 +1,4 @@
-import { IconRobot, IconMessage, IconCode, IconServer, IconUser, IconDots, IconLogout } from "@tabler/icons";
+import { IconRobot, IconMessage, IconCode, IconServer, IconUser, IconMessages, IconClearAll, IconHash, IconVolume, IconSpeakerphone } from "@tabler/icons";
 
 // Sidebar.jsx
 export const sidebarLinks = [
@@ -324,4 +324,28 @@ export const defaultMemberSettings = {
     roles: [],
     badges: [],
     permissions: [],
+}
+
+
+// Commands/CmdInfoSection.jsx
+export const defaultCommandData = {
+    name:"",
+    id:"000000000000000000", 
+    description:"",
+    createdAt:"",
+    isNsfw:false,
+    isAvailableInDm:false,
+    type:"",
+    guild:"",
+    options:[],
+    localizations:{name:{},description:{}}
+}
+
+// Servers/Tabs/ChannelsTab.jsx
+export const channelIcons = {
+    "GuildCategory": <IconClearAll size={18}/>,
+    "GuildText": <IconHash size={18} />,
+    "GuildVoice": <IconVolume size={18} />,
+    "GuildNews": <IconSpeakerphone size={18} />,
+    "GuildForum": <IconMessages size={18} />
 }

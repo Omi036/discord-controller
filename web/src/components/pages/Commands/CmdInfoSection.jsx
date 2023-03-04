@@ -1,30 +1,15 @@
-import { Paper, Box, Text, ScrollArea, Checkbox, TextInput, SimpleGrid, Accordion, Divider } from "@mantine/core"
-import { customLoader } from "../../../styles/Settings.style"
+import { Paper, Box, Text, ScrollArea, Checkbox, TextInput, SimpleGrid, Accordion, Flex } from "@mantine/core"
 import { IconInfoCircle } from "@tabler/icons"
-import { ImageDisplay } from "../../misc/ImageDisplay"
 import { useStyles } from "../../../styles/Pages.style"
 import { useMantineTheme } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { AddSocketListener, SendMessage } from "../../misc/WebSocket"
+import { defaultCommandData } from "../../misc/Enums"
 
-
-export const CmdInfoSection = ({commandActive, setCommandActive}) => {
+export const CmdInfoSection = ({commandActive}) => {
     const theme = useMantineTheme()
     const { classes } = useStyles()
-    const defaultCommandData = {
-        name:"",
-        id:"000000000000000000", 
-        description:"",
-        createdAt:"",
-        isNsfw:false,
-        isAvailableInDm:false,
-        type:"",
-        guild:"",
-        options:[],
-        localizations:{name:{},description:{}}
-    }
     const [ commandData, setCommandData ] = useState(defaultCommandData)
-
 
 
     useEffect(() => {
@@ -33,42 +18,37 @@ export const CmdInfoSection = ({commandActive, setCommandActive}) => {
         })
     })
 
+
     useEffect(() => {
-        if(!commandActive) return
-        SendMessage("get_command_info", {id:commandActive})
+        if(commandActive) SendMessage("get_command_info", {id:commandActive})
     }, [commandActive])
+
 
 
     var optionsEl = []
     for(const opt of commandData.options){
         optionsEl.push(
-            <Box sx={(theme)=>({
+            <Flex direction="row" align="center" ml={0} p={10} mb={10} bg={theme.colors.dark[6]}
+            sx={{
                 boxSizing:"border-box",
-                padding:10,
-                display:"flex",
-                flexDirection: "row",
-                alignItems:"center",
-                marginLeft: 0,
                 border:`1px solid ${theme.colors.dark[4]}`,
-                backgroundColor: theme.colors.dark[6],
                 borderRadius: 5,
-                marginBottom:10,
                 "&:hover":{
                     border:`1px solid ${theme.colors.dark[3]}`,
                     backgroundColor: theme.colors.dark[5],
                 }
-            })}>
+            }}
+            >
                 <SimpleGrid cols={4} spacing={20}>
-                    <TextInput label="Name" readOnly className={classes.text_input} value={opt.name}/>
-                    <TextInput label="Description" readOnly className={classes.text_input} value={opt.description}/>
-                    <TextInput label="Type" readOnly className={classes.text_input} value={opt.type}/>
-                    <Checkbox label="Required" color="indigo" readOnly style={{ margin:"auto 0", fontSize: 16 }} checked={opt.required}/>
+                    <TextInput readOnly label="Name"  className={classes.text_input} value={opt.name}/>
+                    <TextInput readOnly label="Description" className={classes.text_input} value={opt.description}/>
+                    <TextInput readOnly label="Type"  className={classes.text_input} value={opt.type}/>
+                    <Checkbox  readOnly label="Required" color="indigo" m="auto 0" fz={16} checked={opt.required}/>
                 </SimpleGrid>
-            </Box>
+            </Flex>
         )
     }
 
-    var test={"en-US":"En INglaterra", "bg":"Bulgaro","hr":"Croata"}
 
     var nameLocales = []
     for(const locale in commandData.localizations.name){
@@ -82,48 +62,54 @@ export const CmdInfoSection = ({commandActive, setCommandActive}) => {
 
     return (
         <Paper shadow="sm" radius="md" className={classes.paperswidth}> 
+
             <Box className={classes.paper_header}>
                 <IconInfoCircle color={theme.white} className={classes.app_icon}/>
                 <Text color={theme.white} weight="600">Command Info</Text>
             </Box>
 
-            <Box style={{height:"100%"}}>
-                <ScrollArea type="auto" style={{height:"90vh"}} className={classes.scroll}>
+            <Box h="100%">
+                <ScrollArea type="auto" h="90vh"  className={classes.scroll}>
                     <SimpleGrid cols={2} spacing={40} verticalSpacing={5}>
-                        <Checkbox label="Available on Dms" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={commandData.isAvailableInDm}/>
-                        <Checkbox label="Command is NSFW" color="indigo" readOnly style={{ marginBottom: 10, fontSize: 16 }} checked={commandData.isNsfw}/>
+                        <Checkbox color="indigo" readOnly mb={10} fz={16} label="Available on Dms" checked={commandData.isAvailableInDm}/>
+                        <Checkbox color="indigo" readOnly mb={10} fz={16} label="Command is NSFW"  checked={commandData.isNsfw}/>
                     </ SimpleGrid>
+
                     <SimpleGrid cols={2} spacing={40} verticalSpacing={5}>
-                        <TextInput label="Name" readOnly className={classes.text_input} value={commandData.name}/>
-                        <TextInput label="Id" readOnly className={classes.text_input} value={commandData.id}/>
-                        <TextInput label="Description" readOnly className={classes.text_input} value={commandData.description}/>
-                        <TextInput label="Created At" readOnly className={classes.text_input} value={new Date(commandData.createdAt)}/>
-                        <TextInput label="Type" readOnly className={classes.text_input} value={commandData.type}/>
-                        <TextInput label="Guild Exclusive" readOnly className={classes.text_input} value={commandData.guild}/>
+                        <TextInput readOnly label="Name"  className={classes.text_input} value={commandData.name}/>
+                        <TextInput readOnly label="Id"  className={classes.text_input} value={commandData.id}/>
+                        <TextInput readOnly label="Description"  className={classes.text_input} value={commandData.description}/>
+                        <TextInput readOnly label="Created At"  className={classes.text_input} value={new Date(commandData.createdAt)}/>
+                        <TextInput readOnly label="Type"  className={classes.text_input} value={commandData.type}/>
+                        <TextInput readOnly label="Guild Exclusive" className={classes.text_input} value={commandData.guild}/>
                     </SimpleGrid>
-                    <Accordion  variant="contained" chevronPosition="left" sx={{marginTop:10}}>
+
+                    <Accordion  variant="contained" chevronPosition="left" mt={10}>
+
                         <Accordion.Item value="options">
                             <Accordion.Control>Options</Accordion.Control>
                             <Accordion.Panel>
                                 {optionsEl}
                             </Accordion.Panel>
                         </Accordion.Item>
+
                         <Accordion.Item value="localizations">
                             <Accordion.Control>Localizations</Accordion.Control>
                             <Accordion.Panel>
                                 <SimpleGrid cols={2} spacing={40} verticalSpacing={5}>
                                     <Box>
-                                        <Text align="center" color={theme.colors.dark[3]}>Name Localizations</Text>
+                                        <Text align="center" color={theme.colors.dark[3]}> Name Localizations </Text>
                                         {nameLocales}
                                     </Box>
 
                                     <Box>
-                                        <Text align="center" color={theme.colors.dark[3]}>Description Localizations</Text>
+                                        <Text align="center" color={theme.colors.dark[3]}> Description Localizations </Text>
                                         {descLocales}
                                     </Box>
                                 </SimpleGrid>
                             </Accordion.Panel>
                         </Accordion.Item>
+
                     </Accordion>
                 </ScrollArea>
             </Box>

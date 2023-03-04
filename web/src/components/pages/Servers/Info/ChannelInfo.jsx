@@ -9,7 +9,7 @@ import { defaultChannelInfo } from "../../../misc/Enums"
 
 
 // Contains info about a channel
-export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, setPage}) => {
+export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, setCurrentPage}) => {
     const theme = useMantineTheme()
     const [ channelInfo, setChannelInfo] = useState(defaultChannelInfo)
     const [ inviteModalOpened, setInviteModalOpened] = useState(false)
@@ -55,7 +55,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
             id:channelId
         })
         
-        setPage("Messages")
+        setCurrentPage("Messages")
     }
     
 

@@ -32,6 +32,8 @@ export const UserSection = ({settings}) => {
     }
 
 
+    console.log(presence.type.toString())
+
 
     return(
         <Paper shadow="sm" radius="md" className={classes.papers}>
@@ -64,7 +66,7 @@ export const UserSection = ({settings}) => {
                                     data={possibleActivityType}
                                     color="indigo"
                                     mt={10}
-                                    defaultValue={presence.type}
+                                    value={presence.type.toString()}
                                     onChange={(val) => updatePresence("type",val)}
                                 />
                                 

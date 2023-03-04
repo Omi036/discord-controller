@@ -21,7 +21,7 @@ const RoleButton = ({ name, id, color, setTab, setThirdRole }) => {
                 setTab("roles")
                 setThirdRole(id)
             }}
-            style={{
+            sx={{
                 boxSizing:"border-box",
                 border:`1px solid ${theme.colors.dark[4]}`,
                 borderRadius: 5,

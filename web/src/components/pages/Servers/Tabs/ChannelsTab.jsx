@@ -1,71 +1,63 @@
-import { ScrollArea, SimpleGrid, Box, Text, LoadingOverlay, Modal } from "@mantine/core"
+import { ScrollArea, SimpleGrid, Flex, Text, LoadingOverlay, useMantineTheme } from "@mantine/core"
 import { useStyles } from "../../../../styles/Pages.style"
 import { useEffect, useState } from "react"
-import { IconClearAll, IconHash, IconVolume, IconSpeakerphone, IconMessages } from "@tabler/icons"
 import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
 import { ChannelInfo } from "../Info/ChannelInfo"
 import { customLoader } from "../../../../styles/Settings.style"
+import { channelIcons } from "../../../misc/Enums"
 
-// Will display many of these elements in the list
+
 const Channel = ({name, id, type, setChannelSetted}) => {
-    // Sets a different icon depending on the type of channel.
-    const icons = {
-        "GuildCategory": <IconClearAll size={18}/>,
-        "GuildText": <IconHash size={18} />,
-        "GuildVoice": <IconVolume size={18} />,
-        "GuildNews": <IconSpeakerphone size={18} />,
-        "GuildForum": <IconMessages size={18} />,
-    }
+    const theme = useMantineTheme()
 
-    // React Element
     return(
-    <Box sx={(theme)=>({
-        boxSizing:"border-box",
-        padding:10,
-        display:"flex",
-        flexDirection: "row",
-        alignItems:"center",
-        marginLeft: type==="GuildCategory" ? 0 : 20,
-        border:`1px solid ${theme.colors.dark[4]}`,
-        backgroundColor: theme.colors.dark[6],
-        borderRadius: 5,
-        cursor:"pointer",
-        "&:hover":{
-            border:`1px solid ${theme.colors.dark[3]}`,
-            backgroundColor: theme.colors.dark[5],
-        }
-    })} onClick={()=>{setChannelSetted(id)}}>
-        {icons[type]}
-        <Text sx={(theme)=>({marginLeft:10, color:theme.colors.dark[2]})}>{name}</Text>
-        <Text sx={(theme)=>({marginLeft:"auto", color:theme.colors.dark[3]})}>{id}</Text>
-    </Box>)
+    <Flex 
+        p={10}
+        direction="row"
+        align="center"
+        ml={type==="GuildCategory" ? 0 : 20}
+        bg={theme.colors.dark[6]}
+        onClick={()=>{setChannelSetted(id)}}
+        sx={{
+            boxSizing:"border-box",
+            border:`1px solid ${theme.colors.dark[4]}`,
+            borderRadius: 5,
+            cursor:"pointer",
+            "&:hover":{
+                border:`1px solid ${theme.colors.dark[3]}`,
+                backgroundColor: theme.colors.dark[5],
+            }
+        }}
+    >
+        {channelIcons[type]}
+        <Text color={theme.colors.dark[2]} ml={10}> {name} </Text>
+        <Text color={theme.colors.dark[3]} ml="auto"> {id} </Text>
+    </Flex>)
 }
 
 
 
-// Channels list
 export const ChannelsTab = ({server, tab, setMsgDestiny, setCurrentPage}) => {
     const {classes} = useStyles()
     const [channelSetted, setChannelSetted] = useState(false)
     const [channels, setChannels] = useState([])
+
     
     useEffect(() => {
         AddSocketListener("channels", channels => {
-            var new_channels = [];
-            new_channels = channels.map(channel => <Channel {...channel} setChannelSetted={setChannelSetted} key={channel.id} />)
-            setChannels(new_channels)
+            var updatedChannels = [];
+            updatedChannels = channels.map(channel => <Channel {...channel} setChannelSetted={setChannelSetted} key={channel.id} />)
+            setChannels(updatedChannels)
         })
     })
 
-    // When the Channels tabbutton is pressed, we will load all the channels.
-    useEffect(() => {
-        if(tab !== "channels") return
 
-        SendMessage("get_channels", {id:server})
+    useEffect(() => {
+        if(tab === "channels") SendMessage("get_channels", {id:server})
     }, [tab])
 
 
-    // Removes the channel info section and returns to the list
+
     useEffect(() => {
         if(!server) return
         setChannelSetted(false)
@@ -74,9 +66,9 @@ export const ChannelsTab = ({server, tab, setMsgDestiny, setCurrentPage}) => {
     }, [server])
 
 
-    // React Element
+    
     return (
-        <ScrollArea type="auto" className={classes.scroll} style={{height: "88.5vh"}}>
+        <ScrollArea type="auto" className={classes.scroll} h="88.5vh">
             { channels.length === 0 && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
             {channelSetted 
                 ? <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server} setMsgDestiny={setMsgDestiny} setCurrentPage={setCurrentPage}/> 

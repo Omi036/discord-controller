@@ -1,8 +1,7 @@
-const { exec } = require('child_process')
-const { WSConfig, StartWSServer } = require("./src/socket")
+const { StartWSServer } = require("./src/socket")
 const { DiscordConfig } = require("./src/discord")
 
-const SocketServer = StartWSServer()
+const SocketServer = StartWSServer("localhost", 5017)
 DiscordConfig.socketServer = SocketServer
 
 require("open")("http://localhost:5018/")

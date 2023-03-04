@@ -16,6 +16,7 @@ exports.queryUser = async (client, connection, query) => {
     for(const partGuild of guilds){
         const guild = await partGuild[1].fetch()
         const members = await guild.members.fetch()
+        
         for(const member of members) {
             var user = member[1].user
             if(user.id.startsWith(query) || user.username.toLowerCase().startsWith(query.toLowerCase())) push(user)

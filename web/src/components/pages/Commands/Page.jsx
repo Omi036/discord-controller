@@ -11,7 +11,7 @@ export const CommandsPage = ({currentPage}) => {
     return (
         <Box className={classes.parent}>
             <ListSection commandActive={commandActive} setCommandActive={setCommandActive} currentPage={currentPage}/>
-            <CmdInfoSection commandActive={commandActive} setCommandActive={setCommandActive}/>
+            <CmdInfoSection commandActive={commandActive}/>
         </Box>
     )
 }

@@ -11,6 +11,7 @@ export const ListSection = ({commandActive, setCommandActive, currentPage}) => {
     const theme = useMantineTheme()
     const [ commands, setCommands ] = useState([])
 
+
     useEffect(() => {
         AddSocketListener("commands", (data) => {
             setCommands(data)
@@ -32,14 +33,14 @@ export const ListSection = ({commandActive, setCommandActive, currentPage}) => {
     
     return (
         <Paper shadow="sm" radius={"md"} className={classes.papers}>
-            {/* Titlebar */}
+            
             <Box className={classes.paper_header}>
                 <IconCode color={theme.white} className={classes.app_icon}/>
                 <Text color={theme.white} weight="600">Commands</Text>
             </Box>
 
-            {/* List */}
-            <Box style={{height:"100%"}}>
+            
+            <Box h="100%">
                 <ScrollArea type="auto" className={classes.scroll} >
                     {commandsEl}
                 </ScrollArea>

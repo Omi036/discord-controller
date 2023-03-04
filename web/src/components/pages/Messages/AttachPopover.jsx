@@ -22,7 +22,7 @@ export const AttachPopover = ({ files, setFiles, embed, setEmbedModalOpened }) =
                 m={5} p={7} 
                 bg="#2c2e33" 
                 onClick={() => removeFile(files.indexOf(file))}
-                style={{
+                sx={{
                     borderRadius:7, 
                     boxSizing:"border-box", 
                     cursor:"pointer", 
@@ -61,7 +61,7 @@ export const AttachPopover = ({ files, setFiles, embed, setEmbedModalOpened }) =
                         direction="column" 
                         align="center"
                         onClick={()=>setEmbed(defaultEmbed)}
-                        style={{
+                        sx={{
                             borderRadius:7, 
                             boxSizing:"border-box",
                             cursor:"pointer", 

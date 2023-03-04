@@ -41,8 +41,17 @@ exports.sendClientPageData = (client, DiscordConfig) => {
             )
 
             const presence = client.user.presence
-            const type = (presence.activities.length > 0 && presence.activities[0].type) || "-1"
-            const name = (type != "-1" && presence.activities[0].name) || "Sample Text"
+            var type;
+            var name;
+
+            if(presence.activities.length > 0){
+                type = presence.activities[0].type
+                name = presence.activities[0].name
+            } else {
+                type = '-1'
+                name = "Sample Text"
+            }
+
             sclient.send(
                 JSON.stringify({
                     header: "presence_data",

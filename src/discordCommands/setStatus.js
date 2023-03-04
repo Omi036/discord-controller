@@ -3,9 +3,7 @@ exports.setStatus = (client, connection, rawPresence, refresh) => {
         status: rawPresence.status,
         activities:[]
     }
-    console.log(rawPresence)
-    console.log(rawPresence.type)
-    console.log(rawPresence.type != "-1")
+
     if(rawPresence.type != "-1"){
         presence.activities.push(
             {
@@ -16,6 +14,5 @@ exports.setStatus = (client, connection, rawPresence, refresh) => {
     }
 
     client.user.setPresence(presence)
-    console.log("A")
     refresh()
 }

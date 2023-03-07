@@ -108,6 +108,11 @@ const DeleteChannel = (server, connection, data) => {
 }
 
 
+const UpdateChannel = (server, connection, data) => {
+    Discord.updateChannel(connection, data.svId, data.id, data.data)
+}
+
+
 // This object contains all the websockets commands
 exports.Commands = {
     "auth":AuthorizeUser,
@@ -129,6 +134,7 @@ exports.Commands = {
     "get_channels":SendChannels,
     "get_channel_data":SendChannelData,
     "delete_channel":DeleteChannel,
+    "update_channel":UpdateChannel,
 
     "get_roles":SendRoles,
     "get_role_data": SendRoleData,

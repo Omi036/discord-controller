@@ -15,6 +15,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
     const [ inviteModalOpened, setInviteModalOpened] = useState(false)
     const [ modalConfirmation, setModalConfirmation] = useState(false)
     const [ reason, setReason] = useState("")
+    const [ updatedChannelInfo, setUpdatedChannelInfo ] = useState(defaultChannelInfo)
 
 
     useEffect(() => {
@@ -56,6 +57,24 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
         })
         
         setCurrentPage("Messages")
+    }
+
+
+    const handleChannelUpdate = () => {
+        if(updatedChannelInfo === defaultChannelInfo) return 
+        SendMessage("update_channel", { 
+            svId: serverId,
+            id:channelInfo.id, 
+            data:updatedChannelInfo 
+        })
+    }
+
+
+
+    const updateChannel = (property, value) => {
+        const copiedData = {...updatedChannelInfo}
+        copiedData[property] = value
+        setUpdatedChannelInfo(copiedData)
     }
     
 
@@ -103,7 +122,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
                 </SimpleGrid>
 
                 <SimpleGrid cols={2}>
-                    <TextInput readOnly label="Name" value={channelInfo.name}/>
+                    <TextInput label="Name" value={updatedChannelInfo.name || channelInfo.name} onChange={e => updateChannel("name", e.currentTarget.value)}/>
                     <TextInput readOnly label="Id" value={channelInfo.id}/>
                     <TextInput readOnly label="Type" value={channelInfo.type}/>
                     <TextInput readOnly label="Url" value={channelInfo.url}/>
@@ -120,6 +139,10 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
                     <Button color="indigo" fullWidth me={10} onClick={handleSendMessage} disabled={!["GuildText","GuildVoice","GuildNews"].includes(channelInfo.type) || !channelInfo.messageable}> Send Message </Button>
                     <Button color="indigo" fullWidth ml={10} onClick={()=>setInviteModalOpened(true)}  disabled={["GuildCategory"].includes(channelInfo.type)}> Generate Invite</Button>
                     <Button color="red"    fullWidth ml={10} onClick={()=>setModalConfirmation(true)}  disabled={!channelInfo.deletable}> Delete Channel </Button>
+                </Flex>
+                <Flex direction="row" justify="space-around" mt={10} w="100%">
+                    <Button color="indigo" fullWidth me={10} onClick={handleChannelUpdate} disabled={!channelInfo.manageable}> Update Settings </Button> 
+                    <Button color="indigo" fullWidth ml={10} onClick={()=>setUpdatedChannelInfo(defaultChannelInfo)} disabled={!channelInfo.manageable}> Restore Settings </Button> 
                 </Flex>
             </ScrollArea>
         </>

@@ -216,7 +216,7 @@ export const UsesMarks = [
 
 // Server/Info/ChannelInfo.jsx
 export const defaultChannelInfo = {
-    name:"Channel",
+    name:"",
     id:"000000000000000000",
     type:"",
     url:"",

@@ -1,5 +1,5 @@
 import { Paper, Box, Text, ActionIcon, ScrollArea, Textarea, LoadingOverlay } from "@mantine/core"
-import { customLoader } from "../../../styles/Settings.style"
+import { customLoader } from "../../../styles/LogIn.style"
 import { useStyles } from "../../../styles/Pages.style"
 import { IconAt, IconArrowBack, IconSend, IconReload } from "@tabler/icons"
 import { useMantineTheme } from "@mantine/core"
@@ -11,7 +11,7 @@ import { defaultChatSettings, defaultEmbed } from "../../misc/Enums"
 import { AttachPopover } from "./AttachPopover"
 
 
-// Code borrowed from stackoverflow: https://stackoverflow.com/questions/21797299/convert-base64-string-to-arraybuffer
+// Code "borrowed" from stackoverflow: https://stackoverflow.com/questions/21797299/convert-base64-string-to-arraybuffer
 function _arrayBufferToBase64( buffer ) {
     var binary = '';
     var bytes = new Uint8Array( buffer );

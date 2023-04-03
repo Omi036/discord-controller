@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Modal, TextInput, Button, Box, Text, SimpleGrid, Checkbox, SegmentedControl, LoadingOverlay } from "@mantine/core";
 import { AddSocketListener, SendMessage } from "./misc/WebSocket";
-import { customLoader } from "../styles/Settings.style";
+import { customLoader } from "../styles/LogIn.style";
 import { defaults_intents } from "./misc/Enums";
 import { intentsLayoutScheme } from "./misc/Enums";
 
-export const Settings = () => {
+
+// login Form at the start of the app interaction
+export const LogIn = () => {
     const [modalOpened, setModalOpened] = useState(true);
     const [tokenTextError, setTokenTextError] = useState(false);
     const [intentsLayout, setIntentsLayout] = useState("default");
@@ -16,10 +18,12 @@ export const Settings = () => {
 
 
     useEffect(() => {
+
         // Bot login successfully
         AddSocketListener("confirm_auth", () => {
             if(modalOpened) setModalOpened(false);
         })
+
 
         // Bot didn't login
         AddSocketListener("deny_auth", (data) => {
@@ -38,10 +42,11 @@ export const Settings = () => {
         AddSocketListener("already_login", () => {
             if(modalOpened) setModalOpened(false);
         })
+
     })
 
 
-
+    // Login Button
     const handleSubmitClick = () => {
         setTokenTextError(false)
         setLoading(true)
@@ -53,7 +58,7 @@ export const Settings = () => {
     }
 
 
-
+    // On Checkbox change, updates the list
     const handleIntentCheckChange = (intentName) => {
         var newIntents = { ...intents}
         newIntents[intentName] = !intents[intentName]
@@ -61,7 +66,7 @@ export const Settings = () => {
     }
 
 
-
+    // On Checkbox layout change, check the correct intents
     const handleChangeIntentsLayout = (layoutName) => {
         var newIntents = { ...intents}
         setIntentsLayout(layoutName)
@@ -84,12 +89,13 @@ export const Settings = () => {
     }
 
 
-
+    // On Enter btn, login the bot
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') handleSubmitClick()
     }
 
 
+    // Creates all the checkboxes elements
     const intentCheckboxes = []
     for(const intentName in defaults_intents){
         if(intentName === "Guilds") {
@@ -100,7 +106,7 @@ export const Settings = () => {
     }
 
     
-
+    
     return (
         <Modal
             opened={modalOpened}

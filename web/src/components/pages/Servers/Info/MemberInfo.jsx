@@ -1,5 +1,5 @@
 import { Flex, Text, Box, ActionIcon, ScrollArea, Checkbox, SimpleGrid, LoadingOverlay, TextInput, ColorInput, Accordion, Button, useMantineTheme } from "@mantine/core"
-import { customLoader } from "../../../../styles/Settings.style"
+import { customLoader } from "../../../../styles/LogIn.style"
 import { IconArrowBack } from "@tabler/icons"
 import { useState, useEffect } from "react"
 import { ImageDisplay } from "../../../misc/ImageDisplay"
@@ -60,32 +60,26 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
 
 
     
-    const permsChecks = []
-    for(const permission of Perms) {
-        permsChecks.push(
-            <Checkbox 
-                readOnly 
-                color="indigo"
-                label={permission}
-                checked={settings.permissions.includes(permission)}
-                key={permission} 
-            />
-        )
-    }
+    const permsChecks = Perms.map(permission => (
+        <Checkbox 
+            readOnly 
+            color="indigo"
+            label={permission}
+            checked={settings.permissions.includes(permission)}
+            key={permission} 
+        />
+    ))
 
 
-    const rolesElements = []
-    for(const role in settings.roles) {
-        rolesElements.push(
-            <RoleButton 
-                key={settings.roles[role].id} 
-                color={settings.roles[role].color} 
-                name={role} id={settings.roles[role].id} 
-                setTab={setTab} 
-                setThirdRole={setThirdRole}
-            />
-        )
-    }
+    const rolesElements = settings.roles.map(role => (
+        <RoleButton 
+            key={settings.roles[role].id} 
+            color={settings.roles[role].color} 
+            name={role} id={settings.roles[role].id} 
+            setTab={setTab} 
+            setThirdRole={setThirdRole}
+        />
+    ))
 
 
     const handleSubmitClick = () => {
@@ -130,7 +124,10 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
                     <ImageDisplay label="Avatar" value={settings.avatar}/>
                     <ImageDisplay label="Banner" value={settings.banner}/>
 
-                    { settings.accentColor !== "Default" ?  <ColorInput readOnly label="Accent Color" value={settings.accentColor}/> : <TextInput readOnly label="Accent Color" value="Default"/>}
+                    { settings.accentColor !== "Default" 
+                      ?  <ColorInput readOnly label="Accent Color" value={settings.accentColor}/> 
+                      : <TextInput readOnly label="Accent Color" value="Default"/>
+                    }
 
                     <TextInput readOnly label="Created At" value={new Date(settings.createdAt)}/>
                     <TextInput readOnly label="Joined At" value={new Date(settings.joinedAt)}/>

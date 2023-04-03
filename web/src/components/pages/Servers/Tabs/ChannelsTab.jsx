@@ -3,7 +3,7 @@ import { useStyles } from "../../../../styles/Pages.style"
 import { useEffect, useState } from "react"
 import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
 import { ChannelInfo } from "../Info/ChannelInfo"
-import { customLoader } from "../../../../styles/Settings.style"
+import { customLoader } from "../../../../styles/LogIn.style"
 import { channelIcons } from "../../../misc/Enums"
 
 
@@ -45,8 +45,7 @@ export const ChannelsTab = ({server, tab, setMsgDestiny, setCurrentPage}) => {
     
     useEffect(() => {
         AddSocketListener("channels", channels => {
-            var updatedChannels = [];
-            updatedChannels = channels.map(channel => <Channel {...channel} setChannelSetted={setChannelSetted} key={channel.id} />)
+            const updatedChannels = channels.map(channel => <Channel {...channel} setChannelSetted={setChannelSetted} key={channel.id} />)
             setChannels(updatedChannels)
         })
     })
@@ -62,7 +61,6 @@ export const ChannelsTab = ({server, tab, setMsgDestiny, setCurrentPage}) => {
         if(!server) return
         setChannelSetted(false)
         setChannels([])
-
     }, [server])
 
 
@@ -70,7 +68,7 @@ export const ChannelsTab = ({server, tab, setMsgDestiny, setCurrentPage}) => {
     return (
         <ScrollArea type="auto" className={classes.scroll} h="88.5vh">
             { channels.length === 0 && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
-            {channelSetted 
+            { channelSetted 
                 ? <ChannelInfo channelId={channelSetted} setChannel={setChannelSetted} serverId={server} setMsgDestiny={setMsgDestiny} setCurrentPage={setCurrentPage}/> 
                 : <SimpleGrid cols={1} spacing={40} verticalSpacing={5}> {channels} </SimpleGrid>
             }

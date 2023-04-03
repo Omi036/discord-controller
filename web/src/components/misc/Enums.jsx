@@ -349,3 +349,38 @@ export const channelIcons = {
     "GuildNews": <IconSpeakerphone size={18} />,
     "GuildForum": <IconMessages size={18} />
 }
+
+
+// Users/UserInfoSection.jsx
+export const defaultUserData = {
+    isSystem:false, 
+    isBot:false, 
+    tag: "",
+    id: "000000000000000000", 
+    createdAt: "", 
+    accentColor: "Default",
+    avatarUrl: "",
+    banner: "",
+    flags:[],
+}
+
+
+export const userFlagsList = [
+    "ActiveDeveloper",
+    "BotHTTPInteractions",
+    "BugHunterLevel1",
+    "BugHunterLevel2",
+    "CertifiedModerator",
+    "HypeSquadOnlineHouse1",
+    "HypeSquadOnlineHouse2",
+    "HypeSquadOnlineHouse3",
+    "Hypesquad",
+    "Partner",
+    "PremiumEarlySupporter",
+    "Quarantined",
+    "Spammer",
+    "Staff",
+    "TeamPseudoUser",
+    "VerifiedBot",
+    "VerifiedDeveloper"
+]

@@ -4,7 +4,7 @@ import { ImageDisplay } from "../../../misc/ImageDisplay"
 import { TextDisplay } from "../../../misc/TextDisplay"
 import { useEffect, useState } from "react"
 import { AddSocketListener } from "../../../misc/WebSocket"
-import { customLoader } from "../../../../styles/Settings.style"
+import { customLoader } from "../../../../styles/LogIn.style"
 import { defaultServerInfo } from "../../../misc/Enums"
 
 

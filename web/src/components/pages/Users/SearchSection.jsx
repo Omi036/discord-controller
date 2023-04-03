@@ -1,5 +1,5 @@
 import { Paper, Box, Text, TextInput, ScrollArea, Divider, LoadingOverlay, Flex } from "@mantine/core"
-import { customLoader } from "../../../styles/Settings.style"
+import { customLoader } from "../../../styles/LogIn.style"
 import { useStyles } from "../../../styles/Pages.style"
 import { useMantineTheme } from "@mantine/core"
 import { IconSearch, IconUser } from "@tabler/icons"
@@ -33,15 +33,14 @@ export const SearchSection = ({userActive, setUserActive}) => {
     }
 
 
-    var UsersElement = []
-    for(const user of users) {
-        UsersElement.push(<SideUser id={user.id} key={user.id} active={user.id === userActive} name={user.name} avatarUrl={user.avatarUrl} setActive={() => setUserActive(user.id)}></SideUser>)
-    }
+    var UsersElement = users.map(user => (
+        <SideUser id={user.id} key={user.id} active={user.id === userActive} name={user.name} avatarUrl={user.avatarUrl} setActive={() => setUserActive(user.id)}/>
+    ))
 
 
     
     return (
-        <Paper shadow="sm" radius={"md"} className={classes.papers}>
+        <Paper shadow="sm" radius="md" className={classes.papers}>
 
             <Box className={classes.paper_header}>
                 <IconUser color={theme.white} className={classes.app_icon}/>

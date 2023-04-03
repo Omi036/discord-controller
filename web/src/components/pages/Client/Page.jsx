@@ -16,9 +16,7 @@ export const ClientPage = () => {
 
     
     useEffect(() => {
-        AddSocketListener("fill_client_info", (data) => {
-            setSettings(data)
-        })
+        AddSocketListener("fill_client_info", (data) => setSettings(data))
     })
 
     return (

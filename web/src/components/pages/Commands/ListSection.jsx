@@ -24,15 +24,15 @@ export const ListSection = ({commandActive, setCommandActive, currentPage}) => {
         SendMessage("get_commands")
     }, [currentPage])
 
+    
 
-    const commandsEl = []
-    for(const cmd of commands) {
-        commandsEl.push(<CmdProfile name={cmd.name} id={cmd.id} active={cmd.id === commandActive} setActive={()=>setCommandActive(cmd.id)} key={cmd.id} />)
-    }
+    const commandsEl = commands.map(cmd => (
+        <CmdProfile name={cmd.name} id={cmd.id} active={cmd.id === commandActive} setActive={()=>setCommandActive(cmd.id)} key={cmd.id} />
+    ))
 
     
     return (
-        <Paper shadow="sm" radius={"md"} className={classes.papers}>
+        <Paper shadow="sm" radius="md" className={classes.papers}>
             
             <Box className={classes.paper_header}>
                 <IconCode color={theme.white} className={classes.app_icon}/>

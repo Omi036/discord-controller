@@ -45,7 +45,7 @@ export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
 
     return (
         <Modal opened={opened} title="Create Embed" size={1100} onClose={()=>setOpened(false)}>
-            <Box h="37rem" style={{display: 'flex', flexDirection: 'row'}}>
+            <Flex h="37rem" direction="row" >
 
                 <Box w="30%">
                     <TextInput label="Title" required value={title} error={titleError} onChange={(event) => setTitle(event.currentTarget.value)}/>
@@ -57,35 +57,35 @@ export const AddEmbedModal = ({opened, setOpened, setEmbed}) => {
                     <TextInput label="Image URL" value={image} onChange={(event) => setImage(event.currentTarget.value)}/>
                     <Button color="indigo" fullWidth mt={10} onClick={handleSubmitClick}>Add Embed</Button>
                 </Box>
+
                 <Divider orientation="vertical" variant="dashed" mx={10}/>
+
                 <Box w="69%" h="100%">
                     <Flex direction="column" justify="center" align="center" h="100%">
 
-                        {/* Embed Preview */}
-                        <Box style={{width:"80%", borderRadius:5,overflow: "hidden",minHeight:"10%", display:"flex", flexDirection:"row"}}>
-                            {/* Color */}
-                            <Box style={{backgroundColor:color,height:"100%", width:"1%"}}></Box>
-                            {/* Content */}
-                            <Box style={{backgroundColor:"#2f3136", width:"99%", height:"100%", padding:10, display:"flex", flexDirection:"row"}}>
-                                <Box style={{maxWidth:thumbnail ? "70%" : "100%"}}>
-                                    <Text weight="bold" size={14} style={{marginBottom:7}}>{author}</Text>
-                                    <Text weight="bold" size={18} style={{marginBottom:7}}>{title}</Text>
+                        <Flex w="80%" direction="row" mih="10%" style={{borderRadius:5, overflow:"hidden"}}>
+                            <Box bg={color} h="100%" w="1%"></Box>
+
+                            <Flex bg="#2f3136" w="99%" h="100%" p={10}>
+                                <Box maw={thumbnail ? "70%" : "100%"}>
+                                    <Text weight="bold" size={14} mb={7}>{author}</Text>
+                                    <Text weight="bold" size={18} mb={7}>{title}</Text>
                                     <Text>{description}</Text>
 
-                                    {image && <Image radius={10} style={{marginTop:10, marginBottom:10}} src={image} />}
+                                    {image && <Image radius={10} my={10} src={image} />}
 
-                                    {footer && <Text size={11} style={{marginTop:image ? 0 : 5}} weight="bold">{footer}</Text>}
+                                    {footer && <Text size={11} mt={image ? 0 : 5} weight="bold">{footer}</Text>}
                                 </Box>
-                                {/* Thumbnail */}
-                                <Box style={{width:"30%", marginLeft:5}}>
-                                    {thumbnail && <Image radius={10} style={{width:"100%"}} src={thumbnail} />}
+
+                                <Box w="30%" ml={5}>
+                                    {thumbnail && <Image radius={10} w="100%" src={thumbnail} />}
                                 </Box>
-                            </Box>
-                        </Box>
+                            </Flex>
+                        </Flex>
                         
                     </Flex>
                 </Box>
-            </Box>
+            </Flex>
         </Modal>
     )
 }

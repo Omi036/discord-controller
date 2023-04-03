@@ -18,6 +18,6 @@ export const Attachment = ({type,name,url}) => {
         )
 
     } else if(type.startsWith("image/")){
-        return <Image radius={10} style={{width:"50%", marginBottom:5}} src={url} />
+        return <Image radius={10} w="50%" mb={5} src={url} />
     }
 }

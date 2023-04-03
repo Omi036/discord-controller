@@ -3,53 +3,50 @@ import { IconArrowBack } from "@tabler/icons"
 import { useEffect, useState } from "react"
 import { TextDisplay } from "../../../misc/TextDisplay"
 import { SendMessage, AddSocketListener } from "../../../misc/WebSocket"
-import { customLoader } from "../../../../styles/Settings.style"
+import { customLoader } from "../../../../styles/LogIn.style"
 import { defaultRoleInfo, permLists as Perms } from "../../../misc/Enums"
 
 
 export const RoleInfo = ({ serverId, roleId, setRole }) => {
     const theme = useMantineTheme()
     const [roleInfo, setRoleInfo] = useState(defaultRoleInfo)
-    const permsChecks = []
-
+    
     
     useEffect(() => {
         AddSocketListener("role_data", data => {
             setRoleInfo(data)
         })
     })
-
     
-
+    
+    
     useEffect(() => {
         SendMessage("get_role_data", {svId:serverId, id:roleId})
     }, [roleId])
-
     
     
-    for(const permission of Perms) {
-        permsChecks.push(
-            <Checkbox 
-                readOnly 
-                color={"indigo"}
-                label={permission}
-                checked={roleInfo.permissions.includes(permission)}
-                key={permission} 
-            />
-        )
-    }
+    
+    const permsChecks = Perms.map(permission => (
+        <Checkbox 
+            readOnly 
+            color="indigo"
+            label={permission}
+            checked={roleInfo.permissions.includes(permission)}
+            key={permission} 
+        />
+    ))
 
 
     return(
         <>
             { roleInfo.id === "000000000000000000" && <LoadingOverlay visible overlayBlur={0} loader={customLoader} />}
             
-            <Flex mb={5} sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`})}>
-                <ActionIcon onClick={()=>{setRole(false)}}>
+            <Flex mb={5} sx={{borderBottom: `2px solid ${theme.colors.dark[4]}`}}>
+                <ActionIcon onClick={()=> setRole(false)}>
                     <IconArrowBack />
                 </ActionIcon>
 
-                <Text ml={10} style={{marginLeft:10}}> {roleInfo.name} </Text>
+                <Text ml={10}> {roleInfo.name} </Text>
                 <Text ml="auto" mb={10} color={theme.colors.dark[3]}> {roleId} </Text>
             </Flex>
 

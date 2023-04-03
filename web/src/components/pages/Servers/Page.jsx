@@ -26,31 +26,30 @@ export const ServerPage = ({currentPage, setMsgDestiny, setCurrentPage}) => {
     const [actualSv, setActualSv] = useState()
     const [serverList, setServerList] = useState([])
     const {classes} = useStyles()
-    const servers = []
-
+    
     
     useEffect(() => {
         AddSocketListener("servers_info", (data) => setServerList(data))
     })
-
-
+    
     
     useEffect(() => {
         if(currentPage === "Servers") SendMessage("get_servers")
     }, [currentPage])
-
+    
     
     
     useEffect(() => {
         if(actualSv) SendMessage("get_server_data", {id:actualSv})
     },[actualSv])
-
+    
+    
+    
+    const servers = serverList.map(server => (
+        <ServerProfile active={actualSv === server.id} setActive={setActualSv} avatarUrl={server.avatar} name={server.name} id={server.id} key={server.id}/>
+    ))
 
     
-    for (const server of serverList) {
-        servers.push(<ServerProfile active={actualSv === server.id} setActive={setActualSv} avatarUrl={server.avatar} name={server.name} id={server.id} key={server.id}/>)
-    }
-
     return (
         <Box className={classes.parent}>
             <ListSection servers={servers} />

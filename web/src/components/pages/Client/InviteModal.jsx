@@ -57,8 +57,9 @@ export const InviteModal = ({ opened, setOpened }) => {
 
 
     const handleInviteClick = () => {
-        const permissions_names = []
+        const permissions_names = [] 
         for(const key in permissions) { if(permissions[key]) permissions_names.push(key) }
+        
         SendMessage("gen_invite", permissions_names)
     }
 

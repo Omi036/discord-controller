@@ -3,12 +3,12 @@ import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
 import { IconArrowBack } from "@tabler/icons"
 import { useState, useEffect } from "react"
 import { TextDisplay } from "../../../misc/TextDisplay"
-import { customLoader } from "../../../../styles/Settings.style"
+import { customLoader } from "../../../../styles/LogIn.style"
 import { CreateInviteModal } from "./CreateInviteModal"
 import { defaultChannelInfo } from "../../../misc/Enums"
 
 
-// Contains info about a channel
+
 export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, setCurrentPage}) => {
     const theme = useMantineTheme()
     const [ channelInfo, setChannelInfo] = useState(defaultChannelInfo)
@@ -91,7 +91,7 @@ export const ChannelInfo = ({channelId, setChannel, serverId, setMsgDestiny, set
                 <Button mt={10} fullWidth color="red" onClick={handleDelete}>Yes, I'm sure I want to delete "{channelInfo.name}"</Button>
             </Modal>
 
-            <Flex mb={5} sx={(theme) => ({borderBottom: `2px solid ${theme.colors.dark[4]}`})}>
+            <Flex mb={5} sx={{borderBottom: `2px solid ${theme.colors.dark[4]}`}}>
                 <ActionIcon onClick={()=>{setChannel(false)}}>
                     <IconArrowBack />
                 </ActionIcon>

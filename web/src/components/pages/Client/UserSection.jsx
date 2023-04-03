@@ -32,9 +32,6 @@ export const UserSection = ({settings}) => {
     }
 
 
-    console.log(presence.type.toString())
-
-
     return(
         <Paper shadow="sm" radius="md" className={classes.papers}>
             <Box className={classes.paper_header}>

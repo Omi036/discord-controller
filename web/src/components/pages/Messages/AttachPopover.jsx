@@ -79,6 +79,7 @@ export const AttachPopover = ({ files, setFiles, embed, setEmbedModalOpened }) =
                 <Flex mt={8} direction="row" justify="space-between">
 
                     <Button color="indigo" w="48%" leftIcon={<IconPlus />} onClick={()=>setEmbedModalOpened(true)}> Set Embed </Button>
+                    
                     <FileButton onChange={setFiles} multiple>
                         {(props) => <Button  {...props} color="indigo" w="48%" leftIcon={<IconPlus />}> Set Files </Button>}
                     </FileButton>

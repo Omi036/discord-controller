@@ -7,6 +7,7 @@ import { UsersPage } from "./Users/Page"
 import { CommandsPage } from "./Commands/Page"
 
 
+// Page renderer
 export const Pages = ({ currentPage, setCurrentPage }) => {
     const [ msgDestiny, setMsgDestiny ] = useState()
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navbar, Group, Code, Avatar, Text, Box,  ActionIcon, useMantineTheme } from "@mantine/core";
+import { Navbar, Group, Code, Avatar, Text, Box,  ActionIcon } from "@mantine/core";
 import { IconLogout } from "@tabler/icons";
 import { useStyles } from "../styles/Sidebar.style";
 import { AddSocketListener } from "./misc/WebSocket";
@@ -11,34 +11,31 @@ import { defaultProfile } from "./misc/Enums";
 
 // Sidebar Component
 export function Sidebar({currentPage , setCurrentPage}) {
-    const theme = useMantineTheme()
     const { classes, cx } = useStyles();
     const [botProfile, setBotProfile] = useState(defaultProfile);
     const [logoutModalOpened, setLogoutModalOpened] = useState(false);
 
 
+    // When receive basic info about our client
     useEffect(() => {
         AddSocketListener("basic_profile", data => setBotProfile(data))
     })
 
     
-
-    const sideLinks = []
-    for(const linkItem of sidebarLinks){
-        sideLinks.push(
-            <a
-                key={linkItem.label}
-                className={cx(classes.link, {[classes.linkActive]: linkItem.label === currentPage})}
-                onClick={(event) => {
-                    event.preventDefault();
-                    setCurrentPage(linkItem.label);
-                }}
-            >
-                <linkItem.icon className={classes.linkIcon} stroke={1.5}/>
-                <span>{linkItem.label}</span>
-            </a>
-        )
-    }
+    // Every button on the sidebar
+    const sideLinks = sidebarLinks.map(linkItem => (
+        <a
+            key={linkItem.label}
+            className={cx(classes.link, {[classes.linkActive]: linkItem.label === currentPage})}
+            onClick={(event) => {
+                event.preventDefault();
+                setCurrentPage(linkItem.label);
+            }}
+        >
+            <linkItem.icon className={classes.linkIcon} stroke={1.5}/>
+            <span>{linkItem.label}</span>
+        </a>
+    ))
 
 
     return (
@@ -63,7 +60,7 @@ export function Sidebar({currentPage , setCurrentPage}) {
                         <Text ml={10}> {botProfile.username} </Text>
 
                         <ActionIcon ml="auto" p={3} onClick={() => setLogoutModalOpened(true)}>
-                            <IconLogout color={"#ED4245"} stroke={1.5} />
+                            <IconLogout color="#ED4245" stroke={1.5} />
                         </ActionIcon>
 
                     </Box>

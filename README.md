@@ -11,6 +11,8 @@
     <a href="https://github.com/Omi036/discord-controller/issues/">Report Bug</a>
     ·
     <a href="https://github.com/Omi036/discord-controller/issues/">Request Feature</a>
+    ·
+    <a href="https://github.com/Omi036/discord-controller/blobl/main/CHANGELOG.md">Changelog</a>
   </p>
 </div>
 

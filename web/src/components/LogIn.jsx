@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { Modal, TextInput, Button, Box, Text, SimpleGrid, Checkbox, SegmentedControl, LoadingOverlay } from "@mantine/core";
+import { Modal, TextInput, Button, Box, Text, SimpleGrid, Checkbox, SegmentedControl, LoadingOverlay, PasswordInput, Divider, Flex } from "@mantine/core";
 import { AddSocketListener, SendMessage } from "./misc/WebSocket";
 import { customLoader } from "../styles/LogIn.style";
 import { defaults_intents } from "./misc/Enums";
 import { intentsLayoutScheme } from "./misc/Enums";
+import { ProfileSection } from "./misc/ProfileSection"
 
 
 // login Form at the start of the app interaction
@@ -111,28 +112,41 @@ export const LogIn = () => {
         <Modal
             opened={modalOpened}
             title="Setting Up"
-            size="lg"
+            size={1000}
             overlayBlur={3}
             withCloseButton={false}
             closeOnEscape={false}
+            centered
             closeButtonLabel={false}
             closeOnClickOutside={false}
             onKeyDown={handleKeyDown}
+            sx={{height:"100%", overflow:"hidden"}}
             onClose={() => setModalOpened(false)}
         >
-            <LoadingOverlay visible={isLoading} overlayBlur={2} loader={customLoader} />
-            <TextInput label="Bot Token" placeholder="Ntg3K2lm..." required ref={tokenInput} error={tokenTextError} disabled={isLoading}/>
+            <Flex justify={"space-between"}>
 
-            <Box my={10}>
-                <Text mb={5}> Intents </Text>
-                <SegmentedControl fullWidth radius={"sm"} color="indigo" value={intentsLayout} onChange={handleChangeIntentsLayout} disabled={isLoading} data={intentsLayoutScheme} />
+                <Box w="30%">
+                    <ProfileSection isLoading={isLoading} input={tokenInput} intents={intentsLayout} setIntents={handleChangeIntentsLayout}/>
+                </Box>
 
-                <SimpleGrid cols={2} mt={10}>
-                    {intentCheckboxes}
-                </SimpleGrid>
-            </Box>
-            
-            <Button fullWidth onClick={handleSubmitClick} disabled={isLoading} mt={10} bg={isLoading ? "#3946D3" : "#5865F2"}> Set Up Bot </Button>
+                <Divider orientation="vertical" />
+
+                <Box w="67%">
+                    <LoadingOverlay visible={isLoading} overlayBlur={2} loader={customLoader} />
+                    <PasswordInput label="Bot Token" placeholder="Ntg3K2lm..." required ref={tokenInput} error={tokenTextError} disabled={isLoading} />
+
+                    <Box my={10}>
+                        <Text mb={5}> Intents </Text>
+                        <SegmentedControl fullWidth radius={"sm"} color="indigo" value={intentsLayout} onChange={handleChangeIntentsLayout} disabled={isLoading} data={intentsLayoutScheme} />
+
+                        <SimpleGrid cols={2} mt={10}>
+                            {intentCheckboxes}
+                        </SimpleGrid>
+                    </Box>
+
+                    <Button fullWidth onClick={handleSubmitClick} disabled={isLoading} mt={10} bg={isLoading ? "#3946D3" : "#5865F2"}> Set Up Bot </Button>
+                </Box>
+            </Flex>
         </Modal>
     );
 };

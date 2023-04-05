@@ -80,7 +80,7 @@ const PostMessage = (server, connection, data) => {
 }
 
 const DeleteMessage = (server, connection, data) => {
-    Discord.deleteMessage(connection, data.svId, data.chId, data.id)
+    Discord.deleteMessage(connection, data.svId, data.chId, data.id, data.channelType)
 }
 
 

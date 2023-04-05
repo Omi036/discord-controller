@@ -4,7 +4,7 @@ import { Attachment } from "./Attachment"
 import { IconFile, IconLayoutSidebar, IconTrash } from "@tabler/icons"
 import { SendMessage } from "../../misc/WebSocket"
 
-export const Message = ({ user, avatar, content, attachments, embeds, id, channelId, svId }) => {
+export const Message = ({ user, avatar, content, attachments, embeds, id, channelId, svId, channelType }) => {
     const theme = useMantineTheme()
     var accordionEls = []
     
@@ -49,7 +49,8 @@ export const Message = ({ user, avatar, content, attachments, embeds, id, channe
         SendMessage("delete_message", {
             svId:svId, 
             chId:channelId, 
-            id:id
+            id:id,
+            channelType: channelType,
         })
     }
 

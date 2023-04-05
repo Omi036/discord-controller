@@ -71,15 +71,18 @@ export const MemberInfo = ({ serverId, memberId, setMember, setTab, setThirdRole
     ))
 
 
-    const rolesElements = settings.roles.map(role => (
-        <RoleButton 
-            key={settings.roles[role].id} 
-            color={settings.roles[role].color} 
-            name={role} id={settings.roles[role].id} 
-            setTab={setTab} 
-            setThirdRole={setThirdRole}
-        />
-    ))
+    const rolesElements = []
+    for(const role in settings.roles) {
+        rolesElements.push(
+            <RoleButton 
+                key={settings.roles[role].id} 
+                color={settings.roles[role].color} 
+                name={role} id={settings.roles[role].id} 
+                setTab={setTab} 
+                setThirdRole={setThirdRole}
+            />
+        )
+    }
 
 
     const handleSubmitClick = () => {

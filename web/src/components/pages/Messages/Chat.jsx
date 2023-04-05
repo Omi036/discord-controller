@@ -133,6 +133,7 @@ export const Chat = ({destiny, setDestiny}) => {
                 attachments={message.attachments} 
                 content={message.content}
                 embeds={message.embeds}
+                channelType={destiny.type}
              />
         )
     }

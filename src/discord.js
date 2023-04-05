@@ -47,7 +47,7 @@ exports.login = ({token, intents}) => {
 
         exports.sendChatSettings = async (connection, type, svId, id) => require("./discordCommands/sendChatSettings.js").sendChatSettings(client, connection, type, svId, id)
         exports.postMessage = (connection, type, svId, id, content, attachments) => require("./discordCommands/postMessage.js").postMessage(client, connection, type, svId, id, content, attachments)
-        exports.deleteMessage = (connection, svId, chId, id) => require("./discordCommands/deleteMessage.js").deleteMessage(client, connection, svId, chId, id)
+        exports.deleteMessage = (connection, svId, chId, id, channelType) => require("./discordCommands/deleteMessage.js").deleteMessage(client, connection, svId, chId, id, channelType)
         exports.genChannelInvite = (connection, svId, id, settings) => require("./discordCommands/genChannelInvite").genChannelInvite(client, connection, svId, id, settings)
         exports.genInvite = (connection, data) => require("./discordCommands/genInvite").genInvite(client, connection, data, PermissionFlagsBits)
         exports.sendServers = (connection) => require("./discordCommands/sendServers").sendServers(client, connection)

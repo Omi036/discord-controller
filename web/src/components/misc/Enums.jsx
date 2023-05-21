@@ -16,10 +16,12 @@ export const defaultProfile = {
 }
 
 
+
 // Settings.jsx
+export const setteable_intents = ["GuildMembers","MessageContent","GuildPresences"]
 export const defaults_intents = {
     "Guilds":true,
-    "GuildMembers": true,
+    "GuildMembers": false,
     "GuildBans": true,
     "GuildIntegrations": true,
     "GuildEmojisAndStickers": true,
@@ -43,7 +45,8 @@ export const defaults_intents = {
 export const intentsLayoutScheme = [
     {label:"Minimum", value:"minimum"},
     {label:"Default", value:"default"},
-    {label:"All", value:"all"}
+    {label:"All", value:"all"},
+    {label:"All Default-Enabled", value:"defaultdisabled"}
 ]
 
 

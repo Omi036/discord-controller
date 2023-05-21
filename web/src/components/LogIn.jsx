@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Modal, TextInput, Button, Box, Text, SimpleGrid, Checkbox, SegmentedControl, LoadingOverlay, PasswordInput, Divider, Flex } from "@mantine/core";
+import { Modal, Button, Box, Text, SimpleGrid, Checkbox, SegmentedControl, LoadingOverlay, PasswordInput, Divider, Flex } from "@mantine/core";
 import { AddSocketListener, SendMessage } from "./misc/WebSocket";
 import { customLoader } from "../styles/LogIn.style";
-import { defaults_intents } from "./misc/Enums";
+import { defaults_intents, setteable_intents } from "./misc/Enums";
 import { intentsLayoutScheme } from "./misc/Enums";
 import { ProfileSection } from "./misc/ProfileSection"
 
@@ -82,6 +82,13 @@ export const LogIn = () => {
                 for(const key in newIntents) { newIntents[key] = true}
                 break;
 
+            case "defaultdisabled":
+                for(const key in newIntents) { 
+                    if(setteable_intents.includes(key)) newIntents[key] = false 
+                    else newIntents[key] = true
+                }
+                break;
+
             case "default":
                 newIntents = defaults_intents
                 break;
@@ -100,9 +107,11 @@ export const LogIn = () => {
     const intentCheckboxes = []
     for(const intentName in defaults_intents){
         if(intentName === "Guilds") {
-            intentCheckboxes.push(<Checkbox key={intentName} checked={intents.Guilds} readOnly color="teal" label="Guilds"/>)
+            intentCheckboxes.push(<Checkbox key={intentName} checked={intents.Guilds} readOnly color="teal" label={<Text color="teal">{intentName}</Text>}/>)
+        } else if(setteable_intents.includes(intentName)) {
+            intentCheckboxes.push(<Checkbox key={intentName} checked={intents[intentName]} color="yellow" onChange={()=>handleIntentCheckChange(intentName)} label={<Text color="yellow">{intentName}</Text>} />)
         } else {
-            intentCheckboxes.push(<Checkbox key={intentName} checked={intents[intentName]} color="indigo" label={intentName} onChange={()=>handleIntentCheckChange(intentName)} />)
+            intentCheckboxes.push(<Checkbox key={intentName} checked={intents[intentName]} color="indigo" onChange={()=>handleIntentCheckChange(intentName)} label={intentName}  />)
         }
     }
 

@@ -121,7 +121,6 @@ export const ProfileSection = ({ isLoading, input, intents, setIntents }) => {
         reloadProfiles()
     }, [])
 
-    console.log(profiles)
 
     return (
         <>

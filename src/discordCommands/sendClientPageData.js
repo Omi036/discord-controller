@@ -17,7 +17,7 @@ exports.sendClientPageData = (client, DiscordConfig) => {
                             initializedAt: client.readyAt
                         },
                         user: {
-                            verified: client.user.flags.has(65536),
+                            verified: client.user.verified,
                             status: client.user.presence.status,
                             tag: client.user.tag,
                             id: client.user.id,

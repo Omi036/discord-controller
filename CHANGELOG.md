@@ -15,14 +15,14 @@
         <b>Why so inactive?</b>
         <br/>
         We are aware that the app is having a lot less activity, this is because our main computer (where the repo and the project is fully set-up) bricked up.
-        However, we stimate that in less than a week it may come back to live.
+        However, we estimate that in less than a week it may come back to live.
         </p>
     </li>
     <li>
         <p>
         <b>What now?</b>
         <br/>
-        There is room for improvement, we have plans to make the dashboar able to make "admin's things", such like channel creations, role's permissions configuration, channel editing...    
+        There is room for improvement, we have plans to make the dashboard able to make "admin's things", such like channel creations, role's permissions configuration, channel editing...    
         Even thought those things are important, we are aware that setting the app is a... <i>lazy proccess</i> , thats why we are focusing on bringing a Docker version up.
         </p>
     </li>

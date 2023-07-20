@@ -79,7 +79,7 @@ In the meanwhile, you can try our demo. See <a href="#getting-started">getting s
 ```sh
 cd YOUR_PATH/discord-controller/
 ```
-2. Then, execute the `start.bat` (or `start.sh` if using Linux) script, a browser window to <a href="http://localhost:5018" target="_blank">localhost:5018</a> should show up.  
+2. Then, execute `npm run start` and a browser window to <a href="http://localhost:5018" target="_blank">localhost:5018</a> should show up.  
 3. You should be greeted with the following screen:  
 <img src="https://i.imgur.com/ct8eZ40.png" />
 4. Type down your discord token and select the intents you want to login in. (If not sure, select default)<br/>

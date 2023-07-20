@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   clearScreen:false,
   server: {
-    port: 5018
+    port: 5018,
+    open:true
   }
 })

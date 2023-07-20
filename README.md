@@ -67,8 +67,10 @@ In the meanwhile, you can try our demo. See <a href="#getting-started">getting s
   cd discord-controller
   npm run setup
   ```  
-3. * If using Windows, simply execute the `start.bat` file  
-   * If using Linux, change the file to executable mode: `chmod +x ./start.sh` and then you can execute the `start.sh` file  
+3. Start the application with npm:
+  ```sh
+  npm run start
+  ```
   
 4. A browser window should pop up, if not, try going to <a href="http://localhost:5018" target="_blank">localhost:5018</a> in your browser.
 

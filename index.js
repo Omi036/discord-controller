@@ -3,5 +3,3 @@ const { DiscordConfig } = require("./src/discord")
 
 const SocketServer = StartWSServer("localhost", 5017)
 DiscordConfig.socketServer = SocketServer
-
-require("open")("http://localhost:5018/")

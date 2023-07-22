@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm-run-all --parallel start-server start-render",
     "start-server": "node index.js",
-    "start-render": "npm run dev --prefix './web'",
-    "setup": "npm i && npm run setup --prefix ./web"
+    "start-render": "npm run dev --prefix web",
+    "setup": "npm i && npm run setup --prefix web"
   },
   "repository": {
     "type": "git",

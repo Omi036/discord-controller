@@ -26,8 +26,15 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+      <li><a href="#installing-via-docker">Installing via Docker</a></li>
+      </ul>
+      <ul>
+        <li><a href="#installation-from-source-code">Installing from Source Code</a></li>
+        <ul>
+          <li><a href="#prerequisites">Prerequisites</a></li>
+          <li><a href="#prerequisites">Installation</a></li>
+          <li><a href="#configuration">Configuration</a></li>
+        </ul>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -51,13 +58,26 @@ In the meanwhile, you can try our demo. See <a href="#getting-started">getting s
 <img src="https://i.imgur.com/XZi5IFr.gif" />
 
 ## Getting Started
-### Prerequisites
+### Installing via Docker
+Installing via docker is the easiest way to install DRC. However, take note that it is still a work in progress.
+1. Pull the image
+```sh
+docker pull omi036/discord-controller
+```
+2. Run the image
+```sh
+docker start omi036/discord-controller
+```
+
+
+### Installation from source code
+#### Prerequisites
 <ul>
   <li><a href="https://nodejs.org/en/download/" target="_blank">Node v12.0.0</a> or higher. Check with <code>node -v</code></li>
   <li><a href="https://nodejs.org/en/download/" target="_blank">Npm</a>. Check with <code>npm -v</code></li>
 </ul>
 
-### Installation
+#### Installation
 1. Clone this repository downloading the .zip or via git:
   ```sh
   git clone https://github.com/Omi036/discord-controller
@@ -73,6 +93,19 @@ In the meanwhile, you can try our demo. See <a href="#getting-started">getting s
   ```
   
 4. A browser window should pop up, if not, try going to <a href="http://localhost:5018" target="_blank">localhost:5018</a> in your browser.
+
+#### Configuration
+If you prefer to use other ports nor ip, you may use the env variables:
+| Variable | Description | Default |
+|:---------|:-----|:-------|
+| VITE_SRVPORT | Websockets Port | 5017 |
+| VITE_BIND | Ip Host | "localhost" |
+| WEBPORT | Http Port | 5018 |
+
+You can use the following one-line example:
+```sh
+VITE_SRVPORT=3000 VITE_BIND=0.0.0.0 WEBPORT=1000 npm run start
+```
 
 ## Usage
 1. To launch the app, go to the root folder of the app, often called <code>discord-controller</code>

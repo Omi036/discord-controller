@@ -1,4 +1,8 @@
-const WSocket = new WebSocket("ws:localhost:5017");
+const WSocketPort = import.meta.env.VITE_SRVPORT ?? 5017
+
+console.log(WSocketPort);
+
+const WSocket = new WebSocket(`ws:localhost:${WSocketPort}`);
 
 export const AddSocketListener = (header, callback) => {
     WSocket.addEventListener("message", (message) => {

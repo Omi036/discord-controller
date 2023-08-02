@@ -1,6 +1,31 @@
 <center>
 <h1>DRC ChangeLog</h1>
 </center>
+<h2><span style="color:#005fd3">0.2.7</span> (02/08/23) </h2>
+<ul>
+    <li>
+        <p>
+        <b>Now available on Docker</b>
+        <br/>
+        Finally, our Docker version is now available. However, we may need to polish the image a little bit.
+        </p>
+    </li>
+    <li>
+        <p>
+        <b>Dynamic host settings</b>
+        <br/>
+        Now, DRC supports changeable ports and ip changing the env variables <code>VITE_SVRPORT</code>(WebSockets port), <code>WEBPORT</code> (Http port) and <code>VITE_BIND</code> (Host ip).
+        </p>
+    </li>
+    <li>
+        <p>
+        <b>What now?</b>
+        <br/>
+        As we said in the latest changelog, we want to make this tool as useful and easy to set-up as possible. That means that we will be focusing now on polishing the docker image and making the dashboard more useful with channels, users, and guild settings.
+        </p>
+    </li>
+</ul>
+
 <h2><span style="color:#005fd3">0.2.6</span> (21/07/23) </h2>
 <ul>
     <li>

@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   clearScreen:false,
   server: {
-    port: 5018,
-    open:true
+    port: process.env.WEBPORT || 5018,
+    open: process.env.DOCKER_OPEN === "false" ? false : true,
+    host: process.env.VITE_BIND ?? "localhost"
   }
 })

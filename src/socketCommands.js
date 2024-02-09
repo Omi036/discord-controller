@@ -1,4 +1,5 @@
 // We import commands that the bot will exec
+const { connection } = require('websocket');
 const Discord = require('./discord');
 
 // Login the discord.js bot with the given token
@@ -112,6 +113,10 @@ const UpdateChannel = (server, connection, data) => {
     Discord.updateChannel(connection, data.svId, data.id, data.data)
 }
 
+const LeaveServer = (server, connection, data) => {
+    Discord.leaveServer(connection, data.svId)
+}
+
 
 // This object contains all the websockets commands
 exports.Commands = {
@@ -148,4 +153,6 @@ exports.Commands = {
 
     "get_commands": SendCommands,
     "get_command_info":SendCommandInfo,
+
+    "leave_server":LeaveServer
 }

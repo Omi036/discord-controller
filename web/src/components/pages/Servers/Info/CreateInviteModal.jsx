@@ -1,4 +1,4 @@
-import { SimpleGrid, Box, TextInput, Text, Checkbox, Button, Modal, Slider, CopyButton, NumberInput, Flex} from "@mantine/core"
+import { SimpleGrid, TextInput, Text, Checkbox, Button, Modal, Slider, CopyButton, NumberInput, Flex} from "@mantine/core"
 import { AddSocketListener, SendMessage } from "../../../misc/WebSocket"
 import { IconClipboard, IconSend } from "@tabler/icons"
 import { useState, useEffect, useRef } from "react"

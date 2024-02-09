@@ -1,4 +1,4 @@
-import { ScrollArea, SimpleGrid, TextInput,  Checkbox, Box, LoadingOverlay, Flex } from "@mantine/core"
+import { ScrollArea, SimpleGrid, TextInput,  Checkbox, Modal, LoadingOverlay, Flex, Button } from "@mantine/core"
 import { useStyles } from "../../../../styles/Pages.style"
 import { ImageDisplay } from "../../../misc/ImageDisplay"
 import { TextDisplay } from "../../../misc/TextDisplay"
@@ -6,11 +6,13 @@ import { useEffect, useState } from "react"
 import { AddSocketListener } from "../../../misc/WebSocket"
 import { customLoader } from "../../../../styles/LogIn.style"
 import { defaultServerInfo } from "../../../misc/Enums"
+import { ConfirmLeaveModal } from "../Info/ConfirmLeaveModal"
 
 
 export const GeneralTab = ({server}) => {
     const {classes} = useStyles()
     const [data, setData] = useState(defaultServerInfo)
+    const [openedConfirmModal, setOpenedConfirmModal] = useState(false)
 
 
 
@@ -28,6 +30,8 @@ export const GeneralTab = ({server}) => {
 
     
     return (
+        <>
+        <ConfirmLeaveModal opened={openedConfirmModal} setOpened={setOpenedConfirmModal} svid={data.id}/>
         <ScrollArea type="auto" h="90vh" className={classes.scroll}>
             { data.id === "000000000000000000" && <LoadingOverlay visible overlayBlur={2} loader={customLoader} />}
 
@@ -68,7 +72,12 @@ export const GeneralTab = ({server}) => {
                 <TextInput readOnly label="Explicit Content Filter"  className={classes.text_input} value={data.explicitFilter}/>
                 <TextInput readOnly label="NSFW Level" className={classes.text_input} value={data.nsfwLevel}/>
 
+
             </SimpleGrid>
+            <Flex direction="row" justify="space-around" mt={10} w="100%">
+                <Button color="red" fullWidth me={10} onClick={()=>setOpenedConfirmModal(true)}> Leave Server </Button> 
+            </Flex>
         </ScrollArea>
+        </>
     )
 }

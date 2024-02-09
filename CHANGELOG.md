@@ -1,6 +1,23 @@
 <center>
 <h1>DRC ChangeLog</h1>
 </center>
+<h2><span style="color:#005fd3">0.2.8</span> (09/02/24) </h2>
+<ul>
+    <li>
+        <p>
+        <b>Back to the job</b>
+        <br/>
+        After more than 5 months, the project is being resumed
+        </p>
+    </li>
+    <li>
+        <p>
+        <b>Leave server feature</b>
+        <br/>
+        You can now leave a server via the server data page
+        </p>
+    </li>
+</ul>
 <h2><span style="color:#005fd3">0.2.7</span> (02/08/23) </h2>
 <ul>
     <li>

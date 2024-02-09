@@ -29,7 +29,10 @@ export const ServerPage = ({currentPage, setMsgDestiny, setCurrentPage}) => {
     
     
     useEffect(() => {
-        AddSocketListener("servers_info", (data) => setServerList(data))
+        AddSocketListener("servers_info", (data) => {
+            setServerList(data)
+            setActualSv()
+        })
     })
     
     

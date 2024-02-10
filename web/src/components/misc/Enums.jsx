@@ -388,3 +388,20 @@ export const userFlagsList = [
     "VerifiedBot",
     "VerifiedDeveloper"
 ]
+
+export const regions = [
+    {label:"Automatic", value:null},
+    {label:"Brazil", value:"brazil"},
+    {label:"Hong Kong", value:"hongkong"},
+    {label:"India", value:"india"},
+    {label:"Japan", value:"japan"},
+    {label:"Rotterdam", value:"rotterdam"},
+    {label:"Russia", value:"russia"},
+    {label:"Singapore", value:"singapore"},
+    {label:"South Africa", value:"southafrica"},
+    {label:"Sydney", value:"sydney"},
+    {label:"US Central", value:"us-central"},
+    {label:"US East", value:"us-east"},
+    {label:"US South", value:"us-south"},
+    {label:"US West", value:"us-west"},
+]

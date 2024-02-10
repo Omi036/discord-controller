@@ -1,7 +1,7 @@
-import { Modal, TextInput, Checkbox, SimpleGrid, SegmentedControl, Text, Button, Slider } from "@mantine/core"
+import { Modal, Select, TextInput, Checkbox, SimpleGrid, SegmentedControl, Text, Button, Slider } from "@mantine/core"
 import { SendMessage } from "../../../misc/WebSocket"
 import { useState } from "react"
-
+import { regions } from "../../../misc/Enums"
 
 export const CreateChannelModal = ({opened, setOpened, svid}) => {
     const [ channeltype, setChanneltype ] = useState("GuildText")
@@ -9,8 +9,12 @@ export const CreateChannelModal = ({opened, setOpened, svid}) => {
     const [channelName, setChannelName] = useState("")
     const [channelTopic, setChannelTopic] = useState("")
     const [isNsfw, setIsNsfw] = useState(false)
+    const [region, setRegion] = useState(null)
 
     const [hasUserLimit, setHasUserLimit] = useState(false)
+    const [hasSlowdown, setHasSlowDown] = useState(false)
+
+    const [slowdown, setSlowdown] = useState(1)
     const [maxUsers, setMaxUsers] = useState(1)
     const [bitrate, setBitrate] = useState(64)
 
@@ -28,6 +32,9 @@ export const CreateChannelModal = ({opened, setOpened, svid}) => {
         setHasUserLimit(false)
         setMaxUsers(1)
         setBitrate(8)
+        setSlowdown(false)
+        hasSlowdown(false)
+        setRegion(null)
     }
 
     const createChannel = async () => {
@@ -38,7 +45,9 @@ export const CreateChannelModal = ({opened, setOpened, svid}) => {
             topic: channelTopic,
             isNsfw: isNsfw,
             userLimit: (hasUserLimit && maxUsers),
-            bitrate: bitrate
+            bitrate: bitrate,
+            slowdown: (hasSlowdown && slowdown),
+            region: region
         })
 
         await cleanData()
@@ -70,12 +79,33 @@ export const CreateChannelModal = ({opened, setOpened, svid}) => {
 
             </SimpleGrid>
             <SimpleGrid cols={2} mt={10}>
-                <Checkbox color="indigo" label="NSFW" checked={isNsfw} onChange={(e) => setIsNsfw(!isNsfw)}/>
+                {channeltype !== "GuildCategory" && (
+                    <>
+                    <Checkbox color="indigo" label="NSFW" checked={isNsfw} onChange={(e) => setIsNsfw(!isNsfw)}/>
+                    <Checkbox color="indigo" label="Slowdown" checked={hasSlowdown} onChange={(e) => setHasSlowDown(!hasSlowdown)}/>
+                    </>
+                )}
                 {channeltype === "GuildVoice" && <Checkbox color="indigo" checked={hasUserLimit} onChange={(e)=> setHasUserLimit(!hasUserLimit)} label="User Limit"/>}
             </SimpleGrid>
             <SimpleGrid cols={1} mt={15}>
+                {channeltype !== "GuildCategory" && (
+                    <>
+                        <Text mb={0}>Slowdown</Text>
+                        <Slider mt={0} color="indigo" label={(value) => `${value}s`} value={slowdown} onChange={(e) => setSlowdown(e)} min={1} max={300} disabled={!hasSlowdown}/>
+                    </>
+                    )
+                }
                 {channeltype === "GuildVoice" && (
                     <>
+                        <Select 
+                            label="Region"
+                            data={regions}
+                            color="indigo"
+                            mt={10}
+                            value={region}
+                            onChange={(val) => setRegion(val)}
+                        />
+
                         <Text mb={0}>Max Users</Text>
                         <Slider mt={0} color="indigo" label={(value) => `${value} Users`} value={maxUsers} onChange={(e) => setMaxUsers(e)} min={1} max={99} disabled={!hasUserLimit}/>
 

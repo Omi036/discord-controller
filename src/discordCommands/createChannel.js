@@ -13,7 +13,9 @@ exports.createChannel = async (client, connection, data, refreshChannels) => {
         nsfw: data.isNsfw,
         type: ChannelType[data.type],
         bitrate: data.bitrate*1000,
-        userLimit: data.userLimit
+        userLimit: data.userLimit,
+        rateLimitPerUser: data.slowdown,
+        rtcRegion: data.region
     })
 
     refreshChannels(connection, data.svId)

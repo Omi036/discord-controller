@@ -1,6 +1,16 @@
 <center>
 <h1>DRC ChangeLog</h1>
 </center>
+<h2><span style="color:#005fd3">0.2.9</span> (10/02/24) </h2>
+<ul>
+    <li>
+        <p>
+        <b>Create Channel Feature</b>
+        <br/>
+        Added the feature to create a new channel
+        </p>
+    </li>
+</ul>
 <h2><span style="color:#005fd3">0.2.8</span> (09/02/24) </h2>
 <ul>
     <li>

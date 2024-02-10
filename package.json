@@ -1,6 +1,6 @@
 {
   "name": "discord-controller",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "A Discord Bot remote controller using Websockets and React",
   "main": "index.js",
   "scripts": {

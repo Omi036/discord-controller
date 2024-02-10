@@ -42,32 +42,38 @@ exports.login = ({token, intents}) => {
             );
         });
                     
-            
         
-
+        exports.sendClientPageData = () => require("./discordCommands/sendClientPageData").sendClientPageData(client, DiscordConfig)
+        exports.genInvite = (connection, data) => require("./discordCommands/genInvite").genInvite(client, connection, data, PermissionFlagsBits)
+        exports.setStatus = (connection, status) => require("./discordCommands/setStatus").setStatus(client, connection, status, exports.sendClientPageData)
+        
+        exports.sendServers = (connection) => require("./discordCommands/sendServers").sendServers(client, connection)
+        exports.sendServerData = async (connection, id) => require("./discordCommands/sendServerData").sendServerData(client, connection, id,GuildExplicitContentFilter,GuildVerificationLevel,GuildPremiumTier,GuildNSFWLevel)
+        exports.leaveServer = (connection, svId) => require("./discordCommands/leaveServer").leaveServer(client, connection, svId, exports.sendServers)
+        
         exports.sendChatSettings = async (connection, type, svId, id) => require("./discordCommands/sendChatSettings.js").sendChatSettings(client, connection, type, svId, id)
         exports.postMessage = (connection, type, svId, id, content, attachments) => require("./discordCommands/postMessage.js").postMessage(client, connection, type, svId, id, content, attachments)
         exports.deleteMessage = (connection, svId, chId, id, channelType) => require("./discordCommands/deleteMessage.js").deleteMessage(client, connection, svId, chId, id, channelType)
-        exports.genChannelInvite = (connection, svId, id, settings) => require("./discordCommands/genChannelInvite").genChannelInvite(client, connection, svId, id, settings)
-        exports.genInvite = (connection, data) => require("./discordCommands/genInvite").genInvite(client, connection, data, PermissionFlagsBits)
-        exports.sendServers = (connection) => require("./discordCommands/sendServers").sendServers(client, connection)
+        
         exports.sendMembers = (connection, svId) => require("./discordCommands/sendMembers").sendMembers(client, connection, svId)
-        exports.setStatus = (connection, status) => require("./discordCommands/setStatus").setStatus(client, connection, status, exports.sendClientPageData)
         exports.sendMemberData = (connection, svId, memberId) => require("./discordCommands/sendMemberData").sendMemberData(client, connection, svId, memberId, new_intents, GatewayIntentBits)
-        exports.sendRoleData = (connection, svId, roleId) => require("./discordCommands/sendRoleData").sendRoleData(client, connection, svId, roleId)
-        exports.sendClientPageData = () => require("./discordCommands/sendClientPageData").sendClientPageData(client, DiscordConfig)
-        exports.sendRoles = (connection, id) => require("./discordCommands/sendRoles").sendRoles(client, connection, id)
-        exports.sendChannels = (connection, id) => require("./discordCommands/sendChannels").sendChannels(client, connection, id, ChannelType)
-        exports.sendChannelData = async (connection, svId, id) => require("./discordCommands/sendChannelData").sendChannelData(client, connection, svId, id, ChannelType)
-        exports.sendServerData = async (connection, id) => require("./discordCommands/sendServerData").sendServerData(client, connection, id,GuildExplicitContentFilter,GuildVerificationLevel,GuildPremiumTier,GuildNSFWLevel)
+
         exports.queryUser = async (connection, query) => require("./discordCommands/queryUser").queryUser(client,connection, query)
         exports.sendUserInfo = (connection, id) => require("./discordCommands/sendUserInfo").sendUserInfo(client,connection,id)
+        
+        exports.sendRoleData = (connection, svId, roleId) => require("./discordCommands/sendRoleData").sendRoleData(client, connection, svId, roleId)
+        exports.sendRoles = (connection, id) => require("./discordCommands/sendRoles").sendRoles(client, connection, id)
+        
         exports.sendCommands = async (connection) => require("./discordCommands/sendCommands").sendCommands(client, connection)
         exports.sendCommandInfo = async (connection, id) => require("./discordCommands/sendCommandInfo").sendCommandInfo(client,connection,id, ApplicationCommandType, ApplicationCommandOptionType)
+        
+        exports.sendChannels = (connection, id) => require("./discordCommands/sendChannels").sendChannels(client, connection, id, ChannelType)
+        exports.sendChannelData = async (connection, svId, id) => require("./discordCommands/sendChannelData").sendChannelData(client, connection, svId, id, ChannelType)
+        exports.createChannel = (connection, data) => require("./discordCommands/createChannel.js").createChannel(client, connection, data, exports.sendChannels)
         exports.deleteChannel = (connection, svId, id, reason) => require("./discordCommands/deleteChannel").deleteChannel(client, connection, svId, id, reason, ChannelType)
         exports.updateChannel = (connection, svId, id, data) => require("./discordCommands/updateChannel").updateChannel(client, connection, svId, id, data)
-        exports.leaveServer = (connection, svId) => require("./discordCommands/leaveServer").leaveServer(client, connection, svId, exports.sendServers)
-
+        exports.genChannelInvite = (connection, svId, id, settings) => require("./discordCommands/genChannelInvite").genChannelInvite(client, connection, svId, id, settings)
+        
         exports.sendClientPageData()
     });
 

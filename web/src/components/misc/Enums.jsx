@@ -1,4 +1,4 @@
-import { IconRobot, IconMessage, IconCode, IconServer, IconUser, IconMessages, IconClearAll, IconHash, IconVolume, IconSpeakerphone } from "@tabler/icons";
+import { IconRobot, IconMessage, IconCode, IconServer, IconUser, IconMessages, IconClearAll, IconHash, IconVolume, IconSpeakerphone, IconPlus } from "@tabler/icons";
 
 // Sidebar.jsx
 export const sidebarLinks = [
@@ -350,7 +350,8 @@ export const channelIcons = {
     "GuildText": <IconHash size={18} />,
     "GuildVoice": <IconVolume size={18} />,
     "GuildNews": <IconSpeakerphone size={18} />,
-    "GuildForum": <IconMessages size={18} />
+    "GuildForum": <IconMessages size={18} />,
+    "CreateNew": <IconPlus size={18} />
 }
 
 

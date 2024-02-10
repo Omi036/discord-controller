@@ -117,6 +117,9 @@ const LeaveServer = (server, connection, data) => {
     Discord.leaveServer(connection, data.svId)
 }
 
+const CreateChannel = (server, connection, data) => {
+    Discord.createChannel(connection, data)
+}
 
 // This object contains all the websockets commands
 exports.Commands = {
@@ -140,6 +143,7 @@ exports.Commands = {
     "get_channel_data":SendChannelData,
     "delete_channel":DeleteChannel,
     "update_channel":UpdateChannel,
+    "create_channel":CreateChannel,
 
     "get_roles":SendRoles,
     "get_role_data": SendRoleData,

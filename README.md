@@ -1,7 +1,7 @@
 <br/>
 <br/>
 <div align="center">
-  <img height="100" width="130" src="https://media.discordapp.net/attachments/1064596920133230642/1071486133629894687/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" />
+  <img height="100" width="100" src="https://i.imgur.com/NuC3FUf.png" />
   <h3>Dicord Remote Controller</h3>
   <p align="center">
     A web-based discord bot dashboard & controller.

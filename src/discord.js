@@ -8,7 +8,7 @@ exports.login = ({token, intents}) => {
 
     // We clean the intents list
     var new_intents = [];
-    intents = Object.keys(intents).filter(key => { return intents[key] !== false });
+    intents = Object.keys(intents).filter(key => intents[key] !== false );
     intents.forEach(key => new_intents.push(GatewayIntentBits[key]))
 
     // We create a client with the defined intents

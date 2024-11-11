@@ -1,7 +1,11 @@
-exports.sendRoleData = (client, connection, svId, roleId) => {
-    const sv = client.guilds.cache.find(server => server.id === svId)
-    sv.roles.fetch(roleId).then(role => {
+exports.sendRoleData = async (client, connection, svId, roleId) => {
+    const sv = await client.guilds.cache.find(server => server.id === svId)
+    if(!sv) return // If no server found
 
+    const role = await sv.roles.fetch(roleId)
+    if(!role) return // If no role found
+
+    try {
         connection.send(JSON.stringify({
             header:"role_data",
             content:{
@@ -21,5 +25,7 @@ exports.sendRoleData = (client, connection, svId, roleId) => {
                 permissions:role.permissions.toArray()
             }
         }))
-    })
+    } catch (error) {
+        console.error(error)
+    }
 }

@@ -1,6 +1,12 @@
-exports.leaveServer = async (client, connection, svId, refreshServers) => {
-    const sv = client.guilds.cache.find(server => server.id === svId)
-    await sv.leave()
+exports.leaveServer = async (client, connection, svId, refreshServers) => { // Does this even work?
+    const sv = await client.guilds.cache.find(server => server.id === svId)
+    if(!sv) return // If no server found
 
-    refreshServers(connection)
+    try {
+        await sv.leave()
+        await refreshServers(connection)
+        
+    } catch (error) {
+        console.error(error)
+    }
 }

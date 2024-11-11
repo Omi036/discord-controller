@@ -13,6 +13,11 @@ exports.setStatus = (client, connection, rawPresence, refresh) => {
         )
     }
 
-    client.user.setPresence(presence)
-    refresh()
+    try {
+        client.user.setPresence(presence)
+        refresh()
+        
+    } catch (error) {
+        console.error(error)
+    }
 }

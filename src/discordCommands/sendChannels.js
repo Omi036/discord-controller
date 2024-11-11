@@ -1,6 +1,6 @@
-exports.sendChannels = (client, connection, id, ChannelType) => {
-    const sv = client.guilds.cache.find(server => server.id === id)
-
+exports.sendChannels = async (client, connection, id, ChannelType) => {
+    const sv = await client.guilds.cache.find(server => server.id === id)
+    if(!sv) return // If no server found
 
     sv.channels.fetch().then(items => {
         const channels = []
@@ -24,10 +24,13 @@ exports.sendChannels = (client, connection, id, ChannelType) => {
             })
         })
 
-
-        connection.send(JSON.stringify({
-            header:"channels",
-            content: channels
-        }))
+        try {
+            connection.send(JSON.stringify({
+                header:"channels",
+                content: channels
+            }))
+        } catch (error) {
+            console.error(error)
+        }
     })
 }

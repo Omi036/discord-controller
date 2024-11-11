@@ -26,6 +26,7 @@ const StartWSServer = (host, port) => {
 
 
     server.on("listening", () => console.log(`Websockets setted up successfully on ${host}:${port}`))
+    server.on("error", (error) => console.error(error))
     return server
 }
 

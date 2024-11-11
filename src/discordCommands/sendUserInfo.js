@@ -1,5 +1,8 @@
-exports.sendUserInfo = (client, connection, id) => {
-    client.users.fetch(id).then(user => {
+exports.sendUserInfo = async (client, connection, id) => {
+    const user = await client.users.fetch(id)
+    if(!user) return // If no user found
+
+    try {
         connection.send(JSON.stringify({
             header:"user_info",
             content: {
@@ -14,5 +17,7 @@ exports.sendUserInfo = (client, connection, id) => {
                 flags: user.flags && user.flags.toArray(),
             }
         }))
-    })
+    } catch (error) {
+        console.error(error)
+    }
 }

@@ -22,8 +22,14 @@ exports.queryUser = async (client, connection, query) => {
             if(user.id.startsWith(query) || user.username.toLowerCase().startsWith(query.toLowerCase())) push(user)
         }
     }
-    connection.send(JSON.stringify({
-        header:"return_query_user",
-        content:users
-    }))
+
+    try {
+        connection.send(JSON.stringify({
+            header:"return_query_user",
+            content:users
+        }))
+        
+    } catch (error) {
+        console.error(error)
+    }
 }

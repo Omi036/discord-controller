@@ -1,5 +1,4 @@
 // We import commands that the bot will exec
-const { connection } = require('websocket');
 const Discord = require('./discord');
 
 // Login the discord.js bot with the given token

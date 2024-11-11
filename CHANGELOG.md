@@ -1,6 +1,16 @@
 <center>
 <h1>DRC ChangeLog</h1>
 </center>
+<h2><span style="color:#005fd3">0.3.0</span> (10/02/24) </h2>
+<ul>
+    <li>
+        <p>
+        <b>Exception Overhaul</b>
+        <br/>
+        Added exceptions catching to prevent further crashes.
+        </p>
+    </li>
+</ul>
 <h2><span style="color:#005fd3">0.2.9</span> (10/02/24) </h2>
 <ul>
     <li>

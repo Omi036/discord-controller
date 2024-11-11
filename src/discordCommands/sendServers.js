@@ -5,8 +5,12 @@ exports.sendServers = (client, connection) => {
         guilds.push({name:sv.name, id:sv.id, avatar:sv.iconURL()})
     })
 
-    connection.send(JSON.stringify({
-        header:"servers_info",
-        content: guilds
-    }))
+    try {
+        connection.send(JSON.stringify({
+            header:"servers_info",
+            content: guilds
+        }))
+    } catch (error) {
+        console.error(error)
+    }
 }

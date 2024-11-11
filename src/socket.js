@@ -10,14 +10,14 @@ const StartWSServer = (host, port) => {
 
 
     server.on('connection', (connection) => {
-
-        Commands.islogged(server, connection)
+        Commands.islogged(server, connection) // Is the bot online?
 
         connection.on('message', (data) => {
 
             try {
                 data = JSON.parse(data.toString())
                 Commands[data.header](server, connection, data.content)
+                
             } catch (error) {
                 console.error(error)
             }

@@ -1,7 +1,5 @@
 exports.deleteMessage = (client, connection, svId, chId, id, channelType) => {
 
-    console.log(channelType)
-
     if(channelType === "channel"){
         const sv = client.guilds.cache.find(server => server.id === svId)
         const channel = sv.channels.cache.find(channel => channel.id === chId)

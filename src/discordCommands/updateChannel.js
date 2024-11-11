@@ -6,6 +6,5 @@ exports.updateChannel = (client, connection, svId, id, data) => {
 
     if(data.name) editOptions.name = data.name.trim().toLowerCase().replaceAll(" ","_")
 
-    console.log(editOptions)
     channel.edit(editOptions)
 }
